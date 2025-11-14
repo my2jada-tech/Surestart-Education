@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Roman Numerals Mastery — Quiz (EmailJS)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script type="text/javascript">
+    (function(){})();
+  </script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-4">
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    function App(){
+      const [currentSection, setCurrentSection] = React.useState('guide');
+      const [assessmentAnswers, setAssessmentAnswers] = React.useState({});
+      const [assessmentSubmitted, setAssessmentSubmitted] = React.useState(false);
+      const [assessmentScore, setAssessmentScore] = React.useState(0);
+      const [fromName, setFromName] = React.useState('Roman Numerals Assessment');
+      const [sending, setSending] = React.useState(false);
+      const [sendResult, setSendResult] = React.useState(null);
+
+      const handleAssessmentAnswer = (questionId, answer) => {
+        setAssessmentAnswers(prev => ({ ...prev, [questionId]: answer }));
+      };
+
+      const assessmentQuestions = [
+        { id: 'q1', type: 'multiple-choice', question: 'What is the value of the Roman numeral L?', options: ['10', '50', '100', '500'], correctAnswer: 1, explanation: 'L represents the number 50 in Roman numerals.' },
+        { id: 'q2', type: 'multiple-choice', question: 'What is the value of D?', options: ['100', '500', '1000', '5000'], correctAnswer: 1, explanation: 'D represents the number 500 in Roman numerals.' },
+        { id: 'q3', type: 'multiple-choice', question: 'ADDITION RULE: What is the value of VII? (smaller numbers AFTER larger)', options: ['5', '6', '7', '8'], correctAnswer: 2, explanation: 'VII = 5 + 1 + 1 = 7.' },
+        { id: 'q4', type: 'multiple-choice', question: 'ADDITION RULE: What is the value of LXII?', options: ['52', '62', '72', '82'], correctAnswer: 1, explanation: 'LXII = 50 + 10 + 1 + 1 = 62.' },
+        { id: 'q5', type: 'multiple-choice', question: 'ADDITION RULE: What is the value of MDCCC?', options: ['1300', '1600', '1800', '2800'], correctAnswer: 2, explanation: 'MDCCC = 1000 + 500 + 100 + 100 + 100 = 1800.' },
+        { id: 'q6', type: 'true-false', question: 'ADDITION RULE: In the numeral XVI, we add all the symbols together because each smaller symbol comes AFTER the larger ones.', correctAnswer: true, explanation: 'TRUE. XVI = 10 + 5 + 1 = 16.' },
+        { id: 'q7', type: 'multiple-choice', question: 'ADDITION RULE: Which numeral uses ONLY the addition rule (no subtraction)?', options: ['IV', 'IX', 'XXIII', 'XL'], correctAnswer: 2, explanation: 'XXIII = 10 + 10 + 1 + 1 + 1 = 23.' },
+        { id: 'q8', type: 'multiple-choice', question: 'SUBTRACTION RULE: What is the value of IV? (smaller BEFORE larger)', options: ['4', '6', '9', '14'], correctAnswer: 0, explanation: 'IV = 5 - 1 = 4.' },
+        { id: 'q9', type: 'multiple-choice', question: 'SUBTRACTION RULE: What is the value of XL?', options: ['15', '40', '60', '90'], correctAnswer: 1, explanation: 'XL = 50 - 10 = 40.' },
+        { id: 'q10', type: 'multiple-choice', question: 'SUBTRACTION RULE: What is the value of CM?', options: ['800', '900', '1100', '1500'], correctAnswer: 1, explanation: 'CM = 1000 - 100 = 900.' },
+        { id: 'q11', type: 'true-false', question: 'SUBTRACTION RULE: In the numeral IX, we subtract because I comes BEFORE X.', correctAnswer: true, explanation: 'TRUE. IX = 10 - 1 = 9.' },
+        { id: 'q12', type: 'multiple-choice', question: 'SUBTRACTION RULE: What is the value of CD?', options: ['300', '400', '600', '900'], correctAnswer: 1, explanation: 'CD = 500 - 100 = 400.' },
+        { id: 'q13', type: 'multiple-choice', question: 'SUBTRACTION RULE: Which of these uses the subtraction rule?', options: ['VI', 'XXX', 'XC', 'LXVI'], correctAnswer: 2, explanation: 'XC uses subtraction: 100 - 10 = 90.' },
+        { id: 'q14', type: 'multiple-choice', question: 'REPETITION RULE: What is the value of III?', options: ['2', '3', '4', '30'], correctAnswer: 1, explanation: 'III = 1 + 1 + 1 = 3.' },
+        { id: 'q15', type: 'multiple-choice', question: 'REPETITION RULE: What is the value of XXX?', options: ['10', '20', '30', '40'], correctAnswer: 2, explanation: 'XXX = 10 + 10 + 10 = 30.' },
+        { id: 'q16', type: 'multiple-choice', question: 'REPETITION RULE: What is the value of CCC?', options: ['100', '200', '300', '400'], correctAnswer: 2, explanation: 'CCC = 100 + 100 + 100 = 300.' },
+        { id: 'q17', type: 'true-false', question: 'REPETITION RULE: In Roman numerals, you can repeat the symbol V (like VV for 10).', correctAnswer: false, explanation: 'FALSE. V, L, and D are NEVER repeated.' },
+        { id: 'q18', type: 'multiple-choice', question: 'STEP-BY-STEP: Convert XLIV. Break it down: XL (first part) + IV (second part)', options: ['39', '44', '46', '49'], correctAnswer: 1, explanation: 'XL = 40, IV = 4. 40 + 4 = 44.' },
+        { id: 'q19', type: 'multiple-choice', question: 'STEP-BY-STEP: Convert XCIX. Break it down: XC (first part) + IX (second part)', options: ['89', '99', '101', '109'], correctAnswer: 1, explanation: 'XC = 90, IX = 9. 90 + 9 = 99.' },
+        { id: 'q20', type: 'multiple-choice', question: 'STEP-BY-STEP: Convert CDXLIV. Work through each part: CD + XL + IV', options: ['344', '444', '544', '644'], correctAnswer: 1, explanation: 'CD=400, XL=40, IV=4. Total 444.' },
+        { id: 'q21', type: 'multiple-choice', question: 'STEP-BY-STEP: Convert MCMXC. Break it down: M + CM + XC', options: ['1890', '1990', '2090', '2990'], correctAnswer: 1, explanation: 'M=1000, CM=900, XC=90 → 1990.' },
+        { id: 'q22', type: 'multiple-choice', question: 'STEP-BY-STEP: Convert LXXVIII. All addition here: L + XX + V + III', options: ['68', '73', '78', '83'], correctAnswer: 2, explanation: '50 + 20 + 5 + 3 = 78.' },
+        { id: 'q23', type: 'multiple-choice', question: 'STEP-BY-STEP: Convert MMXXV (like the year 2025). Break down: MM + XX + V', options: ['1025', '2015', '2025', '3025'], correctAnswer: 2, explanation: '2000 + 20 + 5 = 2025.' },
+        { id: 'q24', type: 'multiple-choice', question: 'ASCENDING: Arrange SMALLEST→LARGEST: XX, IX, XV', options: ['XX, XV, IX', 'IX, XV, XX', 'XV, IX, XX', 'IX, XX, XV'], correctAnswer: 1, explanation: '9, 15, 20.' },
+        { id: 'q25', type: 'multiple-choice', question: 'ASCENDING: XL, XXX, L, XC', options: ['XL, XXX, L, XC', 'XXX, XL, L, XC', 'XC, L, XL, XXX', 'L, XC, XL, XXX'], correctAnswer: 1, explanation: '30, 40, 50, 90.' },
+        { id: 'q26', type: 'multiple-choice', question: 'ASCENDING: D, CM, CD, M', options: ['D, CM, CD, M', 'CD, D, CM, M', 'M, CM, D, CD', 'CM, M, D, CD'], correctAnswer: 1, explanation: '400, 500, 900, 1000.' },
+        { id: 'q27', type: 'multiple-choice', question: 'ASCENDING: XLII, XX, LXXV, IX', options: ['XX, IX, XLII, LXXV', 'IX, XX, XLII, LXXV', 'LXXV, XLII, XX, IX', 'IX, XLII, XX, LXXV'], correctAnswer: 1, explanation: '9, 20, 42, 75.' },
+        { id: 'q28', type: 'multiple-choice', question: 'DESCENDING: V, X, I, L', options: ['I, V, X, L', 'L, X, V, I', 'X, L, V, I', 'L, I, X, V'], correctAnswer: 1, explanation: '50, 10, 5, 1.' },
+        { id: 'q29', type: 'multiple-choice', question: 'DESCENDING: C, D, L, M', options: ['L, C, D, M', 'M, D, C, L', 'D, M, L, C', 'C, L, D, M'], correctAnswer: 1, explanation: '1000, 500, 100, 50.' },
+        { id: 'q30', type: 'multiple-choice', question: 'DESCENDING: XC, LX, XL, C', options: ['C, XC, LX, XL', 'XL, LX, XC, C', 'C, LX, XC, XL', 'XC, C, LX, XL'], correctAnswer: 0, explanation: '100, 90, 60, 40.' },
+        { id: 'q31', type: 'multiple-choice', question: 'DESCENDING: MMXXV, MCM, CM, MCC', options: ['MMXXV, MCM, MCC, CM', 'CM, MCC, MCM, MMXXV', 'MCM, MMXXV, MCC, CM', 'MMXXV, MCC, MCM, CM'], correctAnswer: 0, explanation: '2025, 1900, 1200, 900.' },
+        { id: 'q32', type: 'true-false', question: 'CRITICAL: In XLIV, both subtraction AND addition rules are used.', correctAnswer: true, explanation: 'XL=40, IV=4, then add 40+4.' },
+        { id: 'q33', type: 'multiple-choice', question: 'CRITICAL: Why is IC not valid?', options: ['I and C cannot be used together', 'You can only subtract I from V or X, not from C', 'C is too large', 'We need more symbols'], correctAnswer: 1, explanation: 'Use XCIX for 99.' }
+      ];
+
+      const buildResultsMessage = (score, total) => {
+        const pct = Math.round((score / total) * 100);
+
+        const incorrectDetails = assessmentQuestions
+          .filter(q => assessmentAnswers[q.id] !== q.correctAnswer)
+          .map(q => {
+            const userAns = assessmentAnswers[q.id];
+            const correctText = q.type === 'true-false'
+              ? (q.correctAnswer ? 'TRUE' : 'FALSE')
+              : (Array.isArray(q.options) ? q.options[q.correctAnswer] : String(q.correctAnswer));
+            const userText = q.type === 'true-false'
+              ? (userAns === true ? 'TRUE' : userAns === false ? 'FALSE' : '—')
+              : (Array.isArray(q.options) && Number.isInteger(userAns) ? q.options[userAns] : '—');
+
+            return `• ${q.question}\n  Your answer: ${userText}\n  Correct answer: ${correctText}`;
+          });
+
+        const lines = [
+          `Quiz: Roman Numerals Comprehensive`,
+          `Score: ${score}/${total} (${pct}%)`,
+          ``,
+          incorrectDetails.length
+            ? `Incorrect Questions (with correct answers):\n${incorrectDetails.join('\n')}`
+            : 'All correct — awesome!'
+        ];
+
+        return lines.join('\n');
+      };
+
+      const sendEmailResults = async (score, total) => {
+        setSending(true);
+        setSendResult(null);
+        try {
+          const params = {
+            from_name: fromName,
+            message: buildResultsMessage(score, total),
+            subject: 'Quiz Assessment Results'
+          };
+          await 
+          setSendResult({ ok: true, msg: 'Results emailed successfully.' });
+        } catch (err) {
+          setSendResult({ ok: false, msg: (err && (err.text || err.message)) || 'Email sending failed.' });
+        } finally {
+          setSending(false);
+        }
+      };
+
+      const submitAssessment = () => {
+        let correct = 0;
+        assessmentQuestions.forEach(q => {
+          if (assessmentAnswers[q.id] === q.correctAnswer) correct++;
+        });
+        setAssessmentScore(correct);
+        setAssessmentSubmitted(true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        sendEmailResults(correct, assessmentQuestions.length);
+      };
+
+      const resetAssessment = () => {
+        setAssessmentAnswers({});
+        setAssessmentSubmitted(false);
+        setAssessmentScore(0);
+        setSendResult(null);
+      };
+
+      return (
+        <div className="max-w-5xl mx-auto">
+          <div className="bg-white rounded-xl shadow-2xl p-6 mb-6">
+            <div className="text-center mb-6">
+              <h1 className="text-5xl font-bold text-gray-800 mb-2">Roman Numerals Mastery 🏛️</h1>
+              <p className="text-gray-600 text-lg">Complete Study Guide & Comprehensive Assessment Test</p>
+            </div>
+
+            <div className="flex gap-3 mb-6">
+              <button
+                onClick={() => setCurrentSection('guide')}
+                className={`flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-lg font-bold text-lg transition ${
+                  currentSection === 'guide'
+                    ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                📖 Study Guide
+              </button>
+              <button
+                onClick={() => setCurrentSection('assessment')}
+                className={`flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-lg font-bold text-lg transition ${
+                  currentSection === 'assessment'
+                    ? 'bg-gradient-to-r from-red-600 to-pink-600 text-white shadow-lg'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                ✅ Assessment Test
+              </button>
+            </div>
+
+            {currentSection === 'guide' && <StudyGuideSection />}
+            {currentSection === 'assessment' && (
+              <AssessmentSection
+                assessmentQuestions={assessmentQuestions}
+                assessmentAnswers={assessmentAnswers}
+                assessmentSubmitted={assessmentSubmitted}
+                assessmentScore={assessmentScore}
+                handleAssessmentAnswer={handleAssessmentAnswer}
+                submitAssessment={submitAssessment}
+                resetAssessment={resetAssessment}
+                setCurrentSection={setCurrentSection}
+                fromName={fromName}
+                setFromName={setFromName}
+                sending={sending}
+                sendResult={sendResult}
+              />
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    function StudyGuideSection(){
+      return (
+        <div className="space-y-6">
+          <div className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-3xl font-bold mb-2">📚 Roman Numerals Study Guide</h2>
+            <p className="text-lg">Everything you need to know about Roman numerals!</p>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+            <h3 className="text-2xl font-bold text-gray-800 mb-3">What are Roman Numerals?</h3>
+            <p className="text-gray-700 mb-3">
+              Roman numerals are an ancient number system from Rome that we still see today on clocks, book chapters, movie sequels, Super Bowls, and building cornerstones.
+            </p>
+            <ul className="list-disc list-inside text-gray-700 space-y-1 ml-4">
+              <li>Clock faces (especially classic designs)</li>
+              <li>Book chapters and outlines</li>
+              <li>Movie sequels (e.g., Rocky IV, Star Wars V)</li>
+              <li>Events like Super Bowl LVIII</li>
+              <li>Copyright dates and monuments</li>
+            </ul>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">The 7 Basic Symbols</h3>
+            <p className="text-gray-700 mb-4">Memorize these first — everything else builds on them.</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { letter: 'I', value: 1, hint: 'one finger' },
+                { letter: 'V', value: 5, hint: 'open hand' },
+                { letter: 'X', value: 10, hint: 'two hands crossed' },
+                { letter: 'L', value: 50, hint: 'half a hundred' },
+                { letter: 'C', value: 100, hint: 'Centum (Latin)' },
+                { letter: 'D', value: 500, hint: 'half of M' },
+                { letter: 'M', value: 1000, hint: 'Mille (Latin)' }
+              ].map(({ letter, value, hint }) => (
+                <div key={letter} className="bg-gradient-to-br from-purple-100 to-indigo-100 p-4 rounded-lg text-center shadow">
+                  <div className="text-4xl font-bold text-purple-700 mb-1">{letter}</div>
+                  <div className="text-2xl font-semibold text-gray-800">{value}</div>
+                  <div className="text-xs text-gray-600 mt-1 italic">{hint}</div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 bg-blue-50 p-4 rounded">
+              <p className="text-sm text-blue-900 font-semibold">💡 Memory Tip: I, V, X are smaller; L, C, D, M are larger — the values grow as the letters progress.</p>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-yellow-500">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">The 3 Essential Rules</h3>
+
+            <div className="bg-green-50 p-5 rounded-lg border-2 border-green-300 mb-6">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="bg-green-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-xl">1</div>
+                <h4 className="text-xl font-bold text-gray-800">Addition Rule</h4>
+              </div>
+              <p className="text-gray-700 mb-3 font-semibold">When a smaller symbol comes <span className="underline">after</span> a larger one, <span className="text-green-700 font-bold">add</span>.</p>
+              <div className="bg-white p-4 rounded space-y-2">
+                <div className="flex items-center gap-4"><span className="font-bold text-lg text-gray-800">VI</span><span>=</span><span>5 + 1</span><span>=</span><span className="font-bold text-green-700">6</span></div>
+                <div className="flex items-center gap-4"><span className="font-bold text-lg text-gray-800">XXX</span><span>=</span><span>10 + 10 + 10</span><span>=</span><span className="font-bold text-green-700">30</span></div>
+                <div className="flex items-center gap-4"><span className="font-bold text-lg text-gray-800">LXVII</span><span>=</span><span>50 + 10 + 5 + 1 + 1</span><span>=</span><span className="font-bold text-green-700">67</span></div>
+              </div>
+            </div>
+
+            <div className="bg-red-50 p-5 rounded-lg border-2 border-red-300 mb-6">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="bg-red-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-xl">2</div>
+                <h4 className="text-xl font-bold text-gray-800">Subtraction Rule</h4>
+              </div>
+              <p className="text-gray-700 mb-3 font-semibold">When a smaller symbol comes <span className="underline">before</span> a larger one, <span className="text-red-700 font-bold">subtract</span>.</p>
+              <div className="bg-white p-4 rounded space-y-2">
+                <div className="flex items-center gap-4"><span className="font-bold text-lg text-gray-800">IV</span><span>=</span><span>5 - 1</span><span>=</span><span className="font-bold text-red-700">4</span></div>
+                <div className="flex items-center gap-4"><span className="font-bold text-lg text-gray-800">IX</span><span>=</span><span>10 - 1</span><span>=</span><span className="font-bold text-red-700">9</span></div>
+                <div className="flex items-center gap-4"><span className="font-bold text-lg text-gray-800">XL</span><span>=</span><span>50 - 10</span><span>=</span><span className="font-bold text-red-700">40</span></div>
+                <div className="flex items-center gap-4"><span className="font-bold text-lg text-gray-800">XC</span><span>=</span><span>100 - 10</span><span>=</span><span className="font-bold text-red-700">90</span></div>
+                <div className="flex items-center gap-4"><span className="font-bold text-lg text-gray-800">CD</span><span>=</span><span>500 - 100</span><span>=</span><span className="font-bold text-red-700">400</span></div>
+                <div className="flex items-center gap-4"><span className="font-bold text-lg text-gray-800">CM</span><span>=</span><span>1000 - 100</span><span>=</span><span className="font-bold text-red-700">900</span></div>
+              </div>
+              <div className="mt-3 bg-yellow-100 p-3 rounded">
+                <p className="text-sm text-yellow-900 font-semibold">⚠️ Only these six subtraction pairs are valid: IV, IX, XL, XC, CD, CM.</p>
+              </div>
+            </div>
+
+            <div className="bg-blue-50 p-5 rounded-lg border-2 border-blue-300">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-xl">3</div>
+                <h4 className="text-xl font-bold text-gray-800">Repetition Rule</h4>
+              </div>
+              <p className="text-gray-700 mb-3 font-semibold">A symbol can be repeated up to three times to add its value multiple times.</p>
+              <div className="bg-white p-4 rounded space-y-2">
+                <div className="flex items-center gap-4"><span className="font-bold text-lg text-gray-800">II</span><span>=</span><span>1 + 1</span><span>=</span><span className="font-bold text-blue-700">2</span></div>
+                <div className="flex items-center gap-4"><span className="font-bold text-lg text-gray-800">III</span><span>=</span><span>1 + 1 + 1</span><span>=</span><span className="font-bold text-blue-700">3</span></div>
+                <div className="flex items-center gap-4"><span className="font-bold text-lg text-gray-800">CCC</span><span>=</span><span>100 + 100 + 100</span><span>=</span><span className="font-bold text-blue-700">300</span></div>
+                <div className="flex items-center gap-4"><span className="font-bold text-lg text-gray-800">MMM</span><span>=</span><span>1000 + 1000 + 1000</span><span>=</span><span className="font-bold text-blue-700">3000</span></div>
+              </div>
+              <div className="mt-3 bg-yellow-100 p-3 rounded">
+                <p className="text-sm text-yellow-900 font-semibold">⚠️ V, L, and D are <span className="underline">never</span> repeated (no VV, LL, or DD).</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Common Roman Numeral Patterns</h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="bg-purple-50 p-4 rounded">
+                <h4 className="font-bold text-purple-900 mb-2">Numbers 1–10</h4>
+                <div className="space-y-1 text-gray-700">
+                  <div>I = 1</div>
+                  <div>II = 2</div>
+                  <div>III = 3</div>
+                  <div>IV = 4</div>
+                  <div>V = 5</div>
+                  <div>VI = 6</div>
+                  <div>VII = 7</div>
+                  <div>VIII = 8</div>
+                  <div>IX = 9</div>
+                  <div>X = 10</div>
+                </div>
+              </div>
+              <div className="bg-indigo-50 p-4 rounded">
+                <h4 className="font-bold text-indigo-900 mb-2">Key Numbers</h4>
+                <div className="space-y-1 text-gray-700">
+                  <div>XX = 20</div>
+                  <div>XXX = 30</div>
+                  <div>XL = 40</div>
+                  <div>L = 50</div>
+                  <div>LX = 60</div>
+                  <div>XC = 90</div>
+                  <div>C = 100</div>
+                  <div>D = 500</div>
+                  <div>M = 1000</div>
+                  <div>MM = 2000</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-r from-yellow-100 to-orange-100 p-6 rounded-lg border-2 border-yellow-400">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">🎯 Quick Tips for Success</h3>
+            <ul className="space-y-2 text-gray-700">
+              <li className="flex items-start gap-2"><span className="text-green-600 font-bold">✓</span><span><strong>Memorize</strong> the 7 basic symbols</span></li>
+              <li className="flex items-start gap-2"><span className="text-green-600 font-bold">✓</span><span><strong>Subtraction pairs</strong>: IV, IX, XL, XC, CD, CM</span></li>
+              <li className="flex items-start gap-2"><span className="text-green-600 font-bold">✓</span><span><strong>Work left to right</strong>; smaller before larger = subtract, smaller after larger = add</span></li>
+              <li className="flex items-start gap-2"><span className="text-green-600 font-bold">✓</span><span><strong>Practice</strong> to build speed and pattern recognition</span></li>
+            </ul>
+          </div>
+
+          <div className="bg-gradient-to-r from-green-500 to-teal-500 text-white p-6 rounded-lg shadow-lg text-center">
+            <h3 className="text-2xl font-bold mb-2">Ready to Test Your Knowledge? 🎓</h3>
+            <p className="mb-1 text-lg">Switch to the Assessment tab when you're ready.</p>
+          </div>
+        </div>
+      );
+    }
+
+    function AssessmentSection(props){
+      const {
+        assessmentQuestions,
+        assessmentAnswers,
+        assessmentSubmitted,
+        assessmentScore,
+        handleAssessmentAnswer,
+        submitAssessment,
+        resetAssessment,
+        setCurrentSection,
+        fromName,
+        setFromName,
+        sending,
+        sendResult
+      } = props;
+
+      const allAnswered = assessmentQuestions.every(q => q.id in assessmentAnswers);
+      const percentage = assessmentSubmitted ? Math.round((assessmentScore / assessmentQuestions.length) * 100) : 0;
+
+      return (
+        <div className="space-y-6">
+          <div className="bg-gradient-to-r from-red-500 to-pink-600 text-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-3xl font-bold mb-2">📝 Roman Numerals Assessment Test</h2>
+            <p className="text-lg">33 comprehensive questions - Good luck! 🍀</p>
+
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between mt-3">
+              <div className="flex items-center gap-2">
+                <label className="text-white/90 font-semibold">From Name:</label>
+                <input
+                  type="text"
+                  value={fromName}
+                  onChange={(e) => setFromName(e.target.value)}
+                  className="px-3 py-2 rounded-md text-gray-800"
+                  placeholder="Student / Parent / Teacher"
+                />
+              </div>
+              <div className="text-sm">
+                {sending && <span className="text-yellow-200">Sending results…</span>}
+                {sendResult?.ok && <span className="text-green-200">✅ {sendResult.msg}</span>}
+                {sendResult && !sendResult.ok && <span className="text-red-200">❌ {sendResult.msg}</span>}
+              </div>
+            </div>
+          </div>
+
+          {assessmentSubmitted && (
+            <div className={`p-6 rounded-lg shadow-lg ${percentage >= 80 ? 'bg-green-100 border-green-500' : percentage >= 60 ? 'bg-yellow-100 border-yellow-500' : 'bg-red-100 border-red-500'} border-l-4`}>
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-3xl font-bold text-gray-800">Your Score: {assessmentScore}/{assessmentQuestions.length}</h3>
+                  <p className="text-2xl font-semibold text-gray-700 mt-1">{percentage}%</p>
+                </div>
+                <div className="text-4xl">🏆</div>
+              </div>
+
+              <div className="flex gap-3">
+                <button onClick={resetAssessment} className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 flex items-center gap-2">
+                  🔄 Retake Assessment
+                </button>
+                <button onClick={() => setCurrentSection('guide')} className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 flex items-center gap-2">
+                  📖 Review Study Guide
+                </button>
+              </div>
+            </div>
+          )}
+
+          {!assessmentSubmitted && (
+            <>
+              <div className="bg-blue-50 border-l-4 border-blue-500 p-5 rounded-lg">
+                <h3 className="font-bold text-blue-900 mb-2 text-lg">📋 Test Instructions:</h3>
+                <ul className="text-gray-700 space-y-1">
+                  <li>• 33 questions organized by skill</li>
+                  <li>• Answer all questions before submitting</li>
+                  <li>• You can retake the test as many times as you want</li>
+                </ul>
+              </div>
+
+              <div className="space-y-6">
+                {assessmentQuestions.map((q, idx) => {
+                  const isCorrect = assessmentSubmitted && assessmentAnswers[q.id] === q.correctAnswer;
+                  const isWrong = assessmentSubmitted && assessmentAnswers[q.id] !== q.correctAnswer;
+                  return (
+                    <div key={q.id} className={`bg-white rounded-lg shadow-md p-6 border-l-4 ${isCorrect ? 'border-green-500' : isWrong ? 'border-red-500' : 'border-indigo-400'}`}>
+                      <div className="mb-4">
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className="bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-bold">Question {idx + 1}</span>
+                          {isCorrect && <span className="text-green-600 text-lg">✔️</span>}
+                          {isWrong && <span className="text-red-600 text-lg">❌</span>}
+                        </div>
+                        <h3 className="text-lg font-bold text-gray-800">{q.question}</h3>
+                      </div>
+
+                      {q.type === 'multiple-choice' && (
+                        <div className="space-y-2">
+                          {q.options.map((option, optIdx) => (
+                            <label key={optIdx} className={`flex items-start gap-3 p-4 rounded-lg cursor-pointer transition ${
+                              assessmentAnswers[q.id] === optIdx ? 'bg-indigo-100 border-2 border-indigo-500' : 'bg-gray-50 border-2 border-gray-200 hover:bg-gray-100'
+                            } ${assessmentSubmitted && optIdx === q.correctAnswer ? 'bg-green-100 border-green-500 font-semibold' : ''} ${assessmentSubmitted && assessmentAnswers[q.id] === optIdx && optIdx !== q.correctAnswer ? 'bg-red-100 border-red-500' : ''}`}>
+                              <input
+                                type="radio"
+                                name={q.id}
+                                checked={assessmentAnswers[q.id] === optIdx}
+                                onChange={() => !assessmentSubmitted && handleAssessmentAnswer(q.id, optIdx)}
+                                disabled={assessmentSubmitted}
+                                className="mt-1"
+                              />
+                              <span className="text-gray-800 text-lg">{option}</span>
+                            </label>
+                          ))}
+                        </div>
+                      )}
+
+                      {q.type === 'true-false' && (
+                        <div className="space-y-2">
+                          {[true, false].map((value) => (
+                            <label key={value.toString()} className={`flex items-center gap-3 p-4 rounded-lg cursor-pointer transition ${
+                              assessmentAnswers[q.id] === value ? 'bg-indigo-100 border-2 border-indigo-500' : 'bg-gray-50 border-2 border-gray-200 hover:bg-gray-100'
+                            } ${assessmentSubmitted && value === q.correctAnswer ? 'bg-green-100 border-green-500 font-semibold' : ''} ${assessmentSubmitted && assessmentAnswers[q.id] === value && value !== q.correctAnswer ? 'bg-red-100 border-red-500' : ''}`}>
+                              <input
+                                type="radio"
+                                name={q.id}
+                                checked={assessmentAnswers[q.id] === value}
+                                onChange={() => !assessmentSubmitted && handleAssessmentAnswer(q.id, value)}
+                                disabled={assessmentSubmitted}
+                              />
+                              <span className="text-gray-800 font-bold text-xl">{value ? 'TRUE' : 'FALSE'}</span>
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-lg shadow-lg p-8 sticky bottom-4 border-4 border-green-300">
+                <div className="text-center">
+                  <div className="mb-4">
+                    <div className="text-3xl font-bold text-gray-800 mb-2">Ready to Submit?</div>
+                    <div className="text-lg text-gray-600">
+                      Progress: <span className="font-bold text-blue-600">{Object.keys(assessmentAnswers).length}</span> / <span className="font-bold">{assessmentQuestions.length}</span>
+                    </div>
+                    {allAnswered ? (
+                      <div className="mt-2 text-green-600 font-bold text-lg animate-pulse">✓ All questions answered! Click below to submit.</div>
+                    ) : (
+                      <div className="mt-2 text-orange-600 font-semibold">⚠️ Please answer {assessmentQuestions.length - Object.keys(assessmentAnswers).length} more question(s)</div>
+                    )}
+                  </div>
+
+                  <button
+                    onClick={submitAssessment}
+                    disabled={!allAnswered}
+                    className={`px-12 py-6 rounded-xl font-bold text-2xl flex items-center justify-center gap-3 mx-auto transition-all shadow-2xl ${
+                      allAnswered ? 'bg-gradient-to-r from-green-600 to-teal-600 text-white hover:from-green-700 hover:to-teal-700 cursor-pointer transform hover:scale-110' : 'bg-gray-400 text-gray-200 cursor-not-allowed opacity-50'
+                    }`}
+                  >
+                    ✅ Submit Assessment
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rounding — Grade 6 (Study • Practice • Assessment • Email)</title>
+
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--accent:#6d28d9;--ok:#16a34a;--err:#dc2626}
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(135deg,#f6f9ff,#eef4ff);font-family:system-ui,Segoe UI,Roboto,Arial;color:var(--ink);padding:24px;min-height:100vh}
+  .wrap{max-width:1100px;margin:0 auto;background:#fff;border-radius:20px;box-shadow:0 12px 36px rgba(2,6,23,.12);padding:24px}
+  header{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  h1{margin:0;color:var(--accent)}
+  .pill{display:inline-block;background:#eef2ff;padding:4px 10px;border-radius:999px;margin-left:8px}
+  .namebox{display:flex;gap:10px;align-items:center}
+  .namebox input{padding:10px;border:1px solid #e5e7eb;border-radius:10px;min-width:240px}
+  nav{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap}
+  nav button{border:1px solid #e5e7eb;background:#fff;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:600}
+  nav button.active{background:var(--accent);color:#fff;border-color:transparent}
+  section{display:none}
+  section.active{display:block}
+  .card{background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:14px;margin:10px 0}
+  .grid{display:grid;gap:14px}
+  .grid-2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .q{display:flex;gap:10px;align-items:center}
+  input[type="text"]{padding:8px;border:1px solid #cbd5e1;border-radius:8px;width:170px}
+  label.choice{display:block;border:1px solid #e5e7eb;border-radius:10px;padding:8px;margin-top:6px;cursor:pointer}
+  .btn{padding:10px 14px;border:none;border-radius:12px;cursor:pointer;font-weight:700}
+  .primary{background:var(--accent);color:#fff}
+  .success{background:#059669;color:#fff}
+  .ghost{background:#fff;border:1px solid #e5e7eb}
+  .score{font-weight:800;background:#f1f5f9;border-radius:999px;padding:6px 10px;margin-left:8px}
+  .result{padding:12px;border-radius:12px;margin-top:12px}
+  .ok{background:#ecfdf5;border:1px solid #86efac}
+  .err{background:#fef2f2;border:1px solid #fecaca}
+  .small{font-size:12px;color:var(--muted)}
+  .key{font-family:ui-monospace,Consolas,monospace}
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:8px;border-bottom:1px solid #e5e7eb;text-align:left}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Rounding Whole Numbers & Decimals <span class="pill">Grade 6</span></h1>
+      <div class="small">Study • Practice • Assessment (MCQ + Short Answer) • Email Results</div>
+    </div>
+    <div class="namebox">
+      <label for="studentName"><strong>Student:</strong></label>
+      <input id="studentName" placeholder="Enter full name"/>
+    </div>
+  </header>
+
+  <nav>
+    <button class="active" data-tab="study">Study Guide</button>
+    <button data-tab="practice">Practice</button>
+    <button data-tab="assessment">Assessment</button>
+    <button data-tab="results">Results</button>
+  </nav>
+
+  <section id="results">
+    <h2>Results</h2>
+    <div id="resultsSummary" class="result"></div>
+    <div id="resultsErrors" class="result"></div>
+  </section>
+
+  <p class="small">© 2025 Deidra — Rounding Workbook</p>
+</div>
+
+<script>
+
+try {} catch(e) {}
+
+/* ---------- Rounding helpers ---------- */
+function nearestPlaceValue(numStr, place){
+  const n = Number(String(numStr).replace(/,/g,''));
+  if (isNaN(n)) return '';
+  const map = {ten:1,hundred:2,thousand:3,'ten thousand':4,'hundred thousand':5,million:6};
+  if(place==='whole') return Math.round(n).toString();
+  if(place==='tenth') return (Math.round(n*10)/10).toFixed(1);
+  if(place==='hundredth') return (Math.round(n*100)/100).toFixed(2);
+  if(place==='thousandth') return (Math.round(n*1000)/1000).toFixed(3);
+  if(map[place]!=null){ const f = Math.pow(10,map[place]); return (Math.round(n/f)*f).toLocaleString('en-US'); }
+  return '';
+}
+const norm = s => (s??'').toString().trim().replace(/,/g,'');
+const same = (a,b) => {
+  const na=Number(a), nb=Number(b);
+  return (!isNaN(na)&&!isNaN(nb)) ? Math.abs(na-nb)<1e-9 : (a+'').toLowerCase()===(b+'').toLowerCase();
+};
+
+/* ---------- Data (from your worksheet) ---------- */
+const practiceQs = [
+  { id:1, prompt:'4,586 → nearest ten', given:'4,586', place:'ten' },
+  { id:2, prompt:'72,943 → nearest hundred', given:'72,943', place:'hundred' },
+  { id:3, prompt:'368,742 → nearest thousand', given:'368,742', place:'thousand' },
+  { id:4, prompt:'58,219 → nearest ten thousand', given:'58,219', place:'ten thousand' },
+  { id:5, prompt:'3,276,598 → nearest million', given:'3,276,598', place:'million' },
+  { id:6, prompt:'6.483 → nearest tenth', given:'6.483', place:'tenth' },
+  { id:7, prompt:'9.876 → nearest hundredth', given:'9.876', place:'hundredth' },
+  { id:8, prompt:'12.547 → nearest tenth', given:'12.547', place:'tenth' },
+  { id:9, prompt:'0.987 → nearest hundredth', given:'0.987', place:'hundredth' },
+  { id:10, prompt:'45.321 → nearest whole number', given:'45.321', place:'whole' },
+];
+
+const baseAssess = [
+  // core set (same numbers)
+  ...practiceQs.map(q=>({ ...q, context:'' })),
+  // word problems set
+  { id:11, prompt:'Population of Grand Turk is 5,376 → nearest hundred', given:'5,376', place:'hundred', context:'Word' },
+  { id:12, prompt:'Bag of sugar weighs 2.756 kg → nearest tenth (kg)', given:'2.756', place:'tenth', context:'Word' },
+  { id:13, prompt:'Cruise ship carried 18,943 tourists → nearest thousand', given:'18,943', place:'thousand', context:'Word' },
+  { id:14, prompt:'Temperature is 28.467°C → nearest hundredth (°C)', given:'28.467', place:'hundredth', context:'Word' },
+  { id:15, prompt:'Shop earned $12,873.89 → nearest hundred ($)', given:'12873.89', place:'hundred', context:'Word' },
+];
+// MCQ for a subset
+const mcqIds = new Set([2,3,6,9,11,13]);
+const assessQs = baseAssess.map((q,idx)=>({
+  idx: idx+1,
+  type: mcqIds.has(q.id||idx+1) ? 'mcq' : 'short',
+  ...q
+}));
+
+/* ---------- Build Practice UI (with hints) ---------- */
+(function buildPractice(){
+  const box=document.getElementById('practiceList'); box.innerHTML='';
+  practiceQs.forEach((q,i)=>{
+    const id=`p-${q.id}`;
+    const ans=nearestPlaceValue(q.given,q.place);
+    const card=document.createElement('div'); card.className='card';
+    card.innerHTML = `
+      <div class="q"><b>P${i+1}.</b> ${q.prompt} <input id="${id}" placeholder="Answer"/></div>
+      <div class="small">Hint: <span class="key">${ans}</span></div>`;
+    box.appendChild(card);
+  });
+})();
+
+/* ---------- Build Assessment UI (no hints) ---------- */
+function makeMcqOptions(given,place){
+  const correct = nearestPlaceValue(given,place);
+  const n = Number(String(given).replace(/,/g,''));
+  const opts = new Set([correct]);
+
+  // Plausible distractors (one step below/above rounded bucket)
+  const powMap = {ten:1,hundred:2,thousand:3,'ten thousand':4,'hundred thousand':5,million:6};
+  if (powMap[place]) {
+    const step = 10**powMap[place];
+    const rounded = Math.round(n/step)*step;
+    opts.add((rounded - step).toLocaleString('en-US'));
+    opts.add((rounded + step).toLocaleString('en-US'));
+  } else if (place==='tenth' || place==='hundredth' || place==='thousandth' || place==='whole') {
+    // decimal/whole near neighbors
+    const factor = place==='tenth'?10:place==='hundredth'?100:place==='thousandth'?1000:1;
+    const down = place==='whole'? Math.floor(n) : Math.floor(n*factor)/factor;
+    const up   = place==='whole'? Math.ceil(n)  : Math.ceil(n*factor)/factor;
+    const fmt  = x => place==='tenth'?x.toFixed(1):place==='hundredth'?x.toFixed(2):place==='thousandth'?x.toFixed(3):x.toString();
+    opts.add(fmt(down)); opts.add(fmt(up));
+  }
+
+  // Ensure 4 choices
+  while(opts.size<4) opts.add(correct);
+  const arr=[...opts];
+  for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]];}
+  return arr;
+}
+
+(function buildAssessment(){
+  const box=document.getElementById('assessmentList'); box.innerHTML='';
+  assessQs.forEach(q=>{
+    const id=`a-${q.idx}`;
+    const card=document.createElement('div'); card.className='card';
+    if(q.type==='mcq'){
+      const options = makeMcqOptions(q.given,q.place);
+      card.innerHTML = `<div><b>Q${q.idx} (MCQ).</b> ${q.prompt}</div>` + options.map((opt,i)=>`
+        <label class="choice"><input type="radio" name="${id}" value="${opt}"> ${String.fromCharCode(65+i)}. <span class="key">${opt}</span></label>
+      `).join('');
+    }else{
+      card.innerHTML = `<div class="q"><b>Q${q.idx}.</b> ${q.prompt} <input id="${id}" placeholder="Write your answer"/></div>`;
+    }
+    if(q.context){ card.innerHTML += `<div class="small">Context: ${q.context}</div>`; }
+    box.appendChild(card);
+  });
+})();
+
+/* ---------- Practice logic ---------- */
+function fillPractice(){
+  practiceQs.forEach(q=>{
+    const el=document.getElementById(`p-${q.id}`);
+    if(el) el.value = nearestPlaceValue(q.given,q.place);
+  });
+}
+function checkPractice(){
+  let correct=0; const rows=[];
+  practiceQs.forEach((q,i)=>{
+    const el=document.getElementById(`p-${q.id}`);
+    const user=norm(el.value);
+    const ans=norm(nearestPlaceValue(q.given,q.place));
+    const ok=same(user,ans); if(ok) correct++;
+    rows.push(`<li>P${i+1}: ${ok?'<b style="color:#059669">Correct</b>':'<b style="color:#dc2626">Incorrect</b>'} — Your: <span class="key">${el.value||'⎯'}</span> • Correct: <span class="key">${ans}</span></li>`);
+  });
+  document.getElementById('practiceScore').textContent=`Score: ${correct}/${practiceQs.length}`;
+  document.getElementById('practiceFeedback').innerHTML = `<div class="result ${correct===practiceQs.length?'ok':'err'}"><ol>${rows.join('')}</ol></div>`;
+}
+
+/* ---------- Assessment grading & email ---------- */
+let lastAssessment=null;
+
+function gradeAssessment(){
+  const name=(document.getElementById('studentName').value||'Unnamed Student').trim();
+  let correct=0; const wrong=[]; const rows=[];
+  assessQs.forEach(q=>{
+    const id=`a-${q.idx}`;
+    let userRaw='';
+    if(q.type==='mcq'){
+      const chosen=document.querySelector(`input[name="${id}"]:checked`);
+      userRaw = chosen? chosen.value : '';
+    }else{
+      const el=document.getElementById(id);
+      userRaw = el? el.value : '';
+    }
+    const user=norm(userRaw);
+    const ans=norm(nearestPlaceValue(q.given,q.place));
+    const ok=same(user,ans);
+    if(ok) correct++; else wrong.push({num:q.idx,prompt:q.prompt,your:userRaw||'⎯',correct:ans,type:q.type,context:q.context||''});
+    rows.push(`<tr><td>Q${q.idx}</td><td>${q.prompt}${q.type==='mcq'?' (MCQ)':''}</td><td>${ok?'✔':'✖'}</td><td class="key">${userRaw||'⎯'}</td><td class="key">${ans}</td></tr>`);
+  });
+
+  const scoreTxt = `Score: ${correct}/${assessQs.length}`;
+  document.getElementById('assessmentScore').textContent = scoreTxt;
+
+  const summary = `<div class="result ${wrong.length? 'err':'ok'}">
+    <b>${name}</b> — ${scoreTxt} ${wrong.length?`• ${wrong.length} incorrect`:'• Perfect! 🎉'}
+  </div>`;
+  const table = `<div class="card"><div class="small">Details</div>
+    <div style="overflow:auto"><table>
+      <thead><tr><th>#</th><th>Question</th><th>✓/✗</th><th>Your Answer</th><th>Correct Answer</th></tr></thead>
+      <tbody>${rows.join('')}</tbody>
+    </table></div></div>`;
+
+  document.getElementById('assessmentFeedback').innerHTML = summary + table;
+  document.getElementById('resultsSummary').innerHTML = summary;
+  document.getElementById('resultsErrors').innerHTML = wrong.length
+    ? `<div class="result err"><b>Incorrect Questions:</b><ol>${
+        wrong.map(w=>`<li>Q${w.num}: ${w.prompt}${w.type==='mcq'?' (MCQ)':''} — Your: <span class="key">${w.your}</span> • Correct: <span class="key">${w.correct}</span>${w.context?` <span class="pill">${w.context}</span>`:''}</li>`).join('')
+      }</ol></div>`
+    : `<div class="result ok">All correct. ✅</div>`;
+
+  // Auto-jump to Results tab
+  document.querySelector('nav button[data-tab="results"]').click();
+
+  lastAssessment = { name, correct, total: assessQs.length, wrong };
+}
+
+function buildEmailMessage(latest){
+  if(!latest) return 'No results.';
+  const {name, correct, total, wrong} = latest;
+  const lines = [];
+  lines.push(`Student: ${name}`);
+  lines.push(`Score: ${correct} / ${total}`);
+  if(wrong.length===0){ lines.push('All answers correct. ✅'); }
+  else{
+    lines.push('Incorrect items:');
+    wrong.forEach(w=>{
+      lines.push(`- Q${w.num}: ${w.prompt}${w.type==='mcq'?' (MCQ)':''}`);
+      lines.push(`   • Student Answer: ${w.your}`);
+      lines.push(`   • Correct Answer: ${w.correct}`);
+    });
+  }
+  lines.push(`Submitted: ${new Date().toLocaleString()}`);
+  return lines.join('\n');
+}
+
+async function submitEmail(){
+  // Ensure we have the latest graded result
+  if(!lastAssessment) gradeAssessment();
+  const name=(document.getElementById('studentName').value||'Unnamed Student').trim();
+  const message = buildEmailMessage(lastAssessment);
+  const statusEl = document.getElementById('emailStatus');
+  statusEl.textContent = 'Sending...';
+  try{
+    await 
+    statusEl.textContent = 'Sent ✔ (check inbox)';
+  }catch(err){
+    console.warn(err);
+    statusEl.textContent = 'Failed to send ❌ (grading still saved locally)';
+    alert('Email failed to send. If on a school network, CDN scripts may be blocked. Grading still works. You can host this file later (e.g., GitHub Pages) and email will work.');
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Singular & Plural Nouns — Workbook + Assessment (EmailJS)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script type="text/javascript">
+    (function(){})();
+  </script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-emerald-50 via-indigo-50 to-sky-50 p-4">
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    function App(){
+      const [currentSection, setCurrentSection] = React.useState('guide');
+      const [answers, setAnswers] = React.useState({}); // { [qid]: { selectedPluralIdx: Set<number>, rewrite: string } }
+      const [submitted, setSubmitted] = React.useState(false);
+      const [score, setScore] = React.useState(0);
+      const [fromName, setFromName] = React.useState('Singular & Plural Nouns Assessment');
+      const [sending, setSending] = React.useState(false);
+      const [sendResult, setSendResult] = React.useState(null);
+
+      const questions = buildQuestions();
+
+      const handleToggle = (qid, idx) => {
+        setAnswers(prev => {
+          const prevQ = prev[qid] || { selectedPluralIdx: new Set(), rewrite: '' };
+          const nextSet = new Set(prevQ.selectedPluralIdx);
+          if (nextSet.has(idx)) nextSet.delete(idx); else nextSet.add(idx);
+          return { ...prev, [qid]: { ...prevQ, selectedPluralIdx: nextSet, rewrite: prevQ.rewrite || '' } };
+        });
+      };
+
+      const handleRewrite = (qid, text) => {
+        setAnswers(prev => {
+          const prevQ = prev[qid] || { selectedPluralIdx: new Set(), rewrite: '' };
+          return { ...prev, [qid]: { ...prevQ, rewrite: text } };
+        });
+      };
+
+      const allAnswered = questions.every(q => {
+        const a = answers[q.id];
+        const sel = (a && a.selectedPluralIdx) ? a.selectedPluralIdx : new Set();
+        const rw = (a && a.rewrite ? a.rewrite : '').trim();
+        return sel.size >= 1 && rw.length > 0;
+      });
+
+      const evaluate = () => {
+        let correct = 0;
+        questions.forEach(q => {
+          const sel = (answers[q.id] && answers[q.id].selectedPluralIdx) ? answers[q.id].selectedPluralIdx : new Set();
+          const correctSet = new Set(q.pluralIdx);
+          if (setEquals(sel, correctSet)) correct++;
+        });
+        setScore(correct);
+        setSubmitted(true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        sendEmailResults(correct, questions.length);
+      };
+
+      const reset = () => {
+        setAnswers({});
+        setSubmitted(false);
+        setScore(0);
+        setSendResult(null);
+      };
+
+      const buildEmailReport = (score, total) => {
+        const pct = Math.round((score / total) * 100);
+        const lines = [
+          `Assessment: Singular & Plural Nouns`,
+          `Score: ${score}/${total} (${pct}%)`,
+          ``
+        ];
+
+        const incorrect = questions.filter(q => !setEquals((answers[q.id] && answers[q.id].selectedPluralIdx) ? answers[q.id].selectedPluralIdx : new Set(), new Set(q.pluralIdx)));
+
+        if (incorrect.length === 0) {
+          lines.push('All correct - excellent!');
+        } else {
+          lines.push('Incorrect items (with correct plural nouns):');
+          incorrect.forEach((q) => {
+            const sel = Array.from((answers[q.id] && answers[q.id].selectedPluralIdx) ? answers[q.id].selectedPluralIdx : []);
+            const yourPlural = sel.map(idx => q.nouns[idx]).join(', ') || '-';
+            const correctPlural = q.pluralIdx.map(idx => q.nouns[idx]).join(', ') || '-';
+            const rewrite = ((answers[q.id] && answers[q.id].rewrite) ? answers[q.id].rewrite : '').trim();
+            lines.push(
+`- ${q.sentence}
+  Your marked plurals: ${yourPlural}
+  Correct plurals: ${correctPlural}
+  Your rewrite: ${rewrite}`
+            );
+          });
+        }
+
+        return lines.join('\\n');
+      };
+
+      const sendEmailResults = async (got, total) => {
+        setSending(true);
+        setSendResult(null);
+        try {
+          const params = {
+            from_name: fromName,
+            message: buildEmailReport(got, total),
+            subject: 'Nouns Assessment Results'
+          };
+          await 
+          setSendResult({ ok: true, msg: 'Results emailed successfully.' });
+        } catch (err) {
+          setSendResult({ ok: false, msg: (err && (err.text || err.message)) || 'Email sending failed.' });
+        } finally {
+          setSending(false);
+        }
+      };
+
+      const percent = submitted ? Math.round((score / questions.length) * 100) : 0;
+
+      return (
+        <div className="max-w-5xl mx-auto">
+          <div className="bg-white rounded-xl shadow-2xl p-6 mb-6">
+            <div className="text-center mb-6">
+              <h1 className="text-5xl font-bold text-gray-800 mb-2">Singular & Plural Nouns</h1>
+              <p className="text-gray-600 text-lg">Interactive Workbook & Assessment with Email Results</p>
+            </div>
+
+            <div className="flex gap-3 mb-6">
+              <button
+                onClick={() => setCurrentSection('guide')}
+                className={`flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-lg font-bold text-lg transition ${currentSection === 'guide' ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+              >
+                Study Guide
+              </button>
+              <button
+                onClick={() => setCurrentSection('assessment')}
+                className={`flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-lg font-bold text-lg transition ${currentSection === 'assessment' ? 'bg-gradient-to-r from-pink-600 to-rose-600 text-white shadow-lg' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+              >
+                Assessment
+              </button>
+            </div>
+
+            {currentSection === 'guide' && <StudyGuide />}
+            {currentSection === 'assessment' && (
+              <Assessment
+                questions={questions}
+                answers={answers}
+                onToggle={handleToggle}
+                onRewrite={handleRewrite}
+                onSubmit={evaluate}
+                onReset={reset}
+                submitted={submitted}
+                score={score}
+                percent={percent}
+                fromName={fromName}
+                setFromName={setFromName}
+                sending={sending}
+                sendResult={sendResult}
+                allAnswered={allAnswered}
+              />
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    function StudyGuide(){
+      return (
+        <div className="space-y-6">
+          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-3xl font-bold mb-2">What are Singular & Plural Nouns?</h2>
+            <p className="text-lg">A <strong>singular</strong> noun names one person, place, thing, or idea. A <strong>plural</strong> noun names more than one. You will mark all plural nouns and <strong>must rewrite</strong> each sentence by swapping singular &lt;-&gt; plural nouns.</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-lg shadow p-5 border-l-4 border-emerald-500">
+              <h3 className="text-xl font-bold mb-2">Regular Plurals</h3>
+              <ul className="list-disc list-inside text-gray-700 space-y-1">
+                <li>Most nouns: add <strong>-s</strong> -> book -> <strong>books</strong>, wall -> <strong>walls</strong></li>
+                <li>End with <strong>-s, -x, -z, -ch, -sh</strong>: add <strong>-es</strong> -> box -> <strong>boxes</strong>, brush -> <strong>brushes</strong></li>
+                <li>Consonant + <strong>y</strong>: change <strong>y -> ies</strong> -> butterfly -> <strong>butterflies</strong></li>
+                <li>End with <strong>f / fe</strong>: often change to <strong>ves</strong> -> leaf -> <strong>leaves</strong>, knife -> <strong>knives</strong></li>
+              </ul>
+            </div>
+            <div className="bg-white rounded-lg shadow p-5 border-l-4 border-rose-500">
+              <h3 className="text-xl font-bold mb-2">Irregular & Zero-Plural Nouns</h3>
+              <div className="text-gray-700 grid grid-cols-2 gap-2">
+                <div>child -> <strong>children</strong></div>
+                <div>man -> <strong>men</strong></div>
+                <div>woman -> <strong>women</strong></div>
+                <div>person -> <strong>people</strong></div>
+                <div>goose -> <strong>geese</strong></div>
+                <div>mouse -> <strong>mice</strong></div>
+                <div>tooth -> <strong>teeth</strong></div>
+                <div>foot -> <strong>feet</strong></div>
+                <div>deer -> <strong>deer</strong> (no change)</div>
+                <div>sheep -> <strong>sheep</strong> (no change)</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-lg shadow p-5 border-l-4 border-amber-500">
+              <h3 className="text-xl font-bold mb-2">Count vs. Noncount Nouns</h3>
+              <p className="text-gray-700 mb-2">Noncount (mass) nouns don't take plural <em>-s</em> (e.g., <em>furniture, information, luggage, homework</em>). Use quantifiers: <em>pieces of furniture, items of luggage</em>.</p>
+              <p className="text-gray-700">Count nouns can be singular or plural (<em>book/books</em>). In this assessment, focus only on nouns listed under each sentence.</p>
+            </div>
+            <div className="bg-white rounded-lg shadow p-5 border-l-4 border-sky-500">
+              <h3 className="text-xl font-bold mb-2">Collective Nouns</h3>
+              <p className="text-gray-700">Words like <em>team, group, class, family</em> are singular forms that refer to many members. Treat the word itself as singular unless context forces plural.</p>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-5 border-l-4 border-fuchsia-500">
+            <h3 className="text-xl font-bold mb-2">Tricky Plurals & Pitfalls</h3>
+            <ul className="list-disc list-inside text-gray-700 space-y-1">
+              <li><strong>Compound nouns:</strong> mother-in-law -> <strong>mothers-in-law</strong>; passerby -> <strong>passersby</strong></li>
+              <li><strong>Letters & numbers:</strong> mind your <strong>p's</strong> and <strong>q's</strong>; two <strong>7s</strong></li>
+              <li><strong>Latin/Greek forms:</strong> cactus -> <strong>cacti/cactuses</strong>, analysis -> <strong>analyses</strong>, criterion -> <strong>criteria</strong>, phenomenon -> <strong>phenomena</strong></li>
+              <li><strong>Plural-only nouns:</strong> scissors, pants, police (use plural verbs: the police are)</li>
+              <li><strong>Same-form nouns:</strong> series, species, headquarters (use context for verb agreement)</li>
+              <li><strong>Mass nouns:</strong> news, furniture, equipment are singular in form: the news is</li>
+              <li><strong>Apostrophes:</strong> possession only (students' books), not for plurals (students)</li>
+            </ul>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-5 border-l-4 border-emerald-600">
+            <h3 className="text-xl font-bold mb-2">Assessment Directions</h3>
+            <ol className="list-decimal list-inside text-gray-700 space-y-1">
+              <li>For each sentence, mark <strong>all plural nouns</strong> from the provided list.</li>
+              <li><strong>Then rewrite (mandatory):</strong> swap every singular noun to plural and every plural noun to singular.</li>
+              <li>Your score reflects plural-marking; your rewrite is included in the emailed report for teacher review.</li>
+            </ol>
+          </div>
+
+          <div className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white p-6 rounded-lg shadow-lg text-center">
+            <h3 className="text-2xl font-bold mb-2">Ready to Practice?</h3>
+            <p>Open the Assessment tab when you're ready to begin.</p>
+          </div>
+        </div>
+      );
+    }
+
+    function Assessment(props){
+      const {
+        questions, answers, onToggle, onRewrite, onSubmit, onReset,
+        submitted, score, percent, fromName, setFromName, sending, sendResult, allAnswered
+      } = props;
+
+      return (
+        <div className="space-y-6">
+          <div className="bg-gradient-to-r from-pink-600 to-rose-600 text-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-3xl font-bold mb-2">Assessment</h2>
+            <p className="text-lg">Identify <strong>all plural nouns</strong> in each sentence <em>and</em> provide a <strong>mandatory rewrite</strong> swapping singular &lt;-&gt; plural nouns.</p>
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between mt-3">
+              <div className="flex items-center gap-2">
+                <label className="text-white/90 font-semibold">From Name:</label>
+                <input
+                  type="text"
+                  value={fromName}
+                  onChange={(e) => setFromName(e.target.value)}
+                  className="px-3 py-2 rounded-md text-gray-800"
+                  placeholder="Student / Parent / Teacher"
+                />
+              </div>
+              <div className="text-sm">
+                {sending && <span className="text-yellow-200">Sending results...</span>}
+                {sendResult?.ok && <span className="text-green-200">[OK] {sendResult.msg}</span>}
+                {sendResult && !sendResult.ok && <span className="text-red-200">[X] {sendResult.msg}</span>}
+              </div>
+            </div>
+          </div>
+
+          {submitted && (
+            <div className={`p-6 rounded-lg shadow-lg ${percent >= 80 ? 'bg-green-100 border-green-500' : percent >= 60 ? 'bg-yellow-100 border-yellow-500' : 'bg-red-100 border-red-500'} border-l-4`}>
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-3xl font-bold text-gray-800">Your Score: {score}/{questions.length}</h3>
+                  <p className="text-2xl font-semibold text-gray-700 mt-1">{percent}%</p>
+                </div>
+                <div className="text-4xl">🏆</div>
+              </div>
+              <div className="flex gap-3">
+                <button onClick={onReset} className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">Retake</button>
+                <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700">Back to Top</button>
+              </div>
+            </div>
+          )}
+
+          <div className="space-y-6">
+            {questions.map((q, idx) => {
+              const selected = (answers[q.id] && answers[q.id].selectedPluralIdx) ? answers[q.id].selectedPluralIdx : new Set();
+              const isCorrect = submitted && setEquals(selected, new Set(q.pluralIdx));
+              const isWrong = submitted && !setEquals(selected, new Set(q.pluralIdx));
+              return (
+                <div key={q.id} className={`bg-white rounded-lg shadow-md p-6 border-l-4 ${isCorrect ? 'border-green-500' : isWrong ? 'border-red-500' : 'border-indigo-400'}`}>
+                  <div className="mb-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-bold">Item {idx + 1}</span>
+                      {isCorrect && <span className="text-green-600 text-lg">OK</span>}
+                      {isWrong && <span className="text-red-600 text-lg">X</span>}
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-800">{q.sentence}</h3>
+                  </div>
+
+                  <div className="mb-4">
+                    <p className="font-semibold text-gray-800 mb-2">Mark the plural nouns:</p>
+                    <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2">
+                      {q.nouns.map((noun, nIdx) => (
+                        <label key={nIdx} className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer border-2 transition ${selected.has(nIdx) ? 'bg-indigo-100 border-indigo-500' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'}`}> 
+                          <input type="checkbox" checked={selected.has(nIdx)} onChange={() => !submitted && onToggle(q.id, nIdx)} />
+                          <span className="text-gray-900">{noun}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="font-semibold text-gray-800 mb-2">Rewrite (mandatory): swap every singular &lt;-&gt; plural noun</p>
+                    <textarea
+                      rows={3}
+                      className="w-full border rounded-lg p-3"
+                      placeholder="Rewrite the sentence here..."
+                      value={(answers[q.id] && answers[q.id].rewrite) ? answers[q.id].rewrite : ''}
+                      onChange={(e) => onRewrite(q.id, e.target.value)}
+                      disabled={submitted}
+                    />
+                  </div>
+
+                  {submitted && (
+                    <div className={`mt-4 p-4 rounded-lg ${isCorrect ? 'bg-green-50 border-2 border-green-300' : 'bg-red-50 border-2 border-red-300'}`}>
+                      <p className={`font-bold mb-2 ${isCorrect ? 'text-green-800' : 'text-red-800'}`}>{isCorrect ? 'Correct!' : 'Incorrect'}</p>
+                      <p className="text-gray-800"><strong>Correct plurals:</strong> {q.pluralIdx.map(i => q.nouns[i]).join(', ') || 'None'}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-lg shadow-lg p-8 sticky bottom-4 border-4 border-green-300">
+            <div className="text-center">
+              <div className="mb-4">
+                <div className="text-3xl font-bold text-gray-800 mb-2">Ready to Submit?</div>
+                <div className="text-lg text-gray-600">
+                  Items with responses: <span className="font-bold text-blue-600">{Object.keys(answers).length}</span> / <span className="font-bold">{questions.length}</span>
+                </div>
+              </div>
+              
+              <button
+                onClick={onSubmit}
+                disabled={!allAnswered}
+                className={`px-12 py-6 rounded-xl font-bold text-2xl flex items-center justify-center gap-3 mx-auto transition-all shadow-2xl ${allAnswered ? 'bg-gradient-to-r from-green-600 to-teal-600 text-white hover:from-green-700 hover:to-teal-700 transform hover:scale-110' : 'bg-gray-400 text-gray-200 cursor-not-allowed opacity-50'}`}
+              >
+                Submit & Email Results
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function setEquals(a, b){
+      if (a.size !== b.size) return false;
+      for (const v of a) if (!b.has(v)) return false;
+      return true;
+    }
+
+    function buildQuestions(){
+      return [
+        { id: 'q1', sentence: 'The artist painted colorful murals on the walls of the museum.', nouns: ['artist', 'murals', 'walls', 'museum'], pluralIdx: [1, 2] },
+        { id: 'q2', sentence: 'Several teachers met with one parent after the assembly.', nouns: ['teachers', 'parent', 'assembly'], pluralIdx: [0] },
+        { id: 'q3', sentence: 'The child wrote letters to the soldiers overseas.', nouns: ['child', 'letters', 'soldiers'], pluralIdx: [1, 2] },
+        { id: 'q4', sentence: 'Three foxes hid behind a tall tree in the forest.', nouns: ['foxes', 'tree', 'forest'], pluralIdx: [0] },
+        { id: 'q5', sentence: 'The player kicked two balls across the field.', nouns: ['player', 'balls', 'field'], pluralIdx: [1] },
+        { id: 'q6', sentence: 'Our library has many books about ancient civilizations.', nouns: ['library', 'books', 'civilizations'], pluralIdx: [1, 2] },
+        { id: 'q7', sentence: 'The goose flew with other birds across the sky.', nouns: ['goose', 'birds', 'sky'], pluralIdx: [1] },
+        { id: 'q8', sentence: 'The scientists made a discovery about rare minerals.', nouns: ['scientists', 'discovery', 'minerals'], pluralIdx: [0, 2] },
+        { id: 'q9', sentence: 'Each student carried two pencils and one notebook.', nouns: ['student', 'pencils', 'notebook'], pluralIdx: [1] },
+        { id: 'q10', sentence: 'The farmer planted rows of tomatoes in the garden.', nouns: ['farmer', 'rows', 'tomatoes', 'garden'], pluralIdx: [1, 2] },
+        { id: 'q11', sentence: 'A group of men built wooden boats by the harbor.', nouns: ['group', 'men', 'boats', 'harbor'], pluralIdx: [1, 2] },
+        { id: 'q12', sentence: 'The princess greeted the servants in the grand hall.', nouns: ['princess', 'servants', 'hall'], pluralIdx: [1] },
+        { id: 'q13', sentence: 'The puppy chased three butterflies in the meadow.', nouns: ['puppy', 'butterflies', 'meadow'], pluralIdx: [1] },
+        { id: 'q14', sentence: 'The author signed copies of her novels at the bookstore.', nouns: ['author', 'copies', 'novels', 'bookstore'], pluralIdx: [1, 2] },
+        { id: 'q15', sentence: 'Several actors performed on the stage during the festival.', nouns: ['actors', 'stage', 'festival'], pluralIdx: [0] },
+        { id: 'q16', sentence: 'The woman carried two bags of fresh fruits from the market.', nouns: ['woman', 'bags', 'fruits', 'market'], pluralIdx: [1, 2] },
+        { id: 'q17', sentence: 'Our neighbor adopted four cats and one dog.', nouns: ['neighbor', 'cats', 'dog'], pluralIdx: [1] },
+        { id: 'q18', sentence: 'The scientist observed tiny cells through a microscope.', nouns: ['scientist', 'cells', 'microscope'], pluralIdx: [1] },
+        { id: 'q19', sentence: 'A student presented her projects in front of the class.', nouns: ['student', 'projects', 'class'], pluralIdx: [1] },
+        { id: 'q20', sentence: 'The engineer designed tall bridges over the wide rivers.', nouns: ['engineer', 'bridges', 'rivers'], pluralIdx: [1, 2] },
+        { id: 'q21', sentence: 'The babies played with the toys near the benches.', nouns: ['babies', 'toys', 'benches'], pluralIdx: [0, 1, 2] },
+        { id: 'q22', sentence: 'The man fixed the shelves in both kitchens.', nouns: ['man', 'shelves', 'kitchens'], pluralIdx: [1, 2] },
+        { id: 'q23', sentence: 'Those women wore bright scarves at the parties.', nouns: ['women', 'scarves', 'parties'], pluralIdx: [0, 1, 2] },
+        { id: 'q24', sentence: 'The mouse avoided the traps inside the houses.', nouns: ['mouse', 'traps', 'houses'], pluralIdx: [1, 2] },
+        { id: 'q25', sentence: 'The leaves fell from the trees beside the roads.', nouns: ['leaves', 'trees', 'roads'], pluralIdx: [0, 1, 2] },
+        { id: 'q26', sentence: 'Each person brought two dishes and three cups.', nouns: ['person', 'dishes', 'cups'], pluralIdx: [1, 2] },
+        { id: 'q27', sentence: 'Newspapers and magazines covered the events in several cities.', nouns: ['newspapers', 'magazines', 'events', 'cities'], pluralIdx: [0, 1, 2, 3] },
+        { id: 'q28', sentence: 'The child found teeth marks on the loaves in the baskets.', nouns: ['child', 'teeth', 'loaves', 'baskets'], pluralIdx: [1, 2, 3] },
+        { id: 'q29', sentence: 'Our feet left prints on the beaches after the storms.', nouns: ['feet', 'prints', 'beaches', 'storms'], pluralIdx: [0, 1, 2, 3] },
+        { id: 'q30', sentence: 'The police officers directed cars onto the bridges during the parades.', nouns: ['officers', 'cars', 'bridges', 'parades'], pluralIdx: [0, 1, 2, 3] },
+      ];
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

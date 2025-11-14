@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interactive Spelling & Vocabulary Learning — Grade 6</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px}
+    .container{max-width:1200px;margin:0 auto}
+    h1{color:#fff;text-align:center;font-size:3em;margin-bottom:10px;text-shadow:3px 3px 6px rgba(0,0,0,.3);animation:fadeInDown 1s}
+    @keyframes fadeInDown{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
+    .subtitle{color:#fff;text-align:center;font-size:1.2em;margin-bottom:18px}
+
+    .toolbar{display:flex;gap:12px;justify-content:center;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+    .toggle{display:flex;gap:8px;align-items:center;color:#fff}
+    .toggle input{transform:scale(1.2)}
+    .narration{color:#e2e8f0;text-align:center;min-height:1.4em}
+
+    .lesson-card{background:#fff;border-radius:20px;padding:28px;margin-bottom:20px;box-shadow:0 15px 35px rgba(0,0,0,.3);animation:slideIn .5s}
+    @keyframes slideIn{from{opacity:0;transform:translateX(-50px)}to{opacity:1;transform:translateX(0)}}
+
+    .lesson-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+    .lesson-btn{padding:16px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:15px;cursor:pointer;font-size:1.05em;font-weight:700;transition:.3s;box-shadow:0 5px 15px rgba(0,0,0,.2)}
+    .lesson-btn:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+    .lesson-btn.active{background:linear-gradient(135deg,#f093fb,#f5576c);transform:scale(1.03)}
+
+    .lesson-content{display:none}
+    .lesson-content.active{display:block;animation:fadeIn .4s}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+    /* Vocabulary */
+    .progress-indicator{text-align:center;margin:12px 0;font-size:1.15em;color:#2d3561;font-weight:700}
+    .word-display{text-align:center;padding:32px;background:linear-gradient(135deg,#f093fb 0%,#f5576c 100%);border-radius:20px;margin:18px 0;color:#fff;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+    .big-word{font-size:3.2em;font-weight:800;margin:12px 0;letter-spacing:3px;text-shadow:3px 3px 6px rgba(0,0,0,.25)}
+    .pronunciation{font-size:1.2em;font-style:italic;margin:8px 0}
+    .definition{font-size:1.4em;margin:10px 0;line-height:1.4}
+    .example-sentence{background:rgba(255,255,255,.22);padding:14px;border-radius:10px;font-size:1.1em;margin:12px 0;font-style:italic}
+    .animation-area{min-height:80px;display:flex;align-items:center;justify-content:center;position:relative}
+    .letter{display:inline-block;font-size:2.2em;font-weight:800;margin:5px;padding:10px;background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;border-radius:10px;animation:letterPop .5s ease-out;box-shadow:0 5px 15px rgba(0,0,0,.2)}
+    @keyframes letterPop{0%{transform:scale(0) rotate(0);opacity:0}50%{transform:scale(1.2) rotate(10deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+    .controls{display:flex;gap:12px;justify-content:center;margin:14px 0;flex-wrap:wrap}
+    button{padding:14px 28px;font-size:1.05em;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:12px;cursor:pointer;font-weight:700;transition:.2s;box-shadow:0 5px 15px rgba(0,0,0,.2)}
+    button:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,.3)}
+
+    /* Cards, builders */
+    .info-card{background:linear-gradient(135deg,#e0f7fa,#b2ebf2);padding:18px;border-radius:12px;margin:12px 0;border-left:6px solid #00acc1}
+    .info-card h3{color:#00838f;margin-bottom:8px;font-size:1.3em}
+    .interactive-area{background:#f8f9fa;padding:22px;border-radius:15px;margin:16px 0}
+    .word-builder{display:flex;align-items:center;justify-content:center;gap:10px;font-size:2em;font-weight:800;margin:14px 0;flex-wrap:wrap}
+    .word-part{padding:12px 22px;border-radius:10px;transition:.3s}
+    .root{background:#4ecdc4;color:#fff}
+    .prefix{background:#ff6b6b;color:#fff;cursor:pointer}
+    .suffix{background:#ffd93d;color:#333;cursor:pointer}
+    .word-part:hover{transform:scale(1.08);box-shadow:0 5px 15px rgba(0,0,0,.2)}
+
+    /* Sentences */
+    .sentence-builder{background:#fff;padding:18px;border-radius:12px;margin:14px 0;border:3px solid #4ecdc4}
+    .sentence-display{font-size:1.3em;line-height:1.8;margin:12px 0}
+    .word-blank{background:#ffd93d;padding:4px 10px;border-radius:6px;font-weight:800;display:inline-block}
+    .highlight{background:#fff3cd;padding:3px 7px;border-radius:4px;font-weight:700}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📚 Interactive Spelling & Vocabulary Learning</h1>
+    <p class="subtitle">Learn words, prefixes, suffixes, noun phrases, and more — with voice and animations!</p>
+
+    <div class="toolbar">
+      <label class="toggle"><input type="checkbox" id="voiceToggle" checked> Voice</label>
+      <button class="lesson-btn" style="padding:8px 14px" onclick="speakCurrent()">▶️ Play Section</button>
+      <button class="lesson-btn" style="padding:8px 14px" onclick="stopSpeak()">⏸️ Stop</button>
+    </div>
+    <p class="narration" id="narrationText" aria-live="polite"></p>
+
+    <div class="lesson-card">
+      <div class="lesson-nav">
+        <button class="lesson-btn active" onclick="switchLesson(this,'vocabulary')">📖 Vocabulary Words</button>
+        <button class="lesson-btn" onclick="switchLesson(this,'suffixes')">➕ Suffixes</button>
+        <button class="lesson-btn" onclick="switchLesson(this,'prefixes')">🔤 Prefixes</button>
+        <button class="lesson-btn" onclick="switchLesson(this,'sentences')">✍️ Using Words</button>
+      </div>
+
+      <!-- VOCABULARY LESSON -->
+      <div id="vocabulary" class="lesson-content active">
+        <h2 style="color:#667eea;text-align:center;font-size:2.1em;margin-bottom:10px">📖 Vocabulary Words</h2>
+        <div class="progress-indicator" id="vocabProgress">Word 1 of 15</div>
+        <div class="word-display" id="wordDisplay">
+          <div class="big-word" id="currentWord">SILENT</div>
+          <div class="pronunciation" id="pronunciation">(SY-lent)</div>
+          <div class="definition" id="definition">Making no sound or noise; quiet</div>
+          <div class="example-sentence" id="exampleSentence">"The library was <span class="highlight">silent</span> as students studied for their exams."</div>
+        </div>
+        <div class="animation-area" id="spellingAnimation"></div>
+        <div class="controls">
+          <button onclick="previousWord()">⬅️ Previous Word</button>
+          <button onclick="showSpelling()">🔤 Show Spelling</button>
+          <button onclick="nextWord()">Next Word ➡️</button>
+        </div>
+      </div>
+
+      <!-- SUFFIXES LESSON -->
+      <div id="suffixes" class="lesson-content">
+        <h2 style="color:#667eea;text-align:center;font-size:2.1em;margin-bottom:10px">➕ Understanding Suffixes</h2>
+        <div class="info-card">
+          <h3>What is a Suffix?</h3>
+          <p style="font-size:1.05em;line-height:1.6">A <strong>suffix</strong> is a letter or group of letters added to the <strong>END</strong> of a word to change its meaning or part of speech.</p>
+        </div>
+        <div class="interactive-area">
+          <h3 style="color:#2d3561;margin-bottom:10px;font-size:1.3em">Watch How Suffixes Work</h3>
+          <div class="word-builder" id="suffixBuilder">
+            <div class="word-part root">CARE</div><div style="font-size:1.5em">+</div>
+            <div class="word-part suffix" onclick="changeSuffix('less')">LESS</div><div style="font-size:1.5em">=</div>
+            <div class="word-part" style="background:#95e1d3" id="suffixResult">CARELESS</div>
+          </div>
+          <div class="info-card" id="suffixMeaning"><strong>LESS</strong> means "without" or "lacking"<br>So <strong>CARELESS</strong> = without care</div>
+          <div class="controls">
+            <button onclick="changeSuffix('less')">-LESS</button>
+            <button onclick="changeSuffix('ful')">-FUL</button>
+            <button onclick="changeSuffix('ness')">-NESS</button>
+            <button onclick="changeSuffix('ous')">-OUS</button>
+            <button onclick="changeSuffix('able')">-ABLE</button>
+          </div>
+        </div>
+        <div class="interactive-area" style="background:#fff">
+          <div class="info-card" style="background:linear-gradient(135deg,#fff8e1,#ffecb3);border-left-color:#f59e0b">
+            <h3>Spelling Changes to Watch</h3>
+            <ul style="margin-left:16px;line-height:1.7">
+              <li><b>drop final -e</b>: move → moving; rely → reliable</li>
+              <li><b>double final consonant</b>: run → running; fit → fitted</li>
+              <li><b>y → i</b>: happy → happiness; busy → business</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREFIXES LESSON -->
+      <div id="prefixes" class="lesson-content">
+        <h2 style="color:#667eea;text-align:center;font-size:2.1em;margin-bottom:10px">🔤 Understanding Prefixes</h2>
+        <div class="info-card"><h3>What is a Prefix?</h3><p style="font-size:1.05em;line-height:1.6">A <strong>prefix</strong> is a letter or group of letters added to the <strong>BEGINNING</strong> of a word to change its meaning.</p></div>
+        <div class="interactive-area">
+          <h3 style="color:#2d3561;margin-bottom:10px;font-size:1.3em">Watch How Prefixes Work</h3>
+          <div class="word-builder" id="prefixBuilder">
+            <div class="word-part prefix" onclick="changePrefix('un')">UN</div><div style="font-size:1.5em">+</div>
+            <div class="word-part root">HAPPY</div><div style="font-size:1.5em">=</div>
+            <div class="word-part" style="background:#95e1d3" id="prefixResult">UNHAPPY</div>
+          </div>
+          <div class="info-card" id="prefixMeaning"><strong>UN-</strong> means "not" or "opposite of"<br>So <strong>UNHAPPY</strong> = not happy</div>
+          <div class="controls">
+            <button onclick="changePrefix('un')">UN-</button>
+            <button onclick="changePrefix('dis')">DIS-</button>
+            <button onclick="changePrefix('in')">IN-</button>
+            <button onclick="changePrefix('re')">RE-</button>
+            <button onclick="changePrefix('pre')">PRE-</button>
+            <button onclick="changePrefix('mis')">MIS-</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SENTENCES LESSON -->
+      <div id="sentences" class="lesson-content">
+        <h2 style="color:#667eea;text-align:center;font-size:2.1em;margin-bottom:10px">✍️ Using Words in Sentences</h2>
+        <div class="info-card"><h3>Learn Through Examples</h3><p style="font-size:1.05em;line-height:1.6">The best way to learn words is to see them used in real sentences. Click through to see different examples!</p></div>
+        <div class="sentence-builder">
+          <div class="progress-indicator" id="sentenceProgress">Example 1 of 10</div>
+          <div class="sentence-display" id="sentenceDisplay">The <span class="word-blank">mechanic</span> fixed my car when the engine stopped working.</div>
+          <div class="info-card" id="sentenceMeaning"><strong>Mechanic:</strong> A person who repairs and maintains machines, especially cars</div>
+        </div>
+        <div class="controls">
+          <button onclick="previousSentence()">⬅️ Previous</button>
+          <button onclick="nextSentence()">Next ➡️</button>
+        </div>
+        <div class="interactive-area" style="margin-top:14px">
+          <h3 style="color:#2d3561;margin-bottom:10px;font-size:1.3em">Making Sentences More Interesting</h3>
+          <p style="font-size:1.05em;margin-bottom:10px">Watch how we can make simple sentences better with <strong>noun phrases</strong>:</p>
+          <div class="info-card"><strong>Simple:</strong> The driver took me on a tour.</div>
+          <div class="info-card" style="border-left-color:#4ecdc4;background:#e8f5e9"><strong>Better:</strong> The <span class="highlight">helpful and friendly</span> driver took me on a tour of the <span class="highlight">beautiful tropical</span> island.</div>
+          <button onclick="showMoreSentenceExamples()" style="margin-top:10px">Show More Examples ✨</button>
+          <div id="moreSentences" style="display:none;margin-top:10px">
+            <div class="info-card"><strong>Simple:</strong> The teacher gave us homework.</div>
+            <div class="info-card" style="border-left-color:#4ecdc4;background:#e8f5e9"><strong>Better:</strong> The <span class="highlight">patient and experienced</span> teacher gave us <span class="highlight">challenging but interesting</span> homework.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== Voice helpers =====
+    let currentSectionText = '';
+    function speak(text){
+      if(!document.getElementById('voiceToggle').checked) return;
+      if(window.speechSynthesis){ window.speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang='en-US'; u.rate=1; window.speechSynthesis.speak(u); }
+    }
+    function speakCurrent(){ if(currentSectionText) speak(currentSectionText); }
+    function stopSpeak(){ if(window.speechSynthesis) window.speechSynthesis.cancel(); }
+    function setNarration(t){ document.getElementById('narrationText').textContent=t; currentSectionText=t; }
+
+    // ===== Data =====
+    const vocabularyWords = [
+      {word:'SILENT',pronunciation:'(SY-lent)',definition:'Making no sound or noise; quiet',example:'The library was silent as students studied for their exams.'},
+      {word:'ACHING',pronunciation:'(AY-king)',definition:'Causing continuous dull pain',example:'After running the marathon, her legs were aching for days.'},
+      {word:'INTRIGUING',pronunciation:'(in-TREE-ging)',definition:'Arousing curiosity or interest; fascinating',example:'The mystery novel had an intriguing plot that kept me reading all night.'},
+      {word:'GENEROUS',pronunciation:'(JEN-er-us)',definition:'Showing kindness and willingness to give freely',example:'My generous neighbor always shares vegetables from her garden.'},
+      {word:'PREDATOR',pronunciation:'(PRED-uh-tor)',definition:'An animal that hunts other animals for food',example:'The lion is a fierce predator that hunts zebras and antelope.'},
+      {word:'TIMID',pronunciation:'(TIM-id)',definition:'Shy and nervous; lacking confidence',example:'The timid deer ran away when it heard a noise.'},
+      {word:'TRANQUIL',pronunciation:'(TRAN-kwil)',definition:'Peaceful and calm; free from disturbance',example:'The tranquil lake reflected the mountains like a mirror.'},
+      {word:'BRAVE',pronunciation:'(BRAYV)',definition:'Showing courage; not afraid',example:'The brave firefighter rescued the cat from the burning building.'},
+      {word:'OMINOUS',pronunciation:'(OM-in-us)',definition:'Giving the impression that something bad is going to happen',example:'The dark, ominous clouds suggested a storm was coming.'},
+      {word:'RELUCTANT',pronunciation:'(ree-LUK-tant)',definition:'Unwilling or hesitant to do something',example:'I was reluctant to jump into the cold pool.'},
+      {word:'MIGRATE',pronunciation:'(MY-grayt)',definition:'To move from one region to another, especially seasonally',example:'Many birds migrate south for the winter.'},
+      {word:'CHAOS',pronunciation:'(KAY-oss)',definition:'Complete disorder and confusion',example:'The classroom was in chaos when the teacher left the room.'},
+      {word:'GUARDIAN',pronunciation:'(GAR-dee-un)',definition:'A protector or defender; someone who guards',example:"The security guard was the guardian of the museum's priceless art."},
+      {word:'ASTONISH',pronunciation:'(uh-STON-ish)',definition:'To surprise or impress greatly; to amaze',example:"The magician's tricks never fail to astonish the audience."},
+      {word:'VISIBLE',pronunciation:'(VIZ-uh-bul)',definition:'Able to be seen',example:'The stars are visible on a clear night.'}
+    ];
+
+    const sentenceExamples = [
+      {sentence:"The <span class='word-blank'>mechanic</span> fixed my car when the engine stopped working.",word:'Mechanic',meaning:'A person who repairs and maintains machines, especially cars'},
+      {sentence:"I checked my <span class='word-blank'>schedule</span> to see when the meeting was planned.",word:'Schedule',meaning:'A plan showing times or dates for events or activities'},
+      {sentence:"The magician made the rabbit <span class='word-blank'>disappear</span> from the hat.",word:'Disappear',meaning:'To become impossible to see; to vanish'},
+      {sentence:"Eating vegetables is very <span class='word-blank'>nutritious</span> for your health.",word:'Nutritious',meaning:'Containing substances that help your body stay healthy'},
+      {sentence:"The <span class='word-blank'>enormous</span> elephant walked slowly through the jungle.",word:'Enormous',meaning:'Extremely large; huge'},
+      {sentence:"The <span class='word-blank'>temperature</span> outside was 85 degrees Fahrenheit.",word:'Temperature',meaning:'The degree of heat or coldness measured on a scale'},
+      {sentence:"The two train tracks run <span class='word-blank'>parallel</span> to each other.",word:'Parallel',meaning:'Lines or surfaces that are always the same distance apart'},
+      {sentence:"A <span class='word-blank'>tsunami</span> is a huge ocean wave caused by an earthquake.",word:'Tsunami',meaning:'A very large ocean wave caused by an underwater earthquake'},
+      {sentence:"I bought a <span class='word-blank'>souvenir</span> to remember my vacation.",word:'Souvenir',meaning:'An object kept as a reminder of a place or event'},
+      {sentence:"The fallen tree was an <span class='word-blank'>obstacle</span> blocking the road.",word:'Obstacle',meaning:'Something that blocks the way or makes progress difficult'}
+    ];
+
+    // ===== Navigation =====
+    function switchLesson(btn, id){
+      document.querySelectorAll('.lesson-content').forEach(el=>el.classList.remove('active'));
+      document.querySelectorAll('.lesson-btn').forEach(el=>el.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      btn.classList.add('active');
+      // set narration for section
+      const narr = {
+        vocabulary: 'Vocabulary section. Explore spelling, pronunciation, and meaning with animated letters.',
+        suffixes: 'Suffixes section. Try adding different endings to see how meanings change.',
+        prefixes: 'Prefixes section. Add beginnings like un, dis, or re to build new words.',
+        sentences: 'Sentences section. Read examples and see how noun phrases make writing richer.'
+      }[id] || '';
+      setNarration(narr); speak(narr);
+    }
+
+    // ===== Vocabulary logic =====
+    let currentVocabIndex = 0;
+    function updateVocabulary(){
+      const w = vocabularyWords[currentVocabIndex];
+      document.getElementById('currentWord').textContent = w.word;
+      document.getElementById('pronunciation').textContent = w.pronunciation;
+      document.getElementById('definition').textContent = w.definition;
+      document.getElementById('exampleSentence').innerHTML = w.example.replace(new RegExp(w.word, 'gi'), m=>`<span class="highlight">${m}</span>`);
+      document.getElementById('vocabProgress').textContent = `Word ${currentVocabIndex+1} of ${vocabularyWords.length}`;
+      document.getElementById('spellingAnimation').innerHTML='';
+      setNarration(`${w.word}. ${w.pronunciation}. ${w.definition}. Example: ${w.example}`);
+    }
+    function nextWord(){ currentVocabIndex = (currentVocabIndex+1)%vocabularyWords.length; updateVocabulary(); }
+    function previousWord(){ currentVocabIndex = (currentVocabIndex-1+vocabularyWords.length)%vocabularyWords.length; updateVocabulary(); }
+    function showSpelling(){
+      const word = vocabularyWords[currentVocabIndex].word;
+      const container = document.getElementById('spellingAnimation');
+      container.innerHTML = '';
+      word.split('').forEach((ch, idx)=>{ setTimeout(()=>{ const s=document.createElement('span'); s.className='letter'; s.textContent=ch; container.appendChild(s); }, idx*140); });
+      speak(`Spelling ${word.split('').join(' ')}.`);
+    }
+
+    // ===== Suffixes logic =====
+    function changeSuffix(suffix){
+      const map = {
+        less:{word:'CARELESS',root:'CARE',meaning:'<strong>LESS</strong> means "without" or "lacking"<br>So <strong>CARELESS</strong> = without care'},
+        ful:{word:'CAREFUL',root:'CARE',meaning:'<strong>FUL</strong> means "full of"<br>So <strong>CAREFUL</strong> = full of care'},
+        ness:{word:'DARKNESS',root:'DARK',meaning:'<strong>NESS</strong> means "state of being"<br>So <strong>DARKNESS</strong> = the state of being dark'},
+        ous:{word:'DANGEROUS',root:'DANGER',meaning:'<strong>OUS</strong> means "full of"<br>So <strong>DANGEROUS</strong> = full of danger'},
+        able:{word:'READABLE',root:'READ',meaning:'<strong>ABLE</strong> means "able to be"<br>So <strong>READABLE</strong> = able to be read'}
+      };
+      const d = map[suffix];
+      document.getElementById('suffixBuilder').innerHTML = `<div class="word-part root">${d.root}</div><div style="font-size:1.5em">+</div><div class="word-part suffix">${suffix.toUpperCase()}</div><div style="font-size:1.5em">=</div><div class="word-part" style="background:#95e1d3">${d.word}</div>`;
+      document.getElementById('suffixMeaning').innerHTML = d.meaning;
+      setNarration(`${suffix} as a suffix. ${d.meaning.replace(/<[^>]+>/g,'')}`);
+      speakCurrent();
+    }
+
+    // ===== Prefixes logic =====
+    function changePrefix(prefix){
+      const map = {
+        un:{word:'UNHAPPY',root:'HAPPY',meaning:'<strong>UN-</strong> means "not" or "opposite of"<br>So <strong>UNHAPPY</strong> = not happy'},
+        dis:{word:'DISHONEST',root:'HONEST',meaning:'<strong>DIS-</strong> means "not" or "opposite of"<br>So <strong>DISHONEST</strong> = not honest'},
+        in:{word:'INVISIBLE',root:'VISIBLE',meaning:'<strong>IN-</strong> means "not"<br>So <strong>INVISIBLE</strong> = not visible'},
+        re:{word:'REWRITE',root:'WRITE',meaning:'<strong>RE-</strong> means "again"<br>So <strong>REWRITE</strong> = write again'},
+        pre:{word:'PREVIEW',root:'VIEW',meaning:'<strong>PRE-</strong> means "before"<br>So <strong>PREVIEW</strong> = view before'},
+        mis:{word:'MISUNDERSTAND',root:'UNDERSTAND',meaning:'<strong>MIS-</strong> means "wrongly"<br>So <strong>MISUNDERSTAND</strong> = understand wrongly'}
+      };
+      const d = map[prefix];
+      document.getElementById('prefixBuilder').innerHTML = `<div class="word-part prefix">${prefix.toUpperCase()}</div><div style="font-size:1.5em">+</div><div class="word-part root">${d.root}</div><div style="font-size:1.5em">=</div><div class="word-part" style="background:#95e1d3">${d.word}</div>`;
+      document.getElementById('prefixMeaning').innerHTML = d.meaning;
+      setNarration(`${prefix} as a prefix. ${d.meaning.replace(/<[^>]+>/g,'')}`);
+      speakCurrent();
+    }
+
+    // ===== Sentences logic =====
+    let currentSentenceIndex = 0;
+    function updateSentence(){
+      const e = sentenceExamples[currentSentenceIndex];
+      document.getElementById('sentenceDisplay').innerHTML = e.sentence;
+      document.getElementById('sentenceMeaning').innerHTML = `<strong>${e.word}:</strong> ${e.meaning}`;
+      document.getElementById('sentenceProgress').textContent = `Example ${currentSentenceIndex+1} of ${sentenceExamples.length}`;
+      setNarration(`${e.word}. ${e.meaning}. Example: ${e.sentence.replace(/<[^>]+>/g,'')}`);
+    }
+    function nextSentence(){ currentSentenceIndex=(currentSentenceIndex+1)%sentenceExamples.length; updateSentence(); speakCurrent(); }
+    function previousSentence(){ currentSentenceIndex=(currentSentenceIndex-1+sentenceExamples.length)%sentenceExamples.length; updateSentence(); speakCurrent(); }
+    function showMoreSentenceExamples(){ const more=document.getElementById('moreSentences'); const showing=more.style.display!=='none'; more.style.display= showing?'none':'block'; }
+
+    // ===== Init =====
+    updateVocabulary();
+    updateSentence();
+    setNarration('Welcome! Choose a section, then press Play Section to hear it narrated.');
+  </script>
+</body>
+</html>

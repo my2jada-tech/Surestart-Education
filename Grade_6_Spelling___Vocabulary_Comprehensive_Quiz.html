@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 6 Spelling & Vocabulary Quiz - Jada Gangardine</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #764ba2;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .student-info {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .student-info input {
+            margin: 5px;
+            padding: 8px;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .section-title {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .question {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .question h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        
+        input[type="text"], input[type="number"], input[type="email"], select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        
+        .word-box {
+            display: inline-block;
+            background: #e8f4fd;
+            padding: 5px 10px;
+            margin: 5px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .result {
+            display: none;
+            background: #d4edda;
+            border: 2px solid #28a745;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .score {
+            font-size: 3em;
+            color: #764ba2;
+            margin: 20px 0;
+        }
+        
+        .feedback {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .instructions {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #17a2b8;
+        }
+        
+        .word-list {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .inline-input {
+            width: 200px;
+            display: inline-block;
+            margin: 0 5px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .spelling-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Grade 6 Spelling & Vocabulary Comprehensive Quiz</h1>
+        
+        <div class="student-info">
+            <h3>Student Information</h3>
+            <input type="text" id="studentName" placeholder="Student Name" value="Jada Gangardine">
+            <input type="email" id="parentEmail" placeholder="Parent/Teacher Email" value="my2jada@gmail.com">
+            <input type="text" id="testDate" placeholder="Test Date" value="">
+        </div>
+        
+        <!-- SECTION 1: Spelling and Meaning Test -->
+        <div class="section">
+            <div class="section-title">Section 1: Spelling and Meaning Test (20 points)</div>
+            
+            <div class="question">
+                <h3>Part A: Spell these words correctly and provide their meanings</h3>
+                <div class="instructions">
+                    Listen to or read each word carefully. Write the correct spelling and meaning.
+                </div>
+                
+                <table>
+                    <tr>
+                        <th>Word (Spoken/Given)</th>
+                        <th>Your Spelling</th>
+                        <th>Meaning</th>
+                    </tr>
+                    <tr>
+                        <td>1. Without sound or noise</td>
+                        <td><input type="text" id="spell1" placeholder="Spell the word"></td>
+                        <td><input type="text" id="mean1" placeholder="What does it mean?"></td>
+                    </tr>
+                    <tr>
+                        <td>2. Causing pain or discomfort</td>
+                        <td><input type="text" id="spell2" placeholder="Spell the word"></td>
+                        <td><input type="text" id="mean2" placeholder="What does it mean?"></td>
+                    </tr>
+                    <tr>
+                        <td>3. Very interesting or fascinating</td>
+                        <td><input type="text" id="spell3" placeholder="Spell the word"></td>
+                        <td><input type="text" id="mean3" placeholder="What does it mean?"></td>
+                    </tr>
+                    <tr>
+                        <td>4. Willing to give or share freely</td>
+                        <td><input type="text" id="spell4" placeholder="Spell the word"></td>
+                        <td><input type="text" id="mean4" placeholder="What does it mean?"></td>
+                    </tr>
+                    <tr>
+                        <td>5. Animal that hunts other animals</td>
+                        <td><input type="text" id="spell5" placeholder="Spell the word"></td>
+                        <td><input type="text" id="mean5" placeholder="What does it mean?"></td>
+                    </tr>
+                    <tr>
+                        <td>6. Shy or lacking confidence</td>
+                        <td><input type="text" id="spell6" placeholder="Spell the word"></td>
+                        <td><input type="text" id="mean6" placeholder="What does it mean?"></td>
+                    </tr>
+                    <tr>
+                        <td>7. Peaceful and calm</td>
+                        <td><input type="text" id="spell7" placeholder="Spell the word"></td>
+                        <td><input type="text" id="mean7" placeholder="What does it mean?"></td>
+                    </tr>
+                    <tr>
+                        <td>8. Showing courage</td>
+                        <td><input type="text" id="spell8" placeholder="Spell the word"></td>
+                        <td><input type="text" id="mean8" placeholder="What does it mean?"></td>
+                    </tr>
+                    <tr>
+                        <td>9. Threatening or giving warning of evil</td>
+                        <td><input type="text" id="spell9" placeholder="Spell the word"></td>
+                        <td><input type="text" id="mean9" placeholder="What does it mean?"></td>
+                    </tr>
+                    <tr>
+                        <td>10. Unwilling or hesitant</td>
+                        <td><input type="text" id="spell10" placeholder="Spell the word"></td>
+                        <td><input type="text" id="mean10" placeholder="What does it mean?"></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="question">
+                <h3>Part B: Additional Spelling and Meaning</h3>
+                <table>
+                    <tr>
+                        <th>Word (Spoken/Given)</th>
+                        <th>Your Spelling</th>
+                        <th>Meaning</th>
+                    </tr>
+                    <tr>
+                        <td>11. To move from one place to another</td>
+                        <td><input type="text" id="spell11" placeholder="Spell the word"></td>
+                        <td><input type="text" id="mean11" placeholder="What does it mean?"></td>
+                    </tr>
+                    <tr>
+                        <td>12. Complete disorder or confusion</td>
+                        <td><input type="text" id="spell12" placeholder="Spell the word"></td>
+                        <td><input type="text" id="mean12" placeholder="What does it mean?"></td>
+                    </tr>
+                    <tr>
+                        <td>13. Someone who protects or watches over</td>
+                        <td><input type="text" id="spell13" placeholder="Spell the word"></td>
+                        <td><input type="text" id="mean13" placeholder="What does it mean?"></td>
+                    </tr>
+                    <tr>
+                        <td>14. To amaze or surprise greatly</td>
+                        <td><input type="text" id="spell14" placeholder="Spell the word"></td>
+                        <td><input type="text" id="mean14" placeholder="What does it mean?"></td>
+                    </tr>
+                    <tr>
+                        <td>15. Able to be seen</td>
+                        <td><input type="text" id="spell15" placeholder="Spell the word"></td>
+                        <td><input type="text" id="mean15" placeholder="What does it mean?"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- SECTION 2: Fill in the Blanks with Vocabulary -->
+        <div class="section">
+            <div class="section-title">Section 2: Complete Sentences with Correct Words (15 points)</div>
+            
+            <div class="question">
+                <h3>Choose the correct word to complete each sentence</h3>
+                <div class="word-list">
+                    <strong>Word Bank:</strong>
+                    <span class="word-box">enormous</span>
+                    <span class="word-box">nutritious</span>
+                    <span class="word-box">disappear</span>
+                    <span class="word-box">mechanic</span>
+                    <span class="word-box">temperature</span>
+                    <span class="word-box">parallel</span>
+                    <span class="word-box">obstacle</span>
+                    <span class="word-box">acquaintance</span>
+                    <span class="word-box">schedule</span>
+                    <span class="word-box">tsunami</span>
+                </div>
+
+                ${feedback.length > 0 ? `
+                <div class="feedback">
+                    <h3>Areas to Review:</h3>
+                    <ul>${feedback.slice(0, 10).map(f => `<li>${f}</li>`).join('')}</ul>
+                    ${feedback.length > 10 ? `<p>...and ${feedback.length - 10} more items to review</p>` : ''}
+                </div>` : '<p>Perfect score! Excellent work!</p>'}
+            `;
+            resultDiv.style.display = 'block';
+            
+            // Send email with results
+            sendResults(percentage, score, totalPoints, feedback);
+        }
+        
+        function getGrade(percentage) {
+            if (percentage >= 90) return 'A+';
+            if (percentage >= 80) return 'A';
+            if (percentage >= 70) return 'B';
+            if (percentage >= 60) return 'C';
+            if (percentage >= 50) return 'D';
+            return 'F';
+        }
+        
+        function sendResults(percentage, score, total, feedback) {
+            const studentName = document.getElementById('studentName').value || 'Student';
+            const parentEmail = document.getElementById('parentEmail').value || 'my2jada@gmail.com';
+            
+            const templateParams = {
+                to_email: parentEmail,
+                student_name: studentName,
+                subject: 'Spelling & Vocabulary Quiz',
+                score: score.toString(),
+                total: total.toString(),
+                percentage: percentage.toString(),
+                grade: getGrade(percentage),
+                date: new Date().toLocaleDateString(),
+                feedback: feedback.length > 0 ? feedback.slice(0, 20).join('\n') : 'All answers correct!'
+            };
+
+                }, function(error) {
+                    console.log('Email error:', error);
+                });
+        }
+        
+        // Set today's date
+        document.getElementById('testDate').value = new Date().toLocaleDateString();
+    </script>
+</body>
+</html>

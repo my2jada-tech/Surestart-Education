@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rounding Decimals — Workbook + Assessment (EmailJS)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script type="text/javascript">
+    (function(){})();
+  </script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-yellow-50 via-amber-50 to-indigo-50 p-4">
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    function App(){
+      const [tab, setTab] = React.useState('guide');
+      const [answers, setAnswers] = React.useState({}); // { [id]: user answer }
+      const [submitted, setSubmitted] = React.useState(false);
+      const [score, setScore] = React.useState(0);
+      const [fromName, setFromName] = React.useState('Rounding Decimals Assessment');
+      const [sending, setSending] = React.useState(false);
+      const [sendResult, setSendResult] = React.useState(null);
+
+      const questions = buildQuestions();
+
+      const allAnswered = questions.every(q => answers[q.id] !== undefined && String(answers[q.id]).trim() !== '');
+
+      const onAnswer = (id, val) => setAnswers(prev => ({...prev, [id]: val}));
+
+      const evaluate = () => {
+        let correct = 0;
+        for (const q of questions){
+          const a = answers[q.id];
+          if (q.type === 'mc' && Number(a) === q.correctIdx) correct++;
+          if (q.type === 'tf' && String(a) === String(q.correctTF)) correct++;
+          if (q.type === 'numeric' && normalize(a) === normalize(q.correctValue)) correct++;
+        }
+        setScore(correct);
+        setSubmitted(true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+      };
+
+      );
+        }catch(err){
+          setSendResult({ok:false, msg: (err && (err.text || err.message)) || 'Email sending failed.'});
+        }finally{ setSending(false); }
+      };
+
+      const reset = () => { setAnswers({}); setSubmitted(false); setScore(0); setSendResult(null); };
+
+      const percent = submitted ? Math.round((score / questions.length) * 100) : 0;
+
+      return (
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-white rounded-xl shadow-2xl p-6 mb-6">
+            <div className="text-center mb-6">
+              <h1 className="text-5xl font-bold text-gray-800 mb-2">Rounding Decimal Numbers</h1>
+              
+            </div>
+
+            <div className="flex gap-3 mb-6">
+              <button onClick={() => setTab('guide')} className={`flex-1 px-6 py-4 rounded-lg font-bold text-lg ${tab==='guide'?'bg-indigo-600 text-white':'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>Study Guide</button>
+              <button onClick={() => setTab('assessment')} className={`flex-1 px-6 py-4 rounded-lg font-bold text-lg ${tab==='assessment'?'bg-rose-600 text-white':'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>Assessment</button>
+            </div>
+
+            {tab==='guide' ? <Guide /> : <Assessment {...{questions, answers, onAnswer, evaluate, reset, submitted, score, percent, fromName, setFromName, sending, sendResult, allAnswered}} />}
+          </div>
+        </div>
+      );
+    }
+
+    function Guide(){
+      return (
+        <div className="space-y-6">
+          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-3xl font-bold mb-2">📚 STUDY GUIDE: Rounding Decimal Numbers</h2>
+            <p className="text-lg">Rounding makes a number simpler while keeping it close to the original. We use it when exact numbers are not needed. Example: $12.768 → $12.8.</p>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-5 border-l-4 border-emerald-500">
+            <h3 className="text-xl font-bold mb-2">Why We Round</h3>
+            <ul className="list-disc list-inside text-gray-700 space-y-1">
+              <li>Easier to read and say</li><li>Quick estimates</li><li>Used on labels, receipts, reports</li><li>When exact precision isn’t required</li>
+            </ul>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-5 border-l-4 border-amber-500">
+            <h3 className="text-xl font-bold mb-2">Decimal Place Values</h3>
+            <pre className="bg-gray-50 rounded p-3 text-sm overflow-auto"><code>{`Example: 145.6789
+
+1 = hundreds place
+4 = tens place
+5 = ones place (units)
+. = decimal point
+6 = tenths place (first after decimal)
+7 = hundredths place (second after decimal)
+8 = thousandths place (third after decimal)
+9 = ten-thousandths place`}</code></pre>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-5 border-l-4 border-sky-500">
+            <h3 className="text-xl font-bold mb-2">🎯 The 4 Golden Rules</h3>
+            <ol className="list-decimal list-inside text-gray-700 space-y-1">
+              <li>Find the place value to round to.</li>
+              <li>Look at the digit immediately to the RIGHT of that place.</li>
+              <li>If that digit is 5–9 → round UP; if 0–4 → round DOWN.</li>
+              <li>Drop everything after the target place.</li>
+            </ol>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-5 border-l-4 border-fuchsia-500 space-y-3">
+            <h3 className="text-xl font-bold mb-2">Worked Examples</h3>
+            {Example('Round 12.768 to the nearest tenth', ['Tenths place: 7','Look right: 6','6 ≥ 5 → round up','Answer: 12.8'])}
+            {Example('Round 3.486 to the nearest tenth', ['Tenths place: 4','Look right: 8','8 ≥ 5 → round up','Answer: 3.5'])}
+            {Example('Round 157.347 to the nearest whole', ['Ones place: 7','Look right: 3','3 < 5 → round down','Answer: 157'])}
+            {Example('Round 25.274 to the nearest hundredth', ['Hundredths: 7','Look right: 4','4 < 5 → round down','Answer: 25.27'])}
+            {Example('Round 0.987 to the nearest tenth (tricky)', ['Tenths: 9','Look right: 8','8 ≥ 5 → carry to 1.0','Answer: 1.0'])}
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-5 border-l-4 border-indigo-500">
+            <h3 className="text-xl font-bold mb-2">Quick Reference</h3>
+            <div className="overflow-auto">
+              <table className="min-w-full text-left text-sm">
+                <thead><tr className="text-gray-700"><th className="py-2 pr-4">Rounding To</th><th className="py-2 pr-4">Look At</th><th className="py-2 pr-4">Example</th></tr></thead>
+                <tbody className="text-gray-800">
+                  <tr><td className="py-1 pr-4">Whole</td><td className="py-1 pr-4">Tenths</td><td className="py-1 pr-4">89.6 → 90</td></tr>
+                  <tr><td className="py-1 pr-4">Tenths</td><td className="py-1 pr-4">Hundredths</td><td className="py-1 pr-4">10.43 → 10.4</td></tr>
+                  <tr><td className="py-1 pr-4">Hundredths</td><td className="py-1 pr-4">Thousandths</td><td className="py-1 pr-4">-7.536 → -7.54</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-5 border-l-4 border-teal-600 space-y-2">
+            <h3 className="text-xl font-bold mb-2">Special Cases</h3>
+            <p className="text-gray-700"><strong>Negative numbers:</strong> same rules apply.</p>
+            <p className="text-gray-700"><strong>Chain reactions:</strong> 9.97 at tenths → 10.0.</p>
+            <p className="text-gray-700"><strong>Zeros after decimal:</strong> keep 0 to show rounded place (e.g., 15.0).</p>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-5 border-l-4 border-rose-600">
+            <h3 className="text-xl font-bold mb-2">Common Mistakes</h3>
+            <ul className="list-disc list-inside text-gray-700 space-y-1">
+              <li>Looking at the wrong digit</li><li>Rounding twice</li><li>Forgetting that 5 rounds up</li><li>Changing extra digits</li>
+            </ul>
+          </div>
+
+          <div className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white p-6 rounded-lg shadow-lg text-center">
+            <h3 className="text-2xl font-bold mb-2">Quick Practice</h3>
+            <p>Try: 12.768 → tenth, 3.486 → tenth, 157.347 → whole, 0.987 → tenth, 89.645 → hundredth.</p>
+          </div>
+        </div>
+      );
+    }
+
+    function Example(title, steps){ 
+      return (
+        <div className="bg-white border rounded-lg p-4">
+          <p className="font-semibold text-gray-900">{title}</p>
+          <ol className="list-decimal list-inside text-gray-700 my-2">
+            {steps.map((s,i)=><li key={i}>{s}</li>)}
+          </ol>
+        </div>
+      );
+    }
+
+    function Assessment(props){
+      const {questions, answers, onAnswer, evaluate, reset, submitted, score, percent, fromName, setFromName, sending, sendResult, allAnswered} = props;
+      return (
+        <div className="space-y-6">
+          <div className="bg-gradient-to-r from-pink-600 to-rose-600 text-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-3xl font-bold mb-2">Assessment</h2>
+            <p className="text-lg">Answer every question, then submit to email the results.</p>
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between mt-3">
+              <div className="flex items-center gap-2">
+                <label className="text-white/90 font-semibold">From Name:</label>
+                <input type="text" value={fromName} onChange={(e)=>setFromName(e.target.value)} className="px-3 py-2 rounded-md text-gray-800" placeholder="Student / Parent / Teacher" />
+              </div>
+              <div className="text-sm">
+                {sending && <span className="text-yellow-200">Sending results...</span>}
+                {sendResult?.ok && <span className="text-green-200">[OK] {sendResult.msg}</span>}
+                {sendResult && !sendResult.ok && <span className="text-red-200">[X] {sendResult.msg}</span>}
+              </div>
+            </div>
+          </div>
+
+          {submitted && (
+            <div className={`p-6 rounded-lg shadow-lg ${percent >= 80 ? 'bg-green-100 border-green-500' : percent >= 60 ? 'bg-yellow-100 border-yellow-500' : 'bg-red-100 border-red-500'} border-l-4`}>
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-3xl font-bold text-gray-800">Your Score: {score}/{questions.length}</h3>
+                  <p className="text-2xl font-semibold text-gray-700 mt-1">{percent}%</p>
+                </div>
+                <div className="text-4xl">🏆</div>
+              </div>
+              <div className="flex gap-3">
+                <button onClick={reset} className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">Retake</button>
+                <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700">Back to Top</button>
+              </div>
+            </div>
+          )}
+
+          <div className="space-y-6">
+            {questions.map((q, idx) => (
+              <div key={q.id} className="bg-white rounded-lg shadow-md p-6 border-l-4 border-indigo-400">
+                <div className="mb-4">
+                  <span className="bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-bold">Item {idx + 1}</span>
+                  <h3 className="text-lg font-bold text-gray-800 mt-2">{q.prompt}</h3>
+                </div>
+
+                {q.type==='mc' && (
+                  <div className="space-y-2">
+                    {q.options.map((opt,i)=>(
+                      <label key={i} className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer border-2 ${Number(answers[q.id])===i ? 'bg-indigo-100 border-indigo-500' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'}`}>
+                        <input type="radio" name={q.id} checked={Number(answers[q.id])===i} onChange={()=>onAnswer(q.id, i)} />
+                        <span className="text-gray-900">{opt}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+
+                {q.type==='tf' && (
+                  <div className="flex gap-3">
+                    {[true,false].map(val => (
+                      <label key={String(val)} className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer border-2 ${String(answers[q.id])===String(val) ? 'bg-indigo-100 border-indigo-500' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'}`}>
+                        <input type="radio" name={q.id} checked={String(answers[q.id])===String(val)} onChange={()=>onAnswer(q.id, val)} />
+                        <span className="text-gray-900 font-semibold">{val ? 'True' : 'False'}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+
+                {q.type==='numeric' && (
+                  <input type="text" className="w-full border rounded-lg p-3" placeholder="Enter rounded value (e.g., 12.8)" value={answers[q.id]??''} onChange={(e)=>onAnswer(q.id, e.target.value)} />
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-lg shadow-lg p-8 sticky bottom-4 border-4 border-green-300">
+            <div className="text-center">
+              <div className="mb-4">
+                <div className="text-3xl font-bold text-gray-800 mb-2">Ready to Submit?</div>
+                <div className="text-lg text-gray-600">Items answered: <span className="font-bold text-blue-600">{Object.keys(answers).length}</span> / <span className="font-bold">{questions.length}</span></div>
+              </div>
+              <button onClick={evaluate} disabled={!allAnswered} className={`px-12 py-6 rounded-xl font-bold text-2xl mx-auto transition-all shadow-2xl ${allAnswered ? 'bg-gradient-to-r from-green-600 to-teal-600 text-white hover:from-green-700 hover:to-teal-700 transform hover:scale-110' : 'bg-gray-400 text-gray-200 cursor-not-allowed opacity-50'}`}>
+                Submit & Email Results
+              </button>
+              {sending && <div className="mt-2 text-sm text-yellow-700">Sending results...</div>}
+              {sendResult?.ok && <div className="mt-2 text-sm text-green-700">[OK] {sendResult.msg}</div>}
+              {sendResult && !sendResult.ok && <div className="mt-2 text-sm text-red-700">[X] {sendResult.msg}</div>}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function buildEmailReport(got, total, questions, answers){
+      const pct = Math.round((got/total)*100);
+      const lines = [
+        `Assessment: Rounding Decimal Numbers`,
+        `Score: ${got}/${total} (${pct}%)`,
+        ''
+      ];
+      const incorrect = questions.filter(q => !isCorrect(q, answers[q.id]));
+      if (incorrect.length === 0){
+        lines.push('All correct - excellent!');
+      } else {
+        lines.push('Incorrect items (with correct answers):');
+        incorrect.forEach(q => {
+          const your = answers[q.id];
+          let yourText = '';
+          let correct = '';
+          if (q.type==='mc'){ yourText = q.options[Number(your)] ?? '-'; correct = q.options[q.correctIdx]; }
+          if (q.type==='tf'){ yourText = String(your)==='true' ? 'True' : String(your)==='false' ? 'False' : '-'; correct = q.correctTF ? 'True' : 'False'; }
+          if (q.type==='numeric'){ yourText = String(your); correct = String(q.correctValue); }
+          lines.push(`- ${q.prompt}\n  Your answer: ${yourText}\n  Correct answer: ${correct}`);
+        });
+      }
+      return lines.join('\n');
+    }
+
+    function isCorrect(q, a){
+      if (a===undefined) return false;
+      if (q.type==='mc') return Number(a)===q.correctIdx;
+      if (q.type==='tf') return String(a)===String(q.correctTF);
+      if (q.type==='numeric') return normalize(a)===normalize(q.correctValue);
+      return false;
+    }
+
+    function normalize(v){
+      const s = String(v).trim();
+      if (s==='') return s;
+      const n = Number(s);
+      if (Number.isNaN(n)) return s;
+      return String(n);
+    }
+
+    function buildQuestions(){
+      const q = [];
+      // MC (5)
+      q.push({ id:'q1', type:'mc', prompt:'When rounding 8.476 to the nearest tenth, which digit do you look at?', options:['8','4','7','6'], correctIdx:2 });
+      q.push({ id:'q2', type:'mc', prompt:'What is 15.682 rounded to the nearest whole number?', options:['15','16','15.7','15.68'], correctIdx:1 });
+      q.push({ id:'q3', type:'mc', prompt:'If you round 0.987 to the nearest tenth, you get:', options:['0.9','1.0','0.98','0.99'], correctIdx:1 });
+      q.push({ id:'q4', type:'mc', prompt:'When rounding -7.536 to the nearest hundredth, the answer is:', options:['-7.53','-7.54','-7.5','-8'], correctIdx:1 });
+      q.push({ id:'q5', type:'mc', prompt:'What is 56.789 rounded to the nearest whole number?', options:['56','56.8','57','60'], correctIdx:2 });
+      // T/F (5)
+      q.push({ id:'q6', type:'tf', prompt:'When rounding 3.486 to the nearest tenth, you look at the digit 8.', correctTF:true });
+      q.push({ id:'q7', type:'tf', prompt:'The number 12.768 rounded to the nearest tenth is 12.8.', correctTF:true });
+      q.push({ id:'q8', type:'tf', prompt:'Rounding 25.274 to the nearest hundredth gives 25.27.', correctTF:true });
+      q.push({ id:'q9', type:'tf', prompt:'If the digit to the right is 5 or greater, you always round down.', correctTF:false });
+      q.push({ id:'q10', type:'tf', prompt:'Negative numbers follow the same rounding rules as positive numbers.', correctTF:true });
+      // Numeric (10)
+      q.push({ id:'q11', type:'numeric', prompt:'Round 34.567 to the nearest tenth.', correctValue:'34.6' });
+      q.push({ id:'q12', type:'numeric', prompt:'Round 128.942 to the nearest whole number.', correctValue:'129' });
+      q.push({ id:'q13', type:'numeric', prompt:'Round 7.8362 to the nearest hundredth.', correctValue:'7.84' });
+      q.push({ id:'q14', type:'numeric', prompt:'Round 99.997 to the nearest hundredth.', correctValue:'100' });
+      q.push({ id:'q15', type:'numeric', prompt:'Round -12.678 to the nearest tenth.', correctValue:'-12.7' });
+      q.push({ id:'q16', type:'numeric', prompt:'A piece of fabric measures 12.768 meters. Round this measurement to the nearest tenth.', correctValue:'12.8' });
+      q.push({ id:'q17', type:'numeric', prompt:'A runner finishes a race in 10.436 minutes. Round to the nearest tenth.', correctValue:'10.4' });
+      q.push({ id:'q18', type:'numeric', prompt:'A sample has mass 3.486 kg. Round to the nearest tenth.', correctValue:'3.5' });
+      q.push({ id:'q19', type:'numeric', prompt:'The temperature is -7.536 degC. Round to the nearest hundredth.', correctValue:'-7.54' });
+      q.push({ id:'q20', type:'numeric', prompt:'A trip covers 157.347 km. Round to the nearest whole number.', correctValue:'157' });
+      return q;
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

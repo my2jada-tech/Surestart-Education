@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judaism Study Guide & Assessment - 6th Grade</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4169e1 0%, #1e3a8a 100%);
+            padding: 20px; line-height: 1.6;
+        }
+        .container {
+            max-width: 900px; margin: 0 auto; background: white; padding: 30px;
+            border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #1e3a8a; text-align: center; margin-bottom: 10px; font-size: 2.5em;
+            border-bottom: 4px solid #4169e1; padding-bottom: 15px;
+        }
+        h2 { color: #4169e1; margin-top: 30px; margin-bottom: 15px; font-size: 1.8em; border-left: 5px solid #1e3a8a; padding-left: 15px; }
+        h3 { color: #1e3a8a; margin-top: 20px; margin-bottom: 10px; font-size: 1.4em; }
+        .subtitle { text-align: center; color: #7f8c8d; font-style: italic; margin-bottom: 30px; }
+        .nav-buttons { display: flex; justify-content: center; gap: 15px; margin: 25px 0; flex-wrap: wrap; }
+        .nav-btn {
+            background: linear-gradient(135deg, #4169e1 0%, #1e3a8a 100%); color: white; border: none;
+            padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 1em; font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(65, 105, 225, 0.4); }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0);} }
+        .vocab-card {
+            background: linear-gradient(135deg, #e6f2ff 0%, #b3d9ff 100%); padding: 15px; margin: 10px 0;
+            border-radius: 10px; border-left: 5px solid #4169e1;
+        }
+        .vocab-term { font-weight: bold; color: #1e3a8a; font-size: 1.2em; }
+        .vocab-def { color: #2c5282; margin-top: 5px; }
+        .flip-card {
+            background: #fff; border: 3px solid #4169e1; border-radius: 10px; padding: 20px; margin: 15px 0;
+            cursor: pointer; transition: all 0.3s; position: relative;
+        }
+        .flip-card:hover { box-shadow: 0 5px 15px rgba(65, 105, 225, 0.3); transform: scale(1.02); }
+        .flip-card .question { font-weight: bold; color: #1e3a8a; font-size: 1.1em; }
+        .flip-card .answer { display: none; color: #27ae60; margin-top: 10px; padding-top: 10px; border-top: 2px dashed #4169e1; }
+        .flip-card.revealed .answer { display: block; }
+        .belief-box { background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); padding: 15px; margin: 10px 0; border-radius: 10px; border-left: 5px solid #d4af37; }
+        .belief-number { font-weight: bold; color: #8b4513; font-size: 1.3em; }
+        .practice-box { background: #f0f4f8; padding: 20px; border-radius: 10px; margin: 15px 0; }
+        .festival-box { background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); padding: 15px; margin: 10px 0; border-radius: 10px; border-left: 5px solid #6366f1; }
+        .festival-name { font-weight: bold; color: #4338ca; font-size: 1.2em; }
+        .symbol-box { background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); padding: 15px; margin: 10px 0; border-radius: 10px; border-left: 5px solid #f97316; }
+        input[type="text"] { width: 100%; padding: 10px; margin: 5px 0; border: 2px solid #4169e1; border-radius: 5px; font-size: 1em; }
+        .check-btn { background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 1em; margin-top: 10px; transition: background 0.3s; }
+        .check-btn:hover { background: #229954; }
+        .feedback { margin-top: 10px; padding: 10px; border-radius: 5px; font-weight: bold; }
+        .correct { background: #d4edda; color: #155724; }
+        .incorrect { background: #f8d7da; color: #721c24; }
+        .assessment-question { background: #f8f9fa; padding: 20px; margin: 15px 0; border-radius: 10px; border-left: 5px solid #4169e1; }
+        .question-number { font-weight: bold; color: #4169e1; font-size: 1.2em; margin-bottom: 10px; }
+        input[type="radio"], input[type="checkbox"] { margin-right: 8px; }
+        label { display: block; margin: 8px 0; cursor: pointer; }
+        textarea { width: 100%; padding: 10px; border: 2px solid #4169e1; border-radius: 5px; font-size: 1em; font-family: inherit; min-height: 100px; }
+        .mnemonic-box { background: linear-gradient(135deg, #818cf8 0%, #4f46e5 100%); color: white; padding: 20px; border-radius: 10px; margin: 15px 0; font-size: 1.1em; }
+        .key-fact { background: #fff3cd; border-left: 5px solid #ffc107; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .timeline-item { border-left: 3px solid #4169e1; padding-left: 20px; margin-left: 10px; margin-bottom: 20px; position: relative; }
+        .timeline-item::before { content: ''; width: 15px; height: 15px; background: #4169e1; border-radius: 50%; position: absolute; left: -9px; top: 0; }
+        .score-display {
+            background: linear-gradient(135deg, #4169e1 0%, #1e3a8a 100%);
+            color: white; padding: 20px; border-radius: 10px; text-align: center; font-size: 1.5em; margin: 20px 0; display: none;
+        }
+        .print-btn { background: #34495e; color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 1em; font-weight: bold; margin: 10px; transition: background 0.3s; }
+        .print-btn:hover { background: #2c3e50; }
+        .branch-box { background: #fef3c7; padding: 15px; margin: 10px 0; border-radius: 10px; border-left: 5px solid #f59e0b; }
+
+        ,'');
+                }
+            }
+            return '';
+        }
+
+        // ================== EMAIL PREVIEW & SENDER ==================
+        let __latestEmailMessage = '';
+        function openEmailPreview(message){
+            __latestEmailMessage = message;
+            const backdrop = document.getElementById('emailPreviewBackdrop');
+            const pre = document.getElementById('emailPreviewContent');
+            pre.textContent = message;
+            backdrop.classList.add('show');
+            backdrop.setAttribute('aria-hidden','false');
+        }
+        function closeEmailPreview(){
+            const backdrop = document.getElementById('emailPreviewBackdrop');
+            backdrop.classList.remove('show');
+            backdrop.setAttribute('aria-hidden','true');
+        }
+
+        let emailAlreadySent = false;
+
+        function setStatus(msg, ok=true){
+            const el = document.getElementById('emailStatus');
+            el.textContent = msg;
+            el.style.color = ok ? '#15803d' : '#b91c1c';
+        }
+
+        function confirmAndSendEmail(){
+            if(!__latestEmailMessage) return;
+            if(emailAlreadySent){ setStatus('Email already sent for this attempt.'); closeEmailPreview(); return; }
+            setStatus('Sending results…');
+            const fromName = (document.getElementById('studentName')?.value || 'Student').trim();
+
+            const params = {
+              from_name: fromName,                    // {{from_name}}
+              to_email: 'my2jada@gmail.com',          // can be fixed in template too
+              subject: 'Quiz Assessment Results',     // template subject or override
+              message: __latestEmailMessage           // {{message}}
+            };
+
+             setStatus('Results emailed ✔', true); })
+              .catch((e) => { console.warn(e); setStatus('Email failed ❌ — check console for details', false); });
+
+            closeEmailPreview();
+        }
+
+        // ================== GRADER with PREVIEW ==================
+        function gradeAssessment() {
+            let score = 0;
+            let feedback = '<div style="margin-top: 20px;"><h3>Assessment Results:</h3>';
+
+            const wrongLines = [];
+            let wrongCount = 0;
+
+            // Multiple Choice
+            for (let q in mcAnswers) {
+                const correct = mcAnswers[q];
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                if (selected && selected.value === correct) {
+                    score += 2;
+                } else {
+                    wrongCount++;
+                    const chosen = selected ? getLabelText(q, selected.value) : 'No answer';
+                    const correctText = getLabelText(q, correct);
+                    wrongLines.push(`${wrongCount}. MC ${q.toUpperCase().slice(1)} — Your answer: ${chosen} | Correct: ${correctText}`);
+                }
+            }
+
+            // True/False
+            for (let q in tfAnswers) {
+                const correct = tfAnswers[q];
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                if (selected && selected.value === correct) {
+                    score += 1;
+                } else {
+                    wrongCount++;
+                    const chosen = selected ? selected.value.toUpperCase() : 'No answer';
+                    const correctText = correct.toUpperCase();
+                    wrongLines.push(`${wrongCount}. TF ${q.toUpperCase().slice(1)} — Your answer: ${chosen} | Correct: ${correctText}`);
+                }
+            }
+
+            // Matching (report wrongs; scoring is via the Check Matching button as in your UI)
+            for (let id in matchingAnswers) {
+                const user = (document.getElementById(id)?.value || '').toLowerCase().trim();
+                const correct = matchingAnswers[id];
+                if (user !== correct) {
+                    wrongCount++;
+                    wrongLines.push(`${wrongCount}. MATCH ${id.replace('match','')} — Your answer: ${user || 'No answer'} | Correct: ${correct.toUpperCase()}`);
+                }
+            }
+
+            // Fill-ins (weights same as your file)
+            for (let id in fillAnswers) {
+                const elem = document.getElementById(id);
+                if (!elem) continue;
+                const ans = (elem.value || '').toLowerCase().trim();
+
+                if (id === 'fill31') {
+                    if (ans.includes('orthodox') && ans.includes('conservative') && ans.includes('reform')) {
+                        score += 2;
+                    } else {
+                        wrongCount++;
+                        wrongLines.push(`${wrongCount}. FILL ${id.replace('fill','')} — Your answer: ${ans || 'No answer'} | Correct: Orthodox, Conservative, Reform`);
+                    }
+                } else {
+                    const ok = fillAnswers[id].some(a => ans.includes(a));
+                    const heavy = ['fill24','fill25','fill26','fill27','fill28','fill29','fill30'];
+                    if (ok) {
+                        score += heavy.includes(id) ? 2 : 1;
+                    } else {
+                        wrongCount++;
+                        let correctTxt = (id==='fill22') ? '3000 / three thousand'
+                                      : (id==='fill24') ? '613'
+                                      : (id==='fill30') ? 'Hanukkah / Chanukah'
+                                      : fillAnswers[id][0].replace(/\b\w/g,c=>c.toUpperCase());
+                        wrongLines.push(`${wrongCount}. FILL ${id.replace('fill','')} — Your answer: ${ans || 'No answer'} | Correct: ${correctTxt}`);
+                    }
+                }
+            }
+
+            // UI feedback (unchanged style/logic)
+            feedback += '<p style="color: #e67e22; font-weight: bold;">Note: Short answer and essay questions (40 points) require manual grading by your teacher.</p>';
+            feedback += '<p>Your automatically graded score: <strong>' + score + '/60 points</strong></p>';
+            feedback += '<p>Total possible after teacher grading: <strong>/100 points</strong></p>';
+            const percentage = (score / 60) * 100;
+            let performanceMsg = '';
+            if (percentage >= 90) { performanceMsg = '<p class="correct">🌟 Excellent work! You have a strong understanding of Judaism!</p>'; }
+            else if (percentage >= 80) { performanceMsg = '<p style="background: #fff3cd; padding: 10px; border-radius: 5px;">👍 Good job! Review the areas you missed.</p>'; }
+            else if (percentage >= 70) { performanceMsg = '<p style="background: #ffeaa7; padding: 10px; border-radius: 5px;">📖 You\'re getting there! Study the material again and retake the test.</p>'; }
+            else { performanceMsg = '<p class="incorrect">📚 Keep studying! Review the study guide carefully and try again.</p>'; }
+            feedback += performanceMsg + '</div>';
+
+            document.getElementById('assessmentScore').style.display = 'block';
+            document.getElementById('assessmentScore').innerHTML = 'Your Score: ' + score + '/60 (automatically graded portion)';
+            document.getElementById('assessmentFeedback').innerHTML = feedback;
+            window.scrollTo(0, document.getElementById('assessmentScore').offsetTop - 100);
+
+            // Build the email preview text
+            const student = (document.getElementById('studentName')?.value || 'Student').trim();
+            const lines = [];
+            lines.push(`Student: ${student}`);
+            lines.push(`Score: ${score}/60 (auto)`);
+            lines.push(`Submitted: ${new Date().toLocaleString()}`);
+            if (wrongLines.length) {
+                lines.push('');
+                lines.push(`Incorrect (${wrongLines.length}):`);
+                lines.push(...wrongLines);
+            } else {
+                lines.push('');
+                lines.push('All automatically graded answers were correct ✅');
+            }
+            // Open preview (no email sent yet)
+            openEmailPreview(lines.join('\n'));
+        }
+    </script>
+</body>
+</html>

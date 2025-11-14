@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Computer Networks – Workbook + Assessment (Standalone)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+  :root{
+    --bg1:#f7fafc; --bg2:#fff; --text:#1f2937; --muted:#6b7280;
+    --brand:#4f46e5; --accent:#db2777; --ok:#059669; --warn:#b91c1c; --border:#e5e7eb;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,'Noto Sans','Apple Color Emoji','Segoe UI Emoji';color:var(--text);background:linear-gradient(135deg,#eef6ff,#f8fff3,#fff7ed);min-height:100vh}
+  .container{max-width:1100px;margin:0 auto;padding:20px}
+  .card{background:var(--bg2);border-radius:18px;padding:22px;box-shadow:0 10px 30px rgba(0,0,0,.06);border:1px solid var(--border)}
+  h1{font-size:clamp(26px,4vw,40px);margin:0 0 8px}
+  h2{font-size:clamp(22px,3vw,32px);margin:0 0 6px}
+  h3{font-size:20px;margin:0}
+  p{line-height:1.55}
+  .muted{color:var(--muted)}
+  .tabs{display:flex;gap:10px;margin:16px 0}
+  .tab{flex:1;padding:14px 12px;border-radius:10px;border:1px solid var(--border);cursor:pointer;font-weight:700;text-align:center;background:#f3f4f6}
+  .tab.active{background:var(--brand);color:#fff;border-color:transparent;box-shadow:0 6px 18px rgba(79,70,229,.25)}
+  .hidden{display:none}
+  details{border-left:5px solid #10b981}
+  summary{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer}
+  .section{margin-top:14px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width: 800px){.grid2{grid-template-columns:1fr}}
+  .table{width:100%;border-collapse:collapse;font-size:14px}
+  .table th,.table td{border:1px solid var(--border);padding:8px}
+  .pill{display:inline-block;padding:.25rem .6rem;border-radius:999px;font-weight:700;font-size:.8rem;color:#fff}
+  .box{border:1px solid var(--border);background:#f9fafb;border-radius:12px;padding:12px}
+  .q{border-radius:12px;padding:12px;border:1px solid var(--border);background:#f8fafc;margin-bottom:10px}
+  .q.ok{border-color:#86efac;background:#f0fdf4}
+  .q.no{border-color:#fecaca;background:#fef2f2}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:12px;border:0;cursor:pointer;font-weight:800}
+  .btn.primary{background:linear-gradient(90deg,#16a34a,#0d9488);color:#fff}
+  .btn.disabled{background:#cbd5e1;color:#ffffff;cursor:not-allowed}
+  input[type="text"],textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:#fff}
+  .stickybar{position:sticky;bottom:10px;padding:18px;border-radius:14px;background:linear-gradient(90deg,#ecfdf5,#f0f9ff);border:3px solid #86efac;box-shadow:0 12px 28px rgba(0,0,0,.08)}
+  .status{font-weight:700}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <header style="text-align:center;margin-bottom:18px">
+      <h1>💻 Computer Networks: Comprehensive Workbook</h1>
+      <p class="muted" style="font-size:18px">Study Guide + Assessment with Email Results</p>
+    </header>
+
+    <div class="tabs">
+      <button id="tabGuide" class="tab">📘 Study Guide</button>
+      <button id="tabAssess" class="tab active">📝 Assessment</button>
+    </div>
+
+    <!-- Study Guide -->
+    <section id="guide" class="hidden">
+      <div class="card" style="background:linear-gradient(90deg,#4f46e5,#2563eb);color:#fff">
+        <h2>Part 1 · Study Guide</h2>
+        <p class="muted" style="color:#e5e7eb">Read this first. Sections are expandable for quick review.</p>
+      </div>
+
+      <details class="card" open>
+        <summary><h3>Section 1: Introduction to Computer Networks</h3><span class="muted">▼</span></summary>
+        <div class="section">
+          <p>A <strong>computer network</strong> is a group of two or more computers connected to <strong>share resources</strong> (files, printers, internet), <strong>communicate</strong>, and <strong>exchange data</strong>.</p>
+          <div class="grid2">
+            <div class="box">
+              <h4>Why Networks?</h4>
+              <ul>
+                <li>Resource sharing (printers, files, internet)</li>
+                <li>Communication (email, IM, video, voice)</li>
+                <li>Data management (central storage, backup, security)</li>
+                <li>Collaboration (shared projects, co‑editing)</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h4>Connections</h4>
+              <ul>
+                <li>Wired: Ethernet, fiber optic</li>
+                <li>Wireless: Wi‑Fi, Bluetooth, microwave, satellite</li>
+                <li>Private vs Public networks</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary><h3>Section 2: Network Scope and Distance</h3><span class="muted">▼</span></summary>
+        <div class="section">
+          <p><strong>Scope</strong> is the distance/area a network covers. Size influences <em>cost, speed, technology, and management</em>.</p>
+          <ul>
+            <li><strong>PAN</strong> — Personal Area Network (a few meters)</li>
+            <li><strong>LAN</strong> — Local Area Network (room/building/campus)</li>
+            <li><strong>CAN</strong> — Campus Area Network (multiple buildings)</li>
+            <li><strong>MAN</strong> — Metropolitan Area Network (city/town)</li>
+            <li><strong>WAN</strong> — Wide Area Network (countries/worldwide)</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary><h3>Section 3: Local Area Network (LAN)</h3><span class="muted">▼</span></summary>
+        <div class="section">
+          <p>A <strong>LAN</strong> connects devices in the <strong>same area</strong> (home, school, office). Private ownership, very fast (100&nbsp;Mbps – 10&nbsp;Gbps), low latency and cost.</p>
+          <div class="grid2">
+            <div class="box">
+              <h4>Components</h4>
+              <ul>
+                <li>Devices (PCs, printers, IoT)</li>
+                <li>Switch/hub, router</li>
+                <li>Ethernet cables / Wi‑Fi access points</li>
+                <li>Network interface cards (NICs)</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h4>Pros / Cons</h4>
+              <ul>
+                <li>✅ Fast, secure, low cost, easy management</li>
+                <li>❌ Limited area, maintenance, server dependency</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary><h3>Section 4: Metropolitan Area Network (MAN)</h3><span class="muted">▼</span></summary>
+        <div class="section">
+          <p>A <strong>MAN</strong> connects <strong>multiple LANs</strong> across a <strong>city/town</strong> with high‑speed links (often fiber). Typically private (organizations/ISPs). Costly and professionally managed.</p>
+          <ul>
+            <li>Use cases: multi‑site companies, government, universities, hospitals</li>
+            <li>Links: fiber, wireless backhaul, leased lines</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary><h3>Section 5: Wide Area Network (WAN)</h3><span class="muted">▼</span></summary>
+        <div class="section">
+          <p>A <strong>WAN</strong> spans <strong>countries/continents</strong>, connecting LANs &amp; MANs via carriers (fiber, undersea cables, satellite). Usually <strong>public</strong>; complex and expensive.</p>
+          <div class="box"><strong>The Internet</strong> is the world’s largest WAN — billions of devices, no single owner, standardized protocols, global reach.</div>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary><h3>Section 6: Other Types of Networks</h3><span class="muted">▼</span></summary>
+        <div class="section grid2">
+          <div class="box">
+            <h4>PAN &amp; HAN</h4>
+            <ul>
+              <li><strong>PAN</strong>: personal devices (Bluetooth, wearables)</li>
+              <li><strong>HAN</strong>: home Wi‑Fi, smart devices</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h4>CAN &amp; SAN</h4>
+            <ul>
+              <li><strong>CAN</strong>: multiple buildings (campus, corporate)</li>
+              <li><strong>SAN</strong>: storage‑only high‑speed network in data centers</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary><h3>Section 7: Comparing Network Types</h3><span class="muted">▼</span></summary>
+        <div class="section">
+          <table class="table">
+            <thead><tr>
+              <th>Type</th><th>Distance</th><th>Ownership</th><th>Speed</th><th>Cost</th><th>Main Use</th>
+            </tr></thead>
+            <tbody>
+              <tr><td>PAN</td><td>Few meters</td><td>Private</td><td>Fast</td><td>Very low</td><td>Personal devices</td></tr>
+              <tr><td>HAN</td><td>Single home</td><td>Private</td><td>Fast</td><td>Low</td><td>Home devices</td></tr>
+              <tr><td>LAN</td><td>Building/campus</td><td>Private</td><td>Very fast</td><td>Low</td><td>Homes, schools, offices</td></tr>
+              <tr><td>CAN</td><td>Multiple buildings</td><td>Private</td><td>Fast</td><td>Medium</td><td>University/corporate campus</td></tr>
+              <tr><td>MAN</td><td>City/town</td><td>Private</td><td>Medium</td><td>High</td><td>Multi‑site in city</td></tr>
+              <tr><td>WAN</td><td>Countries/world</td><td>Public</td><td>Slower</td><td>Very high</td><td>Global connectivity</td></tr>
+              <tr><td>SAN</td><td>Data center</td><td>Private</td><td>Very fast</td><td>Very high</td><td>Storage access</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary><h3>Section 8: Real‑World Applications</h3><span class="muted">▼</span></summary>
+        <ul class="section">
+          <li><strong>Small Business</strong> → LAN</li>
+          <li><strong>School System across town</strong> → MAN</li>
+          <li><strong>Global e‑commerce</strong> → WAN (Internet)</li>
+          <li><strong>Smart Home</strong> → HAN</li>
+          <li><strong>University</strong> → CAN</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- Assessment -->
+    <section id="assessment">
+      <div class="card" style="background:linear-gradient(90deg,#db2777,#e11d48);color:#fff">
+        <h2>Part 3 · Comprehensive Assessment</h2>
+        <p class="muted" style="color:#ffe4e6">Auto‑graded (MC/TF/Matching) + Written sections are included in the emailed report.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;align-items:center;justify-content:space-between">
+          <div style="display:flex;gap:8px;align-items:center">
+            <label for="fromName" style="font-weight:700">From Name:</label>
+            <input id="fromName" type="text" placeholder="Student / Parent / Teacher" value="Networks Assessment" style="max-width:260px">
+          </div>
+          <div id="sendStatus" class="muted"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="pill" style="background:#4f46e5">Section A · Multiple Choice (2 pts each)</div>
+        <div id="mcContainer" style="margin-top:10px"></div>
+      </div>
+
+      <div class="card">
+        <div class="pill" style="background:#0d9488">Section B · True / False (1 pt each)</div>
+        <div id="tfContainer" style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:12px"></div>
+      </div>
+
+      <div class="card">
+        <div class="pill" style="background:#e11d48">Section C · Matching (2 pts each)</div>
+        <div class="grid2" style="margin-top:10px">
+          <div id="matchContainer"></div>
+          <div class="box" id="matchBank"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="pill" style="background:#d97706">Sections D–K · Written Responses</div>
+        <div id="writtenContainer" style="margin-top:10px"></div>
+      </div>
+
+      <div class="stickybar">
+        <div style="text-align:center">
+          <div style="margin-bottom:6px">
+            <div style="font-size:20px;font-weight:800">Ready to Submit?</div>
+            <div class="muted">Auto‑graded sections answered: <span class="status" id="progressText">Incomplete</span></div>
+          </div>
+          <button id="submitBtn" class="btn disabled">📧 Submit &amp; Email Results</button>
+          <div id="sendMsg" class="muted" style="margin-top:6px"></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+
+
+
+/* ===== Data (same content as earlier version) ===== */
+const MC = {
+  q1:{p:'What is a computer network?', o:['A single computer','A group of computers connected to share resources','A type of software','An internet browser'], c:1},
+  q2:{p:'The scope of a network refers to:', o:['The cost of the network','The number of users','The distance or area it covers','The speed of the network'], c:2},
+  q3:{p:'Which network type is used in homes, schools, and offices?', o:['WAN','MAN','LAN','PAN'], c:2},
+  q4:{p:'A LAN covers:', o:['The same room or premises','An entire city','Multiple countries','The whole world'], c:0},
+  q5:{p:'Which network connects several LANs across a city or town?', o:['PAN','LAN','WAN','MAN'], c:3},
+  q6:{p:'A MAN is:', o:['A public network','A private network','Always wireless','Only for governments'], c:1},
+  q7:{p:'The largest type of computer network is:', o:['LAN','MAN','WAN','PAN'], c:2},
+  q8:{p:'A WAN covers:', o:['A single room','A single building','Cities or countries','Only one office'], c:2},
+  q9:{p:'WANs connect:', o:['Only LANs','Only MANs','LANs and MANs together','Personal devices'], c:2},
+  q10:{p:'The internet is an example of a:', o:['LAN','MAN','WAN','PAN'], c:2},
+  q11:{p:'Wide Area Networks are:', o:['Private networks','Public networks','Only for schools','Only for homes'], c:1},
+  q12:{p:'A PAN is used for:', o:['Connecting cities','Personal devices within a few meters','Connecting countries','Office networks'], c:1},
+  q13:{p:'Which network type would you use for Bluetooth headphones?', o:['WAN','MAN','LAN','PAN'], c:3},
+  q14:{p:'A HAN is designed for:', o:['Hospitals','A single home','Multiple cities','Airports'], c:1},
+  q15:{p:'A CAN connects:', o:['Personal devices','Multiple buildings on a campus','Different countries','Only two computers'], c:1},
+  q16:{p:'A SAN is specialized for:', o:['Gaming','Social media','Data storage','Video calling'], c:2},
+  q17:{p:'Which network is typically the fastest?', o:['WAN','MAN','LAN','They\'re all the same speed'], c:2},
+  q18:{p:'What is a major benefit of computer networks?', o:['They make computers slower','They allow resource sharing','They increase costs','They require no maintenance'], c:1},
+  q19:{p:'A company with offices in different parishes should use:', o:['PAN','LAN','MAN','HAN'], c:2},
+  q20:{p:'Which statement about the Internet is TRUE?', o:['It is owned by one company','It is a private network','It is the world\'s largest WAN','It only covers one country'], c:2}};
+
+const TF = {
+  q21:{p:'Computer networks allow computers to share resources.', c:true},
+  q22:{p:'A LAN can span across different countries.', c:false},
+  q23:{p:'Schools and offices commonly use LANs.', c:true},
+  q24:{p:'A MAN is larger than a LAN but smaller than a WAN.', c:true},
+  q25:{p:'MANs can connect different branches of a company across a city.', c:true},
+  q26:{p:'A MAN is a public network.', c:false},
+  q27:{p:'WANs are the largest type of network.', c:true},
+  q28:{p:'WANs are private networks owned by one person.', c:false},
+  q29:{p:'The Internet is an example of a WAN.', c:true},
+  q30:{p:'A WAN can cover unlimited distances.', c:true},
+  q31:{p:'A PAN typically covers about 10 meters.', c:true},
+  q32:{p:'Bluetooth is commonly used for PANs.', c:true},
+  q33:{p:'A HAN is used to connect devices in multiple homes.', c:false},
+  q34:{p:'A CAN is larger than a WAN.', c:false},
+  q35:{p:'Universities often use CANs to connect campus buildings.', c:true},
+  q36:{p:'A SAN is used by everyone for everyday computing.', c:false},
+  q37:{p:'LANs are usually faster than WANs.', c:true},
+  q38:{p:'Networks can be connected using both wired and wireless technologies.', c:true},
+  q39:{p:'Private networks are owned by a person or organization.', c:true},
+  q40:{p:'All network types cost the same to set up.', c:false}};
+
+const MATCH_BANK = { A:'PAN', B:'HAN', C:'LAN', D:'CAN', E:'MAN', F:'WAN', G:'SAN' };
+const MATCH = {
+  q41:{left:'School computer lab', correct:'C'},
+  q42:{left:'Connecting offices across Kingston', correct:'E'},
+  q43:{left:'Phone connected to smartwatch', correct:'A'},
+  q44:{left:'International banking system', correct:'F'},
+  q45:{left:'Home Wi‑Fi network', correct:'B'},
+  q46:{left:'University connecting multiple buildings', correct:'D'},
+  q47:{left:'Company data center storage', correct:'G'}};
+
+const WRITTEN = [
+  {id:'q48', prompt:'Explain what "scope" means in computer networks and why it\'s important.', rows:4},
+  {id:'q49', prompt:'What is a LAN and where is it commonly used? Give two examples.', rows:4},
+  {id:'q50', prompt:'How is a MAN different from a LAN?', rows:4},
+  {id:'q51', prompt:'Why is the Internet considered a WAN?', rows:4},
+  {id:'q52', prompt:'Give three benefits of computer networks.', rows:4},
+  {id:'q53', prompt:'What is the main purpose of a SAN?', rows:3},
+  {id:'q54', prompt:'Fill table: LAN — Distance Covered.', rows:2},
+  {id:'q55', prompt:'Fill table: LAN — Private or Public?', rows:2},
+  {id:'q56', prompt:'Fill table: MAN — Example Use.', rows:2},
+  {id:'q57', prompt:'Fill table: WAN — Distance Covered.', rows:2},
+  {id:'q58', prompt:'Fill table: WAN — Private or Public?', rows:2},
+  {id:'q59', prompt:'Fill table: PAN — Example Use.', rows:2},
+  {id:'q60', prompt:'Fill table: CAN — Example Use.', rows:2},
+  {id:'q61', prompt:'Order smallest→largest: WAN, PAN, LAN, MAN, CAN.', rows:2},
+  {id:'q62', prompt:'Order least→most expensive: LAN, WAN, MAN, PAN.', rows:2},
+  {id:'q63', prompt:'Scenario (restaurant, 3 computers, 1 printer): choose a network and explain.', rows:4},
+  {id:'q64', prompt:'Scenario (gov. agency across cities): choose a network and explain. Would LAN work?', rows:5},
+  {id:'q65', prompt:'Scenario (phone + wireless headphones): type, technology, and range.', rows:4},
+  {id:'q66', prompt:'Compare LAN vs MAN — distance, use, cost.', rows:5},
+  {id:'q67', prompt:'Compare MAN vs WAN — two similarities and two differences.', rows:6},
+  {id:'q68', prompt:'Why do schools use LANs instead of individual printers/internet for each student?', rows:5},
+  {id:'q69', prompt:'Company grew to 5 offices across the city — which network should they upgrade to and why?', rows:5},
+  {id:'q70', prompt:'Explain why the Internet is called a public network vs your school network.', rows:5},
+  {id:'q71', prompt:'Diagram: Describe a LAN with 4 computers + 1 printer and how they connect.', rows:5},
+  {id:'q72', prompt:'Diagram: Describe a MAN linking three office LANs across a city.', rows:5},
+  {id:'q73', prompt:'Essay (8–10 sentences): Importance of computer networks in modern life.', rows:10},
+  {id:'q74', prompt:'Bonus: Name one technology (other than Wi‑Fi/Bluetooth) used to connect networks.', rows:3},
+  {id:'q75', prompt:'Bonus: Your school video‑chats with a sister school abroad — what network type and why?', rows:4},
+];
+
+/* ===== State ===== */
+const mcAns={}, tfAns={}, matchAns={}, writtenAns={};
+let submitted=false;
+
+/* ===== Helper ===== */
+function el(tag, attrs={}, ...children){
+  const e=document.createElement(tag);
+  for(const [k,v] of Object.entries(attrs)){
+    if(k==='class') e.className=v;
+    else if(k==='html') e.innerHTML=v;
+    else e.setAttribute(k,v);
+  }
+  for(const c of children){
+    if(c==null) continue;
+    e.appendChild(typeof c==='string'? document.createTextNode(c) : c);
+  }
+  return e;
+}
+
+/* ===== Renderers ===== */
+function renderMC(){
+  const wrap=document.getElementById('mcContainer'); wrap.innerHTML='';
+  let idx=0;
+  Object.entries(MC).forEach(([id,q])=>{
+    const picked = mcAns[id];
+    const isCorrect = submitted && picked===q.c;
+    const isWrong = submitted && picked!=null && picked!==q.c;
+    const box=el('div',{class:`q ${isCorrect?'ok':''} ${isWrong?'no':''}`});
+    box.append(
+      el('div',{}, el('span',{class:'pill',style:'background:#4f46e5'}, `Q${++idx}`)),
+      el('p',{class:'',style:'font-weight:700;margin:8px 0'}, q.p)
+    );
+    q.o.forEach((opt,i)=>{
+      const lab=el('label',{class:`box`,style:`display:flex;align-items:center;gap:8px;margin:6px 0;border-width:2px;${picked===i?'border-color:#4f46e5;background:#fff':''}`});
+      const inp=el('input',{type:'radio',name:id});
+      inp.checked = picked===i;
+      inp.onchange=()=>{ if(!submitted){ mcAns[id]=i; updateProgress(); } renderMC(); };
+      lab.append(inp, el('span',{}, opt));
+      box.append(lab);
+    });
+    if(submitted && isWrong){
+      box.append(el('p',{class:'muted'}, `Correct: ${q.o[q.c]}`));
+    }
+    wrap.append(box);
+  });
+}
+
+function renderTF(){
+  const wrap=document.getElementById('tfContainer'); wrap.innerHTML='';
+  let base=20;
+  Object.entries(TF).forEach(([id,q])=>{
+    const picked = tfAns[id];
+    const isCorrect = submitted && picked===q.c;
+    const isWrong = submitted && picked!=null && picked!==q.c;
+    const box=el('div',{class:`q ${isCorrect?'ok':''} ${isWrong?'no':''}`});
+    box.append(
+      el('div',{}, el('span',{class:'pill',style:'background:#0d9488'}, `Q${++base}`)),
+      el('p',{style:'font-weight:700;margin:8px 0'}, q.p)
+    );
+    [true,false].forEach(val=>{
+      const lab=el('label',{class:'box',style:`display:flex;align-items:center;gap:8px;margin:6px 0;border-width:2px;${String(picked)===String(val)?'border-color:#0d9488;background:#fff':''}`});
+      const inp=el('input',{type:'radio',name:id});
+      inp.checked = String(picked)===String(val);
+      inp.onchange=()=>{ if(!submitted){ tfAns[id]=val; updateProgress(); } renderTF(); };
+      lab.append(inp, el('span',{style:'font-weight:700'}, val?'True':'False'));
+      box.append(lab);
+    });
+    if(submitted && isWrong){
+      box.append(el('p',{class:'muted'}, `Correct: ${q.c? 'True':'False'}`));
+    }
+    wrap.append(box);
+  });
+}
+
+function renderMatching(){
+  const left=document.getElementById('matchContainer'); left.innerHTML='';
+  let base=40;
+  Object.entries(MATCH).forEach(([id,q])=>{
+    const a=(matchAns[id]||'').toUpperCase();
+    const isCorrect = submitted && a===q.correct;
+    const isWrong = submitted && a && a!==q.correct;
+    const box=el('div',{class:`q ${isCorrect?'ok':''} ${isWrong?'no':''}`});
+    const inp=el('input',{style:'max-width:80px',placeholder:'A–G',value:a});
+    inp.oninput=(e)=>{ if(!submitted){ matchAns[id]=e.target.value; updateProgress(); } };
+    box.append(
+      el('div',{style:'display:flex;align-items:center;gap:8px'},
+        el('span',{class:'pill',style:'background:#e11d48'}, `Q${++base}`),
+        el('span',{style:'font-weight:700'}, `${q.left} →`), inp
+      )
+    );
+    if(submitted && isWrong){
+      const text = `${q.correct} · ${MATCH_BANK[q.correct]}`;
+      box.append(el('p',{class:'muted'}, `Correct: ${text}`));
+    }
+    left.append(box);
+  });
+
+  const bank=document.getElementById('matchBank'); bank.innerHTML='';
+  bank.append(el('p',{style:'font-weight:700;margin-bottom:8px'}, 'Network Type Bank (choose A–G)'));
+  Object.entries(MATCH_BANK).forEach(([k,v])=>{
+    bank.append(el('div',{style:'display:flex;gap:8px;align-items:flex-start;margin:4px 0'},
+      el('span',{style:'font-weight:800;width:20px'}, `${k}.`), el('span',{}, v)
+    ));
+  });
+}
+
+function renderWritten(){
+  const wrap=document.getElementById('writtenContainer'); wrap.innerHTML='';
+  WRITTEN.forEach((w,i)=>{
+    const box=el('div',{class:'q'});
+    box.append(
+      el('div',{style:'display:flex;align-items:center;gap:8px;margin-bottom:6px'},
+        el('span',{class:'pill',style:'background:#d97706'}, `Q${47+i+1}`),
+        el('p',{style:'font-weight:700'}, w.prompt)
+      )
+    );
+    const ta=el('textarea',{rows:w.rows||3, placeholder:'Type your response…'});
+    ta.value = writtenAns[w.id]||'';
+    ta.oninput=(e)=>{ writtenAns[w.id]=e.target.value; };
+    box.append(ta);
+    wrap.append(box);
+  });
+}
+
+/* ===== Progress & Validation ===== */
+function allAutoAnswered(){
+  const mcOk = Object.keys(MC).every(id => mcAns[id]!==undefined);
+  const tfOk = Object.keys(TF).every(id => tfAns[id]!==undefined);
+  const mOk  = Object.keys(MATCH).every(id => (matchAns[id]||'').trim()!=='');
+  return mcOk && tfOk && mOk;
+}
+
+function updateProgress(){
+  const ok = allAutoAnswered();
+  const progressText = document.getElementById('progressText');
+  progressText.textContent = ok ? 'All' : 'Incomplete';
+  const btn = document.getElementById('submitBtn');
+  if(ok){
+    btn.className='btn primary';
+    btn.disabled=false;
+  }else{
+    btn.className='btn disabled';
+    btn.disabled=true;
+  }
+}
+
+/* ===== Scoring + Email ===== */
+function formatWrong(id, prompt, your, correct){
+  return `(${id}) ${prompt}\n  Your answer: ${your}\n  Correct answer: ${correct}`;
+}
+
+function gradeAndEmail(){
+  submitted = true;
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  let correct=0, points=0, possible=0;
+  const wrong=[];
+
+  // MC (2 pts)
+  Object.entries(MC).forEach(([id,q])=>{
+    possible+=2;
+    const a = mcAns[id];
+    if(a===q.c){ correct++; points+=2; }
+    else if(a!==undefined){ wrong.push(formatWrong(id,q.p,q.o[a],q.o[q.c])); }
+  });
+
+  // TF (1 pt)
+  Object.entries(TF).forEach(([id,q])=>{
+    possible+=1;
+    const a = tfAns[id];
+    if(a===q.c){ correct++; points+=1; }
+    else if(a!==undefined){ wrong.push(formatWrong(id,q.p,a?'True':'False',q.c?'True':'False')); }
+  });
+
+  // Matching (2 pts)
+  Object.entries(MATCH).forEach(([id,q])=>{
+    possible+=2;
+    const a = (matchAns[id]||'').trim().toUpperCase();
+    if(a===q.correct){ correct++; points+=2; }
+    else if(a){ wrong.push(formatWrong(id, `${q.left} → ?`, a, `${q.correct}: ${MATCH_BANK[q.correct]}`)); }
+  });
+
+  const pct = Math.round((points/possible)*100);
+  const status = document.getElementById('sendStatus');
+  status.textContent = `Score: ${points}/${possible} (${pct}%)`;
+
+  // Build email body (includes incorrect items + written responses)
+  const lines = [
+    'Assessment: Computer Networks — Comprehensive',
+    `Score: ${points}/${possible} (${pct}%)`,
+    ''
+  ];
+  if(wrong.length){
+    lines.push('Incorrect items (with correct answers):');
+    wrong.forEach(x=>lines.push(`- ${x}`));
+  }else{
+    lines.push('All auto-graded items are correct — excellent!');
+  }
+  lines.push('', 'Written Responses (for review):');
+  WRITTEN.forEach(w=>{
+    const val=(writtenAns[w.id]||'').trim() || '—';
+    lines.push(`• ${w.prompt}\n  Response: ${val}`);
+  });
+  const message = lines.join('\n');
+
+  const fromName = document.getElementById('fromName').value || 'Networks Assessment';
+  const sendMsg = document.getElementById('sendMsg');
+  sendMsg.textContent='Sending results…';
+  sendMsg.style.color='#92400e';
+
+    sendMsg.textContent='❌ '+msg;
+    sendMsg.style.color='#991b1b';
+  });
+}
+
+/* ===== Tabs ===== */
+document.getElementById('tabGuide').onclick=()=>{
+  document.getElementById('guide').classList.remove('hidden');
+  document.getElementById('assessment').classList.add('hidden');
+  document.getElementById('tabGuide').classList.add('active');
+  document.getElementById('tabAssess').classList.remove('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+document.getElementById('tabAssess').onclick=()=>{
+  document.getElementById('guide').classList.add('hidden');
+  document.getElementById('assessment').classList.remove('hidden');
+  document.getElementById('tabAssess').classList.add('active');
+  document.getElementById('tabGuide').classList.remove('active');
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+/* ===== Initial render (Assessment visible by default) ===== */
+renderMC(); renderTF(); renderMatching(); renderWritten(); updateProgress();
+
+/* ===== Submit handler ===== */
+document.getElementById('submitBtn').onclick = ()=> {
+  if(allAutoAnswered()){ gradeAndEmail(); }
+};
+</script>
+</body>
+</html>

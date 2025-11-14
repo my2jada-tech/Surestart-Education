@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive Respiratory System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      text-align: center;
+    }
+    .diagram {
+      position: relative;
+      display: inline-block;
+    }
+    .part {
+      position: absolute;
+      cursor: pointer;
+      border: 2px solid rgba(255, 255, 255, 0);
+    }
+    .part:hover {
+      border: 2px solid rgba(0, 150, 255, 0.5);
+    }
+    .info-box {
+      margin-top: 20px;
+      padding: 10px;
+      background: #f0f0f0;
+      width: 60%;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Interactive Respiratory System</h1>
+  <div class="diagram">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Respiratory_system_complete_en.svg/800px-Respiratory_system_complete_en.svg.png" alt="Respiratory System" width="600">
+    
+    <!-- Transparent clickable areas -->
+    <div class="part" style="top: 80px; left: 265px; width: 70px; height: 40px;" onclick="showInfo('Nose')"></div>
+    <div class="part" style="top: 140px; left: 285px; width: 30px; height: 60px;" onclick="showInfo('Trachea')"></div>
+    <div class="part" style="top: 200px; left: 240px; width: 80px; height: 100px;" onclick="showInfo('Left Lung')"></div>
+    <div class="part" style="top: 200px; left: 320px; width: 80px; height: 100px;" onclick="showInfo('Right Lung')"></div>
+    <div class="part" style="top: 310px; left: 290px; width: 40px; height: 30px;" onclick="showInfo('Diaphragm')"></div>
+  </div>
+
+  <div class="info-box" id="infoBox">
+    <h3 id="partTitle"></h3>
+    <p id="partInfo"></p>
+  </div>
+
+  <script>
+    const info = {
+      "Nose": "The nose filters, warms, and moistens the air you breathe in.",
+      "Trachea": "The trachea (windpipe) connects the larynx to the bronchi of the lungs.",
+      "Left Lung": "The left lung helps in gas exchange — oxygen in, carbon dioxide out.",
+      "Right Lung": "The right lung is slightly larger and also plays a key role in respiration.",
+      "Diaphragm": "The diaphragm contracts and flattens to allow lungs to expand during inhalation."
+    };
+
+    function showInfo(part) {
+      document.getElementById("infoBox").style.display = "block";
+      document.getElementById("partTitle").innerText = part;
+      document.getElementById("partInfo").innerText = info[part];
+    }
+  </script>
+
+</body>
+</html>

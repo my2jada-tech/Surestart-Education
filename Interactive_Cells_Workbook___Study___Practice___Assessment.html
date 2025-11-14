@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive Cells Workbook — Study • Practice • Assessment</title>
+<style>
+  :root{
+    --ink:#0f172a; --muted:#334155; --accent:#2563eb; --ok:#16a34a; --err:#dc2626; --border:#e2e8f0; --bg:#ffffff; --soft:#f8fafc;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; color:var(--ink); background:linear-gradient(180deg,#f1f5f9, #fff 200px)}
+  .container{max-width:1040px; margin:20px auto 60px; background:var(--bg); border:1px solid var(--border); border-radius:16px; padding:24px 24px 40px; box-shadow:0 10px 26px rgba(2,8,23,.06)}
+  header h1{margin:0 0 4px; font-size:28px}
+  header h2{margin:0; color:var(--muted); font-weight:600; font-size:18px}
+  .meta{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:12px}
+  .meta label{font-size:12px; color:#64748b}
+  .meta input{width:100%; padding:8px; border:1px solid var(--border); border-radius:10px; background:#fff}
+  .toolbar{display:flex; gap:10px; flex-wrap:wrap; margin:16px 0 8px}
+  .btn{border:1px solid var(--border); background:#fff; padding:8px 12px; border-radius:10px; cursor:pointer}
+  .btn.primary{background:var(--accent); color:#fff; border-color:transparent}
+  .btn.ghost{background:#f8fafc}
+  .pill{display:inline-block; font-size:12px; padding:2px 8px; border-radius:999px; background:#eef2ff; color:#3730a3; border:1px solid #c7d2fe}
+  details.card{border:1px solid var(--border); border-radius:12px; margin:10px 0; background:#fff}
+  details.card summary{cursor:pointer; padding:12px 14px; font-weight:600}
+  details.card .body{padding:0 14px 14px}
+  section h3{margin-top:24px}
+  ol, ul{padding-left:20px}
+  .q{margin:8px 0; padding:10px 12px; border:1px dashed #e5e7eb; border-radius:10px; background:#fafafa}
+  .q.correct{border-color:#bbf7d0; background:#f0fdf4}
+  .q.incorrect{border-color:#fecaca; background:#fef2f2}
+  .answer{margin-top:6px; font-size:13px; color:#334155; display:none}
+  .answer.show{display:block}
+  .mc label, .tf label{display:block; margin:6px 0}
+  input[type="text"]{padding:6px 8px; border:1px solid var(--border); border-radius:8px; min-width:200px}
+  select{padding:6px 8px; border:1px solid var(--border); border-radius:8px}
+  .score{font-weight:700; color:var(--accent)}
+  .draw{height:260px; border:2px dashed #94a3b8; border-radius:12px; background:repeating-linear-gradient(0deg,#f8fafc,#f8fafc 12px,#fff 12px,#fff 24px);}
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .small{font-size:12px; color:#64748b}
+  footer{margin-top:24px; color:#64748b; font-size:12px; text-align:center}
+  @media print{ .toolbar{display:none} details[open] summary{color:#000} .answer{display:block} }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>📖 Interactive Cells Workbook</h1>
+    <h2>Cells of Living Things — Study Guide • Practice • Assessment</h2>
+    <div class="meta">
+      <div><label>Student Name</label><input id="studentName" placeholder="Type your name"></div>
+      <div><label>Date</label><input id="dateField" placeholder="YYYY-MM-DD"></div>
+      <div><label>Class</label><input id="classField" placeholder="e.g., Grade 6 Science"></div>
+    </div>
+    <div class="toolbar">
+      <button class="btn primary" onclick="gradeAll()">Check Answers</button>
+      <button class="btn" onclick="toggleAllAnswers()">Show/Hide Explanations</button>
+      <button class="btn ghost" onclick="saveProgress()">Save Progress</button>
+      <button class="btn ghost" onclick="loadProgress()">Load Progress</button>
+      <button class="btn" onclick="resetAll()">Reset</button>
+      <span class="pill">Auto‑grades MCQ, T/F, fill‑in, matching, categorize & sequencing</span>
+    </div>
+  </header>
+
+  <details class="card" open>
+    <summary>Part 1 — Study Guide (concise)</summary>
+    <div class="body">
+      <p><strong>Cell Theory:</strong> (1) All living things are made of one or more cells. (2) The cell is the basic unit of structure and function in living things. (3) All cells arise from pre‑existing cells.</p>
+      <ul>
+        <li><strong>Plant only:</strong> Cell wall, chloroplasts, large central vacuole.</li>
+        <li><strong>Animal only:</strong> Lysosomes (common), centrioles, many small vacuoles.</li>
+        <li><strong>Both:</strong> Membrane, nucleus, cytoplasm, mitochondria, ER, ribosomes, Golgi.</li>
+      </ul>
+      <p class="small">Data corrections: (a) Yeast is a <em>fungus</em> (plural: fungi). (b) Sequencing key corrected below.</p>
+    </div>
+  </details>
+
+  <!-- ============================== -->
+  <!-- PART 2 — PRACTICE (interactive) -->
+  <!-- ============================== -->
+  <section>
+    <h3>Part 2 — Practice</h3>
+
+    <details class="card" open>
+      <summary>Set 2: Fill in the blanks</summary>
+      <div class="body">
+        <div class="q" data-type="fill" data-answer="nucleus">1) The <input> is the control center of the cell.</div>
+        <div class="q" data-type="fill" data-answer="cell wall|cellwall">2) Plant cells have a <input> which animal cells do not have.</div>
+        <div class="q" data-type="fill" data-answer="mitochondria|mitochondrion">3) <input> are the powerhouses of the cell.</div>
+        <div class="q" data-type="fill" data-answer="cytoplasm">4) The jelly-like substance in cells is called <input>.</div>
+        <div class="q" data-type="fill" data-answer="chloroplasts|chloroplast">5) <input> contain chlorophyll and perform photosynthesis.</div>
+        <div class="q" data-type="fill" data-answer="cell membrane|membrane|plasma membrane|plasmamembrane">6) The <input> controls what enters and leaves the cell.</div>
+        <div class="q" data-type="fill" data-answer="vacuole|central vacuole">7) Plant cells store water in a large <input>.</div>
+        <div class="q" data-type="fill" data-answer="ribosomes|ribosome">8) <input> are tiny structures that make proteins.</div>
+        <div class="q" data-type="fill" data-answer="lysosomes|lysosome">9) <input> break down waste in animal cells.</div>
+        <div class="q" data-type="fill" data-answer="existing|pre-existing|preexisting">10) All cells come from <input> cells.</div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>Set 3: Matching (choose A–J)</summary>
+      <div class="body">
+        <div class="grid-2">
+          <div>
+            <div class="q" data-type="match" data-answer="E">1) Nucleus:
+              <select><option></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option><option>J</option></select>
+            </div>
+            <div class="q" data-type="match" data-answer="G">2) Chloroplast:
+              <select></select>
+            </div>
+            <div class="q" data-type="match" data-answer="I">3) Cell Wall:
+              <select></select>
+            </div>
+            <div class="q" data-type="match" data-answer="C">4) Mitochondria:
+              <select></select>
+            </div>
+            <div class="q" data-type="match" data-answer="B">5) Vacuole:
+              <select></select>
+            </div>
+          </div>
+          <div>
+            <div class="q" data-type="match" data-answer="D">6) Cell Membrane:
+              <select></select>
+            </div>
+            <div class="q" data-type="match" data-answer="A">7) Ribosome:
+              <select></select>
+            </div>
+            <div class="q" data-type="match" data-answer="H">8) Lysosome:
+              <select></select>
+            </div>
+            <div class="q" data-type="match" data-answer="J">9) Cytoplasm:
+              <select></select>
+            </div>
+            <div class="q" data-type="match" data-answer="F">10) Golgi Body:
+              <select></select>
+            </div>
+          </div>
+        </div>
+        <div class="small"><strong>Column B:</strong> A Makes proteins • B Stores water/nutrients • C Produces energy • D Controls entry/exit • E Contains DNA/controls cell • F Packages/ships • G Photosynthesis • H Breaks down waste • I Plant shape/protection • J Holds organelles</div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>Set 4: True / False</summary>
+      <div class="body">
+        <div class="q tf" data-type="tf" data-answer="T">1) All living things are made of cells.
+          <label><input type="radio" name="tf1" value="T"> True</label>
+          <label><input type="radio" name="tf1" value="F"> False</label>
+        </div>
+        <div class="q tf" data-type="tf" data-answer="F">2) Animal cells have cell walls.
+          <label><input type="radio" name="tf2" value="T"> True</label>
+          <label><input type="radio" name="tf2" value="F"> False</label>
+        </div>
+        <div class="q tf" data-type="tf" data-answer="T">3) Chloroplasts make food for plants.
+          <label><input type="radio" name="tf3" value="T"> True</label>
+          <label><input type="radio" name="tf3" value="F"> False</label>
+        </div>
+        <div class="q tf" data-type="tf" data-answer="T">4) The nucleus contains DNA.
+          <label><input type="radio" name="tf4" value="T"> True</label>
+          <label><input type="radio" name="tf4" value="F"> False</label>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>Set 5: Categorize (Plant / Animal / Both)</summary>
+      <div class="body grid-2">
+        <div class="q" data-type="cat" data-answer="Both">1) Cell membrane:
+          <select><option></option><option>Plant</option><option>Animal</option><option>Both</option></select>
+        </div>
+        <div class="q" data-type="cat" data-answer="Plant">2) Cell wall:
+          <select></select>
+        </div>
+        <div class="q" data-type="cat" data-answer="Plant">3) Chloroplasts:
+          <select></select>
+        </div>
+        <div class="q" data-type="cat" data-answer="Both">4) Nucleus:
+          <select></select>
+        </div>
+        <div class="q" data-type="cat" data-answer="Plant">5) Large central vacuole:
+          <select></select>
+        </div>
+        <div class="q" data-type="cat" data-answer="Both">6) Mitochondria:
+          <select></select>
+        </div>
+        <div class="q" data-type="cat" data-answer="Animal">7) Lysosomes:
+          <select></select>
+        </div>
+        <div class="q" data-type="cat" data-answer="Animal">8) Centrioles:
+          <select></select>
+        </div>
+        <div class="q" data-type="cat" data-answer="Plant">9) Makes own food:
+          <select></select>
+        </div>
+        <div class="q" data-type="cat" data-answer="Both">10) Ribosomes:
+          <select></select>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>Set 6: Diagrams (drawing spaces)</summary>
+      <div class="body">
+        <p>1) Plant cell: label wall, membrane, nucleus, chloroplasts, vacuole, mitochondria, cytoplasm.</p>
+        <div class="draw"></div>
+        <p>2) Animal cell: label membrane, nucleus, mitochondria, ribosomes, lysosomes, vacuoles, cytoplasm.</p>
+        <div class="draw"></div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============================== -->
+  <!-- PART 3 — ASSESSMENT (interactive where possible) -->
+  <!-- ============================== -->
+  <section>
+    <h3>Part 3 — Assessment</h3>
+
+    <details class="card" open>
+      <summary>Section A: Multiple Choice</summary>
+      <div class="body mc">
+        <div class="q" data-type="mc" data-answer="b">1) What is a cell?
+          <label><input type="radio" name="mc1" value="a"> a) The largest unit of life</label>
+          <label><input type="radio" name="mc1" value="b"> b) The smallest unit of life</label>
+          <label><input type="radio" name="mc1" value="c"> c) A type of organ</label>
+          <label><input type="radio" name="mc1" value="d"> d) A group of tissues</label>
+        </div>
+        <div class="q" data-type="mc" data-answer="c">2) Who discovered cells?
+          <label><input type="radio" name="mc2" value="a"> a) Charles Darwin</label>
+          <label><input type="radio" name="mc2" value="b"> b) Anton van Leeuwenhoek</label>
+          <label><input type="radio" name="mc2" value="c"> c) Robert Hooke</label>
+          <label><input type="radio" name="mc2" value="d"> d) Albert Einstein</label>
+        </div>
+        <div class="q" data-type="mc" data-answer="d">3) Which is NOT part of the Cell Theory?
+          <label><input type="radio" name="mc3" value="a"> a) All living things are made of cells</label>
+          <label><input type="radio" name="mc3" value="b"> b) Cells are the basic unit of life</label>
+          <label><input type="radio" name="mc3" value="c"> c) All cells come from existing cells</label>
+          <label><input type="radio" name="mc3" value="d"> d) All cells have a nucleus</label>
+        </div>
+        <!-- For brevity, include up to 10 here; rest can be answered in print/essay -->
+        <div class="q" data-type="mc" data-answer="b">10) What does the cell membrane do?
+          <label><input type="radio" name="mc10" value="a"> a) Makes food</label>
+          <label><input type="radio" name="mc10" value="b"> b) Controls what enters and leaves the cell</label>
+          <label><input type="radio" name="mc10" value="c"> c) Stores DNA</label>
+          <label><input type="radio" name="mc10" value="d"> d) Produces energy</label>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>Section B: True / False (sample)</summary>
+      <div class="body">
+        <div class="q tf" data-type="tf" data-answer="T">21) The cell is the smallest unit of life.
+          <label><input type="radio" name="tf21" value="T"> True</label>
+          <label><input type="radio" name="tf21" value="F"> False</label>
+        </div>
+        <div class="q tf" data-type="tf" data-answer="F">22) All cells have a cell wall.
+          <label><input type="radio" name="tf22" value="T"> True</label>
+          <label><input type="radio" name="tf22" value="F"> False</label>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>Section D: Tables (interactive inputs)</summary>
+      <div class="body grid-2">
+        <div>
+          <div class="q" data-type="fill" data-answer="provides shape and protection|shape and protection|support and protection">
+            47) Cell Wall — Function: <input placeholder="e.g., provides shape and protection">
+          </div>
+          <div class="q" data-type="fill" data-answer="cell membrane|membrane">
+            48) ______ controls what enters and leaves: <input>
+          </div>
+          <div class="q" data-type="fill" data-answer="controls cell activities|contains dna|controls activities">
+            49) Nucleus — Function: <input>
+          </div>
+          <div class="q" data-type="fill" data-answer="performs photosynthesis|photosynthesis">
+            50) Chloroplast — Function: <input>
+          </div>
+        </div>
+        <div>
+          <div class="q" data-type="fill" data-answer="vacuole|central vacuole">
+            51) ______ stores water and nutrients: <input>
+          </div>
+          <div class="q" data-type="fill" data-answer="produces energy|makes atp|energy production">
+            52) Mitochondria — Function: <input>
+          </div>
+          <div class="q" data-type="fill" data-answer="cytoplasm">
+            53) ______ holds organelles in place: <input>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>Section I: Sequencing (SMALLEST → LARGEST)</summary>
+      <div class="body">
+        <p>Order these by number (1–5). Correct key is: Cell(1), Tissue(2), Organ(3), Organ System(4), Organism(5).</p>
+        <div class="q" data-type="seq" data-answer="4,1,3,2,5">
+          Organ System: <input class="seq" size="2"> &nbsp;
+          Cell: <input class="seq" size="2"> &nbsp;
+          Organ: <input class="seq" size="2"> &nbsp;
+          Tissue: <input class="seq" size="2"> &nbsp;
+          Organism: <input class="seq" size="2">
+          <div class="small">Enter numbers 1–5 without repeats.</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>Section J: Essay (not auto‑graded)</summary>
+      <div class="body">
+        <textarea id="essay" rows="8" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:10px" placeholder="Write 12–15 sentences."></textarea>
+        <div class="small">Saved with “Save Progress.”</div>
+      </div>
+    </details>
+  </section>
+
+  <section>
+    <h3>Results</h3>
+    <p>Total Auto‑graded Score: <span id="score" class="score">0</span></p>
+    <div id="feedback" class="small"></div>
+  </section>
+
+  <footer>© Interactive workbook generated for classroom use. Data‑checked & sequencing key corrected.</footer>
+</div>
+
+<script>
+// Populate all <select> in matching blocks with A-J if empty
+document.querySelectorAll('[data-type="match"] select').forEach(sel=>{
+  if(sel.options.length===0){
+    const opts=["","A","B","C","D","E","F","G","H","I","J"];
+    opts.forEach(o=>{const op=document.createElement('option'); op.textContent=o; sel.appendChild(op)});
+  }
+});
+
+function normalize(s){
+  return (s||"").toString().trim().toLowerCase().replace(/\s+/g,' ');
+}
+
+function gradeAll(){
+  let score=0, total=0;
+  const feedback=[];
+
+  document.querySelectorAll('.q').forEach(q=>{
+    q.classList.remove('correct','incorrect');
+    const type=q.dataset.type;
+    const ans=q.dataset.answer||"";
+    let correct=false;
+
+    if(type==='fill'){
+      total++;
+      const inp=q.querySelector('input');
+      const val=normalize(inp.value);
+      const accepted=ans.split('|').map(normalize);
+      correct=accepted.includes(val);
+      q.classList.add(correct?'correct':'incorrect');
+      showAnswer(q, correct);
+      if(correct) score++;
+    }
+
+    if(type==='match'){
+      total++;
+      const sel=q.querySelector('select');
+      const val=(sel.value||"").trim().toUpperCase();
+      correct=(val===ans);
+      q.classList.add(correct?'correct':'incorrect');
+      showAnswer(q, correct, "Correct: "+ans);
+      if(correct) score++;
+    }
+
+    if(type==='tf'){
+      total++;
+      const checked=q.querySelector('input[type="radio"]:checked');
+      const val=checked?checked.value:"";
+      correct=(val===ans);
+      q.classList.add(correct?'correct':'incorrect');
+      showAnswer(q, correct, "Answer: "+(ans==='T'?'True':'False'));
+      if(correct) score++;
+    }
+
+    if(type==='mc'){
+      total++;
+      const checked=q.querySelector('input[type="radio"]:checked');
+      const val=checked?checked.value:"";
+      correct=(val===ans);
+      q.classList.add(correct?'correct':'incorrect');
+      showAnswer(q, correct, "Correct choice: "+ans.toUpperCase());
+      if(correct) score++;
+    }
+
+    if(type==='cat'){
+      total++;
+      const sel=q.querySelector('select');
+      const val=(sel.value||"").trim();
+      correct=(val===ans);
+      q.classList.add(correct?'correct':'incorrect');
+      showAnswer(q, correct, "Answer: "+ans);
+      if(correct) score++;
+    }
+
+    if(type==='seq'){
+      total++;
+      const inputs=q.querySelectorAll('input.seq');
+      const vals=[...inputs].map(i=>i.value.trim()).join(',').replace(/\s+/g,'');
+      correct=(vals===ans);
+      q.classList.add(correct?'correct':'incorrect');
+      showAnswer(q, correct, "Correct order: "+ans);
+      if(correct) score++;
+    }
+  });
+
+  document.getElementById('score').textContent = score + " / " + total;
+  document.getElementById('feedback').textContent = (score===total)
+    ? "Perfect! 🎉"
+    : "Keep going — incorrect items are highlighted in red. Use Show/Hide to view explanations.";
+}
+
+function showAnswer(q, correct, text){
+  let box=q.querySelector('.answer');
+  if(!box){ box=document.createElement('div'); box.className='answer'; q.appendChild(box); }
+  box.innerHTML = correct ? "✓ Correct" : (text||"");
+}
+
+// Toggle all answer explanations
+function toggleAllAnswers(){
+  document.querySelectorAll('.answer').forEach(a=>a.classList.toggle('show'));
+}
+
+// Save progress to localStorage
+function saveProgress(){
+  const data={
+    name:document.getElementById('studentName').value,
+    date:document.getElementById('dateField').value,
+    cls:document.getElementById('classField').value,
+    essay:document.getElementById('essay')?document.getElementById('essay').value:"",
+    inputs:[...document.querySelectorAll('input[type="text"], input.seq')].map(i=>i.value),
+    radios:[...document.querySelectorAll('input[type="radio"]')].map(r=>r.checked),
+    selects:[...document.querySelectorAll('select')].map(s=>s.selectedIndex)
+  };
+  localStorage.setItem('cellsWorkbookV2', JSON.stringify(data));
+  alert('Progress saved in this browser.');
+}
+
+function loadProgress(){
+  const raw=localStorage.getItem('cellsWorkbookV2');
+  if(!raw){ alert('No saved progress.'); return; }
+  const data=JSON.parse(raw);
+  document.getElementById('studentName').value=data.name||"";
+  document.getElementById('dateField').value=data.date||"";
+  document.getElementById('classField').value=data.cls||"";
+  if(document.getElementById('essay')) document.getElementById('essay').value=data.essay||"";
+  const inputs=[...document.querySelectorAll('input[type="text"], input.seq')];
+  inputs.forEach((i,idx)=>{ if(data.inputs && data.inputs[idx]!=null) i.value=data.inputs[idx]; });
+  const radios=[...document.querySelectorAll('input[type="radio"]')];
+  radios.forEach((r,idx)=>{ if(data.radios && data.radios[idx]!=null) r.checked=data.radios[idx]; });
+  const selects=[...document.querySelectorAll('select')];
+  selects.forEach((s,idx)=>{ if(data.selects && data.selects[idx]!=null) s.selectedIndex=data.selects[idx]; });
+  alert('Progress loaded.');
+}
+
+function resetAll(){
+  if(!confirm('Clear all answers?')) return;
+  document.querySelectorAll('input[type="text"], input.seq, textarea').forEach(e=>e.value="");
+  document.querySelectorAll('input[type="radio"]').forEach(r=>r.checked=false);
+  document.querySelectorAll('select').forEach(s=>s.selectedIndex=0);
+  document.querySelectorAll('.q').forEach(q=>q.classList.remove('correct','incorrect'));
+  document.getElementById('score').textContent="0";
+  document.getElementById('feedback').textContent="";
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 6 Spelling & Vocabulary - Study & Assessment</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #764ba2;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .mode-selector {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .mode-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+        
+        .mode-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .mode-btn.active {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+        
+        .content-area {
+            display: none;
+        }
+        
+        .content-area.active {
+            display: block;
+        }
+        
+        .student-info {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .student-info input {
+            margin: 5px;
+            padding: 8px;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .section-title {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .question {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .question h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        
+        input[type="text"], input[type="number"], input[type="email"], select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        
+        input[type="text"]:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        
+        .word-box {
+            display: inline-block;
+            background: #e8f4fd;
+            padding: 5px 10px;
+            margin: 5px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .result {
+            display: none;
+            background: #d4edda;
+            border: 2px solid #28a745;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .score {
+            font-size: 3em;
+            color: #764ba2;
+            margin: 20px 0;
+        }
+        
+        .feedback {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: left;
+        }
+        
+        .instructions {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #17a2b8;
+        }
+        
+        .word-list {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .inline-input {
+            width: 200px !important;
+            display: inline-block;
+            margin: 0 5px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .teacher-note {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        
+        .study-card {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+        }
+        
+        .study-card h4 {
+            color: #764ba2;
+            margin-top: 0;
+        }
+        
+        .example {
+            background: #e8f4fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        
+        .tip {
+            background: #d4edda;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 3px solid #28a745;
+        }
+        
+        .practice-word {
+            display: inline-block;
+            background: #f8f9fa;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Grade 6 Spelling & Vocabulary</h1>
+        
+        <div class="mode-selector">
+            <button class="mode-btn active" id="studyBtn">📖 Study Session</button>
+            <button class="mode-btn" id="assessmentBtn">✏️ Take Assessment</button>
+        </div>
+        
+        <!-- STUDY SESSION -->
+        <div id="studyContent" class="content-area active">
+            <h2 style="text-align: center; color: #667eea;">Study Guide & Practice</h2>
+            
+            <!-- Study Section 1: Spelling Words with Meanings -->
+            <div class="section">
+                <div class="section-title">📝 Section 1: Core Spelling Words & Meanings</div>
+                
+                <div class="study-card">
+                    <h4>Words 1-10: Basic Vocabulary</h4>
+                    <table>
+                        <tr>
+                            <th>Word</th>
+                            <th>Meaning</th>
+                            <th>Example Sentence</th>
+                        </tr>
+                        <tr>
+                            <td><strong>silent</strong></td>
+                            <td>Making no sound; quiet</td>
+                            <td>The library was completely silent.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>aching</strong></td>
+                            <td>Causing pain or discomfort</td>
+                            <td>My legs were aching after the long hike.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>intriguing</strong></td>
+                            <td>Very interesting or fascinating</td>
+                            <td>The mystery novel had an intriguing plot.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>generous</strong></td>
+                            <td>Willing to give freely; kind</td>
+                            <td>She was generous with her time and money.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>predator</strong></td>
+                            <td>An animal that hunts other animals</td>
+                            <td>The lion is a fierce predator.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>timid</strong></td>
+                            <td>Shy and easily frightened</td>
+                            <td>The timid rabbit hid in the bushes.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>tranquil</strong></td>
+                            <td>Peaceful and calm</td>
+                            <td>The lake was tranquil in the early morning.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>brave</strong></td>
+                            <td>Showing courage; fearless</td>
+                            <td>The brave firefighter saved the family.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ominous</strong></td>
+                            <td>Threatening; suggesting something bad will happen</td>
+                            <td>The dark clouds looked ominous.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>reluctant</strong></td>
+                            <td>Unwilling or hesitant to do something</td>
+                            <td>He was reluctant to speak in public.</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="study-card">
+                    <h4>Words 11-15: Advanced Vocabulary</h4>
+                    <table>
+                        <tr>
+                            <th>Word</th>
+                            <th>Meaning</th>
+                            <th>Example Sentence</th>
+                        </tr>
+                        <tr>
+                            <td><strong>migrate</strong></td>
+                            <td>To move from one place to another seasonally</td>
+                            <td>Birds migrate south for the winter.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>chaos</strong></td>
+                            <td>Complete disorder and confusion</td>
+                            <td>The classroom was in chaos after the fire drill.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>guardian</strong></td>
+                            <td>Someone who protects or watches over</td>
+                            <td>My aunt is my legal guardian.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>astonish</strong></td>
+                            <td>To amaze or surprise greatly</td>
+                            <td>The magician's trick will astonish you.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>visible</strong></td>
+                            <td>Able to be seen</td>
+                            <td>The stars are visible on clear nights.</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="tip">
+                    <strong>Study Tip:</strong> Practice spelling each word 5 times. Then write a sentence using each word without looking at the examples!
+                </div>
+            </div>
+            
+            <!-- Study Section 2: Vocabulary in Context -->
+            <div class="section">
+                <div class="section-title">🎯 Section 2: Vocabulary in Context</div>
+                
+                <div class="study-card">
+                    <h4>Key Vocabulary Words to Learn</h4>
+                    <div class="word-list">
+                        <span class="practice-word"><strong>enormous</strong> - extremely large</span>
+                        <span class="practice-word"><strong>nutritious</strong> - healthy and nourishing</span>
+                        <span class="practice-word"><strong>disappear</strong> - to vanish from sight</span>
+                        <span class="practice-word"><strong>mechanic</strong> - person who fixes machines</span>
+                        <span class="practice-word"><strong>temperature</strong> - degree of heat or cold</span>
+                        <span class="practice-word"><strong>parallel</strong> - side by side, never meeting</span>
+                        <span class="practice-word"><strong>obstacle</strong> - something blocking the way</span>
+                        <span class="practice-word"><strong>acquaintance</strong> - someone you know slightly</span>
+                        <span class="practice-word"><strong>schedule</strong> - a plan or timetable</span>
+                        <span class="practice-word"><strong>tsunami</strong> - a giant ocean wave</span>
+                    </div>
+                </div>
+                
+                <div class="study-card">
+                    <h4>Commonly Misspelled Words</h4>
+                    <table>
+                        <tr>
+                            <th>Word</th>
+                            <th>Meaning</th>
+                            <th>Memory Trick</th>
+                        </tr>
+                        <tr>
+                            <td><strong>souvenir</strong></td>
+                            <td>A gift or memento from a trip</td>
+                            <td>Remember: "sou-VEN-ir" (like "venture")</td>
+                        </tr>
+                        <tr>
+                            <td><strong>people</strong></td>
+                            <td>Human beings in general</td>
+                            <td>Remember: PEO-ple (not "poeple")</td>
+                        </tr>
+                        <tr>
+                            <td><strong>serve</strong></td>
+                            <td>To help or assist someone</td>
+                            <td>Simple: S-E-R-V-E</td>
+                        </tr>
+                        <tr>
+                            <td><strong>internet</strong></td>
+                            <td>The worldwide computer network</td>
+                            <td>Remember: INTER-net (between networks)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>legible</strong></td>
+                            <td>Clear enough to read easily</td>
+                            <td>Remember: LEG-ible (you can "read" it)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Study Section 3: Suffixes -->
+            <div class="section">
+                <div class="section-title">🔤 Section 3: Understanding Suffixes</div>
+                
+                <div class="study-card">
+                    <h4>What is a Suffix?</h4>
+                    <p>A suffix is a word part added to the END of a word to change its meaning or function.</p>
+                    
+                    <table>
+                        <tr>
+                            <th>Suffix</th>
+                            <th>Meaning</th>
+                            <th>Examples</th>
+                        </tr>
+                        <tr>
+                            <td><strong>-ible/-able</strong></td>
+                            <td>able to, can be</td>
+                            <td>visible (can be seen), comfortable (can be comfort)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>-ance/-ence</strong></td>
+                            <td>state or quality of</td>
+                            <td>importance, confidence, appearance</td>
+                        </tr>
+                        <tr>
+                            <td><strong>-ant/-ent</strong></td>
+                            <td>person who, or showing</td>
+                            <td>servant (person who serves), different (showing difference)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>-ous</strong></td>
+                            <td>full of</td>
+                            <td>dangerous (full of danger), famous (full of fame)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>-less</strong></td>
+                            <td>without</td>
+                            <td>careless (without care), helpless (without help)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>-ful</strong></td>
+                            <td>full of</td>
+                            <td>careful (full of care), helpful (full of help)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>-ment</strong></td>
+                            <td>act or process</td>
+                            <td>enjoyment (act of enjoying), government</td>
+                        </tr>
+                        <tr>
+                            <td><strong>-ness</strong></td>
+                            <td>state of being</td>
+                            <td>kindness (state of being kind), happiness</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="example">
+                    <strong>Practice Examples:</strong><br>
+                    comfort + able = comfortable<br>
+                    care + less = careless<br>
+                    danger + ous = dangerous<br>
+                    enjoy + ment = enjoyment<br>
+                    help + ful = helpful<br>
+                    govern + ment = government
+                </div>
+            </div>
+            
+            <!-- Study Section 4: Adjective Suffixes -->
+            <div class="section">
+                <div class="section-title">✨ Section 4: Creating Adjectives with Suffixes</div>
+                
+                <div class="study-card">
+                    <h4>Common Adjective Suffixes</h4>
+                    <table>
+                        <tr>
+                            <th>Noun</th>
+                            <th>Suffix</th>
+                            <th>Adjective</th>
+                            <th>Meaning</th>
+                        </tr>
+                        <tr>
+                            <td>beauty</td>
+                            <td>+ ful</td>
+                            <td><strong>beautiful</strong></td>
+                            <td>full of beauty</td>
+                        </tr>
+                        <tr>
+                            <td>child</td>
+                            <td>+ ish</td>
+                            <td><strong>childish</strong></td>
+                            <td>like a child</td>
+                        </tr>
+                        <tr>
+                            <td>fame</td>
+                            <td>+ ous</td>
+                            <td><strong>famous</strong></td>
+                            <td>having fame</td>
+                        </tr>
+                        <tr>
+                            <td>music</td>
+                            <td>+ al</td>
+                            <td><strong>musical</strong></td>
+                            <td>relating to music</td>
+                        </tr>
+                        <tr>
+                            <td>poison</td>
+                            <td>+ ous</td>
+                            <td><strong>poisonous</strong></td>
+                            <td>full of poison</td>
+                        </tr>
+                        <tr>
+                            <td>mystery</td>
+                            <td>+ ious</td>
+                            <td><strong>mysterious</strong></td>
+                            <td>full of mystery</td>
+                        </tr>
+                        <tr>
+                            <td>thought</td>
+                            <td>+ ful</td>
+                            <td><strong>thoughtful</strong></td>
+                            <td>full of thought</td>
+                        </tr>
+                        <tr>
+                            <td>mountain</td>
+                            <td>+ ous</td>
+                            <td><strong>mountainous</strong></td>
+                            <td>having mountains</td>
+                        </tr>
+                        <tr>
+                            <td>hero</td>
+                            <td>+ ic</td>
+                            <td><strong>heroic</strong></td>
+                            <td>like a hero</td>
+                        </tr>
+                        <tr>
+                            <td>peace</td>
+                            <td>+ ful</td>
+                            <td><strong>peaceful</strong></td>
+                            <td>full of peace</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Study Section 5: Spelling Changes -->
+            <div class="section">
+                <div class="section-title">⚠️ Section 5: Spelling Changes with Suffixes</div>
+                
+                <div class="study-card">
+                    <h4>Important Spelling Rules</h4>
+                    
+                    <div class="tip">
+                        <strong>Rule 1: Change Y to I</strong><br>
+                        When a word ends in consonant + y, change the y to i before adding a suffix<br>
+                        <strong>Examples:</strong> happy + ness = happiness, busy + ness = business
+                    </div>
+                    
+                    <div class="tip">
+                        <strong>Rule 2: Double the Final Consonant</strong><br>
+                        When a one-syllable word ends in consonant-vowel-consonant, double the last letter<br>
+                        <strong>Examples:</strong> swim + ing = swimming, run + ing = running
+                    </div>
+                    
+                    <div class="tip">
+                        <strong>Rule 3: Drop the Silent E</strong><br>
+                        When adding a suffix that starts with a vowel, drop the silent e<br>
+                        <strong>Examples:</strong> create + ion = creation, argue + ment = argument
+                    </div>
+                    
+                    <table>
+                        <tr>
+                            <th>Base Word</th>
+                            <th>Suffix</th>
+                            <th>Correct Spelling</th>
+                            <th>Rule Applied</th>
+                        </tr>
+                        <tr>
+                            <td>happy</td>
+                            <td>+ ness</td>
+                            <td><strong>happiness</strong></td>
+                            <td>y changes to i</td>
+                        </tr>
+                        <tr>
+                            <td>swim</td>
+                            <td>+ ing</td>
+                            <td><strong>swimming</strong></td>
+                            <td>double the m</td>
+                        </tr>
+                        <tr>
+                            <td>create</td>
+                            <td>+ ion</td>
+                            <td><strong>creation</strong></td>
+                            <td>drop the e</td>
+                        </tr>
+                        <tr>
+                            <td>busy</td>
+                            <td>+ ness</td>
+                            <td><strong>business</strong></td>
+                            <td>y changes to i</td>
+                        </tr>
+                        <tr>
+                            <td>argue</td>
+                            <td>+ ment</td>
+                            <td><strong>argument</strong></td>
+                            <td>drop the e</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Study Section 6: Abstract Nouns -->
+            <div class="section">
+                <div class="section-title">💭 Section 6: Abstract Nouns</div>
+                
+                <div class="study-card">
+                    <h4>What are Abstract Nouns?</h4>
+                    <p>Abstract nouns name things you CANNOT touch or see with your eyes. They are ideas, feelings, or qualities.</p>
+                    
+                    <div class="example">
+                        <strong>Concrete Nouns (you CAN touch):</strong> book, car, dog, tree<br>
+                        <strong>Abstract Nouns (you CANNOT touch):</strong> love, happiness, courage, freedom
+                    </div>
+                    
+                    <h4>Common Abstract Nouns to Know:</h4>
+                    <ul>
+                        <li><strong>Feelings:</strong> love, anger, joy, sadness, fear, happiness</li>
+                        <li><strong>Qualities:</strong> kindness, honesty, bravery, beauty, generosity, wisdom</li>
+                        <li><strong>Ideas:</strong> freedom, justice, peace, success, knowledge, truth</li>
+                        <li><strong>States:</strong> childhood, friendship, courage, patience, dedication</li>
+                    </ul>
+                    
+                    <div class="example">
+                        <strong>Practice Sentences:</strong><br>
+                        1. Her <u>kindness</u> and <u>generosity</u> touched everyone's hearts.<br>
+                        2. The children showed great <u>courage</u> during the storm.<br>
+                        3. <u>Success</u> requires <u>patience</u>, <u>dedication</u>, and <u>wisdom</u>.<br>
+                        4. Their <u>friendship</u> has lasted through many <u>difficulties</u>.<br>
+                        5. The <u>beauty</u> of nature fills us with <u>joy</u> and <u>peace</u>.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Study Section 7: Noun Phrases -->
+            <div class="section">
+                <div class="section-title">📝 Section 7: Creating Noun Phrases</div>
+                
+                <div class="study-card">
+                    <h4>What is a Noun Phrase?</h4>
+                    <p>A noun phrase is a group of words that includes a noun and words that describe it (adjectives, articles, etc.)</p>
+                    
+                    <div class="example">
+                        <strong>Simple Noun:</strong> car<br>
+                        <strong>Noun Phrase:</strong> the shiny red sports car<br><br>
+                        
+                        <strong>Simple Noun:</strong> dog<br>
+                        <strong>Noun Phrase:</strong> the friendly golden retriever with a wagging tail<br><br>
+                        
+                        <strong>Simple Noun:</strong> house<br>
+                        <strong>Noun Phrase:</strong> the old Victorian house on the hill
+                    </div>
+                    
+                    <h4>How to Build Great Noun Phrases:</h4>
+                    <ol>
+                        <li>Start with a noun</li>
+                        <li>Add adjectives (describing words)</li>
+                        <li>Add articles (a, an, the)</li>
+                        <li>Add prepositional phrases (on the hill, in the sky)</li>
+                    </ol>
+                    
+                    <div class="tip">
+                        <strong>Practice:</strong> Take boring sentences and make them interesting!<br>
+                        BORING: The teacher helped us.<br>
+                        BETTER: The patient, experienced teacher with the kind smile helped us.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Study Section 8: Prefixes -->
+            <div class="section">
+                <div class="section-title">🔠 Section 8: Understanding Prefixes</div>
+                
+                <div class="study-card">
+                    <h4>What is a Prefix?</h4>
+                    <p>A prefix is a word part added to the BEGINNING of a word to change its meaning.</p>
+                    
+                    <table>
+                        <tr>
+                            <th>Prefix</th>
+                            <th>Meaning</th>
+                            <th>Examples</th>
+                        </tr>
+                        <tr>
+                            <td><strong>un-</strong></td>
+                            <td>not, opposite of</td>
+                            <td>unhappy, unclear, unethical</td>
+                        </tr>
+                        <tr>
+                            <td><strong>in-</strong></td>
+                            <td>not, without</td>
+                            <td>incomplete, infrequent, intolerant</td>
+                        </tr>
+                        <tr>
+                            <td><strong>im-</strong></td>
+                            <td>not (before m, p, b)</td>
+                            <td>impatient, impossible, immobile</td>
+                        </tr>
+                        <tr>
+                            <td><strong>il-</strong></td>
+                            <td>not (before l)</td>
+                            <td>illegal, illegible, illogical</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ir-</strong></td>
+                            <td>not (before r)</td>
+                            <td>irresponsible, irregular, irrelevant</td>
+                        </tr>
+                        <tr>
+                            <td><strong>dis-</strong></td>
+                            <td>not, opposite of</td>
+                            <td>dishonest, disagree, disappear</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="study-card">
+                    <h4>Practice with Prefixes</h4>
+                    <table>
+                        <tr>
+                            <th>Base Word</th>
+                            <th>Add Prefix</th>
+                            <th>New Word</th>
+                            <th>Meaning</th>
+                        </tr>
+                        <tr>
+                            <td>patient</td>
+                            <td>im-</td>
+                            <td><strong>impatient</strong></td>
+                            <td>not patient</td>
+                        </tr>
+                        <tr>
+                            <td>responsible</td>
+                            <td>ir-</td>
+                            <td><strong>irresponsible</strong></td>
+                            <td>not responsible</td>
+                        </tr>
+                        <tr>
+                            <td>legal</td>
+                            <td>il-</td>
+                            <td><strong>illegal</strong></td>
+                            <td>not legal</td>
+                        </tr>
+                        <tr>
+                            <td>honest</td>
+                            <td>dis-</td>
+                            <td><strong>dishonest</strong></td>
+                            <td>not honest</td>
+                        </tr>
+                        <tr>
+                            <td>frequent</td>
+                            <td>in-</td>
+                            <td><strong>infrequent</strong></td>
+                            <td>not frequent</td>
+                        </tr>
+                        <tr>
+                            <td>legible</td>
+                            <td>il-</td>
+                            <td><strong>illegible</strong></td>
+                            <td>not legible (can't be read)</td>
+                        </tr>
+                        <tr>
+                            <td>tolerant</td>
+                            <td>in-</td>
+                            <td><strong>intolerant</strong></td>
+                            <td>not tolerant</td>
+                        </tr>
+                        <tr>
+                            <td>ethical</td>
+                            <td>un-</td>
+                            <td><strong>unethical</strong></td>
+                            <td>not ethical</td>
+                        </tr>
+                    </table>
+                    
+                    <div class="example">
+                        <strong>More Examples:</strong><br>
+                        <strong>inefficient</strong> = not efficient, wasteful<br>
+                        <strong>unconscious</strong> = not conscious, not aware<br>
+                        <strong>irregular</strong> = not regular, uneven<br>
+                        <strong>immobile</strong> = not mobile, unable to move
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Study Section 9: Root Words -->
+            <div class="section">
+                <div class="section-title">🌳 Section 9: Root Words and Word Families</div>
+                
+                <div class="study-card">
+                    <h4>What is a Root Word?</h4>
+                    <p>A root word is the basic word without any prefixes or suffixes. All related words come from the same root.</p>
+                    
+                    <table>
+                        <tr>
+                            <th>Given Word</th>
+                            <th>Root Word</th>
+                            <th>Related Words</th>
+                        </tr>
+                        <tr>
+                            <td>dishonest</td>
+                            <td><strong>honest</strong></td>
+                            <td>honesty, honestly, dishonesty</td>
+                        </tr>
+                        <tr>
+                            <td>musician</td>
+                            <td><strong>music</strong></td>
+                            <td>musical, musically</td>
+                        </tr>
+                        <tr>
+                            <td>examination</td>
+                            <td><strong>examine</strong></td>
+                            <td>exam, examiner, examining</td>
+                        </tr>
+                        <tr>
+                            <td>explorer</td>
+                            <td><strong>explore</strong></td>
+                            <td>exploration, exploring, exploratory</td>
+                        </tr>
+                        <tr>
+                            <td>producer</td>
+                            <td><strong>produce</strong></td>
+                            <td>production, product, productive</td>
+                        </tr>
+                    </table>
+                    
+                    <div class="example">
+                        <strong>Word Family Example - HAPPY:</strong><br>
+                        Root: happy<br>
+                        Family: unhappy, happiness, happily, happier, happiest
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Study Section 10: Bonus Spelling -->
+            <div class="section">
+                <div class="section-title">⭐ Section 10: Tricky Spelling Words</div>
+                
+                <div class="study-card">
+                    <h4>Commonly Misspelled Words - Master These!</h4>
+                    <table>
+                        <tr>
+                            <th>Word</th>
+                            <th>Common Mistake</th>
+                            <th>Memory Trick</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Wednesday</strong></td>
+                            <td>Wensday</td>
+                            <td>Wed-nes-day (say all three parts)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>February</strong></td>
+                            <td>Febuary</td>
+                            <td>Feb-ru-ary (don't forget the R!)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>receive</strong></td>
+                            <td>recieve</td>
+                            <td>I before E except after C</td>
+                        </tr>
+                        <tr>
+                            <td><strong>different</strong></td>
+                            <td>diffrent</td>
+                            <td>differ + ent</td>
+                        </tr>
+                        <tr>
+                            <td><strong>necessary</strong></td>
+                            <td>neccessary</td>
+                            <td>One Collar, Two Sleeves (1 C, 2 S's)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>separate</strong></td>
+                            <td>seperate</td>
+                            <td>There's A RAT in separate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>library</strong></td>
+                            <td>libary</td>
+                            <td>li-BRAR-y (say the R)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>dessert</strong></td>
+                            <td>desert</td>
+                            <td>Two S's because you want more!</td>
+                        </tr>
+                        <tr>
+                            <td><strong>recommend</strong></td>
+                            <td>reccomend</td>
+                            <td>One C, two M's</td>
+                        </tr>
+                        <tr>
+                            <td><strong>grateful</strong></td>
+                            <td>greatful</td>
+                            <td>Think: "grate + ful"</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="tip">
+                    <strong>Study Strategy:</strong> Write each word 10 times. Then close your eyes and try to spell it out loud!
+                </div>
+            </div>
+        </div>
+        
+        <!-- ASSESSMENT CONTENT -->
+        <div id="assessmentContent" class="content-area">
+            <div class="student-info">
+                <h3>Student Information</h3>
+                <input type="text" id="studentName" placeholder="Student Name" value="Jada Gangardine">
+                <input type="text" id="testDate" placeholder="Test Date" value="">
+            </div>
+            
+            <!-- SECTION 1: Spelling and Meaning Test -->
+            <div class="section">
+                <div class="section-title">Section 1: Spelling and Meaning Test (30 points)</div>
+                
+                <div class="question">
+                    <h3>Part A: Spell these words correctly and provide their meanings</h3>
+                    <div class="teacher-note">
+                        TEACHER/PARENT INSTRUCTIONS: Read each definition aloud and have the student spell the word and write its meaning. Do not show the student this list.
+                    </div>
+                    
+                    <table>
+                        <tr>
+                            <th>Definition (Read Aloud)</th>
+                            <th>Student's Spelling</th>
+                            <th>Student's Meaning</th>
+                        </tr>
+                        <tr>
+                            <td>1. Making no sound; quiet</td>
+                            <td><input type="text" id="spell1" placeholder="Spell the word"></td>
+                            <td><input type="text" id="mean1" placeholder="What does it mean?"></td>
+                        </tr>
+                        <tr>
+                            <td>2. Causing pain or discomfort</td>
+                            <td><input type="text" id="spell2" placeholder="Spell the word"></td>
+                            <td><input type="text" id="mean2" placeholder="What does it mean?"></td>
+                        </tr>
+                        <tr>
+                            <td>3. Very interesting or fascinating</td>
+                            <td><input type="text" id="spell3" placeholder="Spell the word"></td>
+                            <td><input type="text" id="mean3" placeholder="What does it mean?"></td>
+                        </tr>
+                        <tr>
+                            <td>4. Willing to give freely; kind</td>
+                            <td><input type="text" id="spell4" placeholder="Spell the word"></td>
+                            <td><input type="text" id="mean4" placeholder="What does it mean?"></td>
+                        </tr>
+                        <tr>
+                            <td>5. An animal that hunts other animals</td>
+                            <td><input type="text" id="spell5" placeholder="Spell the word"></td>
+                            <td><input type="text" id="mean5" placeholder="What does it mean?"></td>
+                        </tr>
+                        <tr>
+                            <td>6. Shy and easily frightened</td>
+                            <td><input type="text" id="spell6" placeholder="Spell the word"></td>
+                            <td><input type="text" id="mean6" placeholder="What does it mean?"></td>
+                        </tr>
+                        <tr>
+                            <td>7. Peaceful and calm</td>
+                            <td><input type="text" id="spell7" placeholder="Spell the word"></td>
+                            <td><input type="text" id="mean7" placeholder="What does it mean?"></td>
+                        </tr>
+                        <tr>
+                            <td>8. Showing courage; fearless</td>
+                            <td><input type="text" id="spell8" placeholder="Spell the word"></td>
+                            <td><input type="text" id="mean8" placeholder="What does it mean?"></td>
+                        </tr>
+                        <tr>
+                            <td>9. Threatening; suggesting something bad will happen</td>
+                            <td><input type="text" id="spell9" placeholder="Spell the word"></td>
+                            <td><input type="text" id="mean9" placeholder="What does it mean?"></td>
+                        </tr>
+                        <tr>
+                            <td>10. Unwilling or hesitant to do something</td>
+                            <td><input type="text" id="spell10" placeholder="Spell the word"></td>
+                            <td><input type="text" id="mean10" placeholder="What does it mean?"></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="question">
+                    <h3>Part B: Additional Spelling and Meaning</h3>
+                    <table>
+                        <tr>
+                            <th>Definition (Read Aloud)</th>
+                            <th>Student's Spelling</th>
+                            <th>Student's Meaning</th>
+                        </tr>
+                        <tr>
+                            <td>11. To move from one place to another seasonally</td>
+                            <td><input type="text" id="spell11" placeholder="Spell the word"></td>
+                            <td><input type="text" id="mean11" placeholder="What does it mean?"></td>
+                        </tr>
+                        <tr>
+                            <td>12. Complete disorder and confusion</td>
+                            <td><input type="text" id="spell12" placeholder="Spell the word"></td>
+                            <td><input type="text" id="mean12" placeholder="What does it mean?"></td>
+                        </tr>
+                        <tr>
+                            <td>13. Someone who protects or watches over</td>
+                            <td><input type="text" id="spell13" placeholder="Spell the word"></td>
+                            <td><input type="text" id="mean13" placeholder="What does it mean?"></td>
+                        </tr>
+                        <tr>
+                            <td>14. To amaze or surprise greatly</td>
+                            <td><input type="text" id="spell14" placeholder="Spell the word"></td>
+                            <td><input type="text" id="mean14" placeholder="What does it mean?"></td>
+                        </tr>
+                        <tr>
+                            <td>15. Able to be seen</td>
+                            <td><input type="text" id="spell15" placeholder="Spell the word"></td>
+                            <td><input type="text" id="mean15" placeholder="What does it mean?"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- SECTION 2: Fill in the Blanks -->
+            <div class="section">
+                <div class="section-title">Section 2: Complete Sentences with Correct Words (15 points)</div>
+                
+                <div class="question">
+                    <h3>Choose the correct word to complete each sentence</h3>
+                    <div class="word-list">
+                        <strong>Word Bank:</strong>
+                        <span class="word-box">enormous</span>
+                        <span class="word-box">nutritious</span>
+                        <span class="word-box">disappear</span>
+                        <span class="word-box">mechanic</span>
+                        <span class="word-box">temperature</span>
+                        <span class="word-box">parallel</span>
+                        <span class="word-box">obstacle</span>
+                        <span class="word-box">acquaintance</span>
+                        <span class="word-box">schedule</span>
+                        <span class="word-box">tsunami</span>
+                    </div>
+                    
+                    <p>1. The <input type="text" class="inline-input" id="sent1"> fixed our broken car engine yesterday.</p>
+                    
+                    <p>2. Eating <input type="text" class="inline-input" id="sent2"> food helps us stay healthy and strong.</p>
+                    
+                    <p>3. The magician made the rabbit <input type="text" class="inline-input" id="sent3"> from the hat.</p>
+                    
+                    <p>4. The <input type="text" class="inline-input" id="sent4"> elephant stood next to the tiny mouse.</p>
+                    
+                    <p>5. The train tracks run <input type="text" class="inline-input" id="sent5"> to each other for miles.</p>
+                    
+                    <p>6. The doctor checked my <input type="text" class="inline-input" id="sent6"> when I had a fever.</p>
+                    
+                    <p>7. The fallen tree was a major <input type="text" class="inline-input" id="sent7"> blocking our path.</p>
+                    
+                    <p>8. I met an old <input type="text" class="inline-input" id="sent8"> from primary school at the mall.</p>
+                    
+                    <p>9. Please check the <input type="text" class="inline-input" id="sent9"> to see what time the meeting starts.</p>
+                    
+                    <p>10. The devastating <input type="text" class="inline-input" id="sent10"> destroyed many coastal villages.</p>
+                </div>
+                
+                <div class="question">
+                    <h3>Spelling Challenge: Write these commonly misspelled words correctly</h3>
+                    <p>11. A gift or memento from a trip: <input type="text" class="inline-input" id="spell_chal1"></p>
+                    <p>12. Human beings in general: <input type="text" class="inline-input" id="spell_chal2"></p>
+                    <p>13. To help or assist someone: <input type="text" class="inline-input" id="spell_chal3"></p>
+                    <p>14. The worldwide computer network: <input type="text" class="inline-input" id="spell_chal4"></p>
+                    <p>15. Clear enough to read easily: <input type="text" class="inline-input" id="spell_chal5"></p>
+                </div>
+            </div>
+            
+            <!-- SECTION 3: Suffixes -->
+            <div class="section">
+                <div class="section-title">Section 3: Suffix Knowledge and Application (20 points)</div>
+                
+                <div class="question">
+                    <h3>Part A: What do these suffixes mean?</h3>
+                    <p>Write the meaning of each suffix:</p>
+                    
+                    <p>1. -ible: <input type="text" class="inline-input" id="suf_mean1"></p>
+                    <p>2. -ance: <input type="text" class="inline-input" id="suf_mean2"></p>
+                    <p>3. -ant: <input type="text" class="inline-input" id="suf_mean3"></p>
+                    <p>4. -ous: <input type="text" class="inline-input" id="suf_mean4"></p>
+                    <p>5. -less: <input type="text" class="inline-input" id="suf_mean5"></p>
+                    <p>6. -ful: <input type="text" class="inline-input" id="suf_mean6"></p>
+                    <p>7. -ment: <input type="text" class="inline-input" id="suf_mean7"></p>
+                    <p>8. -ness: <input type="text" class="inline-input" id="suf_mean8"></p>
+                </div>
+                
+                <div class="question">
+                    <h3>Part B: Create words using suffixes</h3>
+                    
+                    <p>1. comfort + suffix (add -able) = <input type="text" class="inline-input" id="suf_word1"></p>
+                    <p>2. care + suffix (add -less or -ful) = <input type="text" class="inline-input" id="suf_word2"></p>
+                    <p>3. danger + suffix (add -ous) = <input type="text" class="inline-input" id="suf_word3"></p>
+                    <p>4. enjoy + suffix (add -ment or -able) = <input type="text" class="inline-input" id="suf_word4"></p>
+                    <p>5. help + suffix (add -ful or -less) = <input type="text" class="inline-input" id="suf_word5"></p>
+                    <p>6. govern + suffix (add -ment) = <input type="text" class="inline-input" id="suf_word6"></p>
+                </div>
+            </div>
+            
+            <!-- SECTION 4: Adjectives -->
+            <div class="section">
+                <div class="section-title">Section 4: Forming Adjectives with Suffixes (15 points)</div>
+                
+                <div class="question">
+                    <h3>Add suffixes to form adjectives</h3>
+                    
+                    <p>1. beauty + ful = <input type="text" class="inline-input" id="adj1"></p>
+                    <p>2. child + ish = <input type="text" class="inline-input" id="adj2"></p>
+                    <p>3. fame + ous = <input type="text" class="inline-input" id="adj3"></p>
+                    <p>4. music + al = <input type="text" class="inline-input" id="adj4"></p>
+                    <p>5. poison + ous = <input type="text" class="inline-input" id="adj5"></p>
+                </div>
+                
+                <div class="question">
+                    <h3>Complete sentences by adding suffixes</h3>
+                    
+                    <p>1. The (mystery + ious) <input type="text" class="inline-input" id="sent_adj1"> package arrived this morning.</p>
+                    
+                    <p>2. She is a very (thought + ful) <input type="text" class="inline-input" id="sent_adj2"> person.</p>
+                    
+                    <p>3. The (mountain + ous) <input type="text" class="inline-input" id="sent_adj3"> terrain was difficult to cross.</p>
+                    
+                    <p>4. His (hero + ic) <input type="text" class="inline-input" id="sent_adj4"> actions saved many lives.</p>
+                    
+                    <p>5. The (peace + ful) <input type="text" class="inline-input" id="sent_adj5"> garden was perfect for meditation.</p>
+                </div>
+            </div>
+            
+            <!-- SECTION 5: Spelling Changes -->
+            <div class="section">
+                <div class="section-title">Section 5: Spelling Changes When Adding Suffixes (10 points)</div>
+                
+                <div class="question">
+                    <h3>Add suffixes to these words (watch for spelling changes!)</h3>
+                    
+                    <p>1. happy + ness = <input type="text" class="inline-input" id="spell_change1"></p>
+                    <p>2. swim + ing = <input type="text" class="inline-input" id="spell_change2"></p>
+                    <p>3. create + ion = <input type="text" class="inline-input" id="spell_change3"></p>
+                    <p>4. busy + ness = <input type="text" class="inline-input" id="spell_change4"></p>
+                    <p>5. argue + ment = <input type="text" class="inline-input" id="spell_change5"></p>
+                </div>
+            </div>
+            
+            <!-- SECTION 6: Abstract Nouns -->
+            <div class="section">
+                <div class="section-title">Section 6: Abstract Nouns (10 points)</div>
+                
+                <div class="question">
+                    <h3>Identify the abstract nouns in these sentences</h3>
+                    
+                    <p>1. Her kindness and generosity touched everyone's hearts.</p>
+                    <p>Abstract nouns: <input type="text" id="abstract1"></p>
+                    
+                    <p>2. The children showed great courage during the storm.</p>
+                    <p>Abstract noun: <input type="text" id="abstract2"></p>
+                    
+                    <p>3. Success requires patience, dedication, and wisdom.</p>
+                    <p>Abstract nouns: <input type="text" id="abstract3"></p>
+                    
+                    <p>4. Their friendship has lasted through many difficulties.</p>
+                    <p>Abstract nouns: <input type="text" id="abstract4"></p>
+                    
+                    <p>5. The beauty of nature fills us with joy and peace.</p>
+                    <p>Abstract nouns: <input type="text" id="abstract5"></p>
+                </div>
+            </div>
+            
+            <!-- SECTION 7: Noun Phrases -->
+            <div class="section">
+                <div class="section-title">Section 7: Noun Phrases (10 points)</div>
+                
+                <div class="question">
+                    <h3>Create noun phrases by adding descriptive words</h3>
+                    
+                    <p>1. Add words to make "car" more interesting: <input type="text" id="noun_phrase1"></p>
+                    <p>2. Add words to make "dog" more descriptive: <input type="text" id="noun_phrase2"></p>
+                    <p>3. Add words to make "house" more specific: <input type="text" id="noun_phrase3"></p>
+                </div>
+                
+                <div class="question">
+                    <h3>Rewrite these sentences using noun phrases</h3>
+                    
+                    <p>4. The teacher helped us. → <input type="text" id="noun_phrase4"></p>
+                    <p>5. The storm damaged the trees. → <input type="text" id="noun_phrase5"></p>
+                </div>
+            </div>
+            
+            <!-- SECTION 8: Prefixes -->
+            <div class="section">
+                <div class="section-title">Section 8: Prefixes and Word Meanings (20 points)</div>
+                
+                <div class="question">
+                    <h3>Add the correct prefix to create opposite meanings</h3>
+                    
+                    <p>1. im + patient = <input type="text" class="inline-input" id="prefix1"> | Meaning: <input type="text" class="inline-input" id="prefix_mean1"></p>
+                    <p>2. ir + responsible = <input type="text" class="inline-input" id="prefix2"> | Meaning: <input type="text" class="inline-input" id="prefix_mean2"></p>
+                    <p>3. il + legal = <input type="text" class="inline-input" id="prefix3"> | Meaning: <input type="text" class="inline-input" id="prefix_mean3"></p>
+                    <p>4. dis + honest = <input type="text" class="inline-input" id="prefix4"> | Meaning: <input type="text" class="inline-input" id="prefix_mean4"></p>
+                    <p>5. in + frequent = <input type="text" class="inline-input" id="prefix5"> | Meaning: <input type="text" class="inline-input" id="prefix_mean5"></p>
+                    <p>6. il + legible = <input type="text" class="inline-input" id="prefix6"> | Meaning: <input type="text" class="inline-input" id="prefix_mean6"></p>
+                    <p>7. in + tolerant = <input type="text" class="inline-input" id="prefix7"> | Meaning: <input type="text" class="inline-input" id="prefix_mean7"></p>
+                    <p>8. un + ethical = <input type="text" class="inline-input" id="prefix8"> | Meaning: <input type="text" class="inline-input" id="prefix_mean8"></p>
+                </div>
+                
+                <div class="question">
+                    <h3>What do these words mean?</h3>
+                    
+                    <p>1. inefficient: <input type="text" id="prefix_test1"></p>
+                    <p>2. unconscious: <input type="text" id="prefix_test2"></p>
+                    <p>3. irregular: <input type="text" id="prefix_test3"></p>
+                    <p>4. immobile: <input type="text" id="prefix_test4"></p>
+                </div>
+            </div>
+            
+            <!-- SECTION 9: Root Words -->
+            <div class="section">
+                <div class="section-title">Section 9: Root Words and Word Families (10 points)</div>
+                
+                <div class="question">
+                    <h3>Find the root word and create another related word</h3>
+                    
+                    <p>1. dishonest - Root: <input type="text" class="inline-input" id="root1"> | Related word: <input type="text" class="inline-input" id="related1"></p>
+                    <p>2. musician - Root: <input type="text" class="inline-input" id="root2"> | Related word: <input type="text" class="inline-input" id="related2"></p>
+                    <p>3. examination - Root: <input type="text" class="inline-input" id="root3"> | Related word: <input type="text" class="inline-input" id="related3"></p>
+                    <p>4. explorer - Root: <input type="text" class="inline-input" id="root4"> | Related word: <input type="text" class="inline-input" id="related4"></p>
+                    <p>5. producer - Root: <input type="text" class="inline-input" id="root5"> | Related word: <input type="text" class="inline-input" id="related5"></p>
+                </div>
+            </div>
+            
+            <!-- SECTION 10: Bonus Spelling -->
+            <div class="section">
+                <div class="section-title">Section 10: Bonus Spelling Challenge (10 points)</div>
+                
+                <div class="question">
+                    <h3>Spell these commonly misspelled words correctly</h3>
+                    
+                    <p>1. The day after Tuesday: <input type="text" class="inline-input" id="bonus1"></p>
+                    <p>2. The second month of the year: <input type="text" class="inline-input" id="bonus2"></p>
+                    <p>3. To get something: <input type="text" class="inline-input" id="bonus3"></p>
+                    <p>4. Not the same: <input type="text" class="inline-input" id="bonus4"></p>
+                    <p>5. Needed or required: <input type="text" class="inline-input" id="bonus5"></p>
+                    <p>6. To do something alone: <input type="text" class="inline-input" id="bonus6"></p>
+                    <p>7. The place to borrow books: <input type="text" class="inline-input" id="bonus7"></p>
+                    <p>8. A tasty treat after dinner: <input type="text" class="inline-input" id="bonus8"></p>
+                    <p>9. To suggest something: <input type="text" class="inline-input" id="bonus9"></p>
+                    <p>10. Feeling thankful: <input type="text" class="inline-input" id="bonus10"></p>
+                </div>
+            </div>
+            
+            <button class="submit-btn" id="submitBtn">Submit Quiz</button>
+            <div id="quizResult" class="result"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Mode switching
+        const studyBtn = document.getElementById('studyBtn');
+        const assessmentBtn = document.getElementById('assessmentBtn');
+        const studyContent = document.getElementById('studyContent');
+        const assessmentContent = document.getElementById('assessmentContent');
+        
+        studyBtn.addEventListener('click', function() {
+            studyBtn.classList.add('active');
+            assessmentBtn.classList.remove('active');
+            studyContent.classList.add('active');
+            assessmentContent.classList.remove('active');
+        });
+        
+        assessmentBtn.addEventListener('click', function() {
+            assessmentBtn.classList.add('active');
+            studyBtn.classList.remove('active');
+            assessmentContent.classList.add('active');
+            studyContent.classList.remove('active');
+        });
+        
+        // Set today's date
+        document.getElementById('testDate').value = new Date().toLocaleDateString();
+        
+        // Correct answers
+        const correctAnswers = {
+            spell1: 'silent', spell2: 'aching', spell3: 'intriguing', spell4: 'generous', spell5: 'predator',
+            spell6: 'timid', spell7: 'tranquil', spell8: 'brave', spell9: 'ominous', spell10: 'reluctant',
+            spell11: 'migrate', spell12: 'chaos', spell13: 'guardian', spell14: 'astonish', spell15: 'visible',
+            sent1: 'mechanic', sent2: 'nutritious', sent3: 'disappear', sent4: 'enormous', sent5: 'parallel',
+            sent6: 'temperature', sent7: 'obstacle', sent8: 'acquaintance', sent9: 'schedule', sent10: 'tsunami',
+            spell_chal1: 'souvenir', spell_chal2: 'people', spell_chal3: 'serve', spell_chal4: 'internet', spell_chal5: 'legible',
+            adj1: 'beautiful', adj2: 'childish', adj3: 'famous', adj4: 'musical', adj5: 'poisonous',
+            sent_adj1: 'mysterious', sent_adj2: 'thoughtful', sent_adj3: 'mountainous', sent_adj4: 'heroic', sent_adj5: 'peaceful',
+            spell_change1: 'happiness', spell_change2: 'swimming', spell_change3: 'creation', spell_change4: 'business', spell_change5: 'argument',
+            prefix1: 'impatient', prefix2: 'irresponsible', prefix3: 'illegal', prefix4: 'dishonest',
+            prefix5: 'infrequent', prefix6: 'illegible', prefix7: 'intolerant', prefix8: 'unethical',
+            root1: 'honest', root2: 'music', root3: 'examine', root4: 'explore', root5: 'produce',
+            bonus1: 'wednesday', bonus2: 'february', bonus3: 'receive', bonus4: 'different', bonus5: 'necessary',
+            bonus6: 'separate', bonus7: 'library', bonus8: 'dessert', bonus9: 'recommend', bonus10: 'grateful'
+        };
+        
+        // Grade quiz function
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            let score = 0;
+            let totalPoints = 150;
+            let feedback = [];
+            
+            // Section 1: Spelling (2 points each = 30 points)
+            for (let i = 1; i <= 15; i++) {
+                const elem = document.getElementById('spell' + i);
+                if (elem && elem.value.toLowerCase().trim() === correctAnswers['spell' + i]) {
+                    score += 2;
+                } else if (elem && elem.value.trim()) {
+                    feedback.push(`Spelling ${i}: Correct answer is "${correctAnswers['spell' + i]}"`);
+                }
+            }
+            
+            // Section 2: Sentences (1.5 points each = 15 points)
+            for (let i = 1; i <= 10; i++) {
+                const elem = document.getElementById('sent' + i);
+                if (elem && elem.value.toLowerCase().trim() === correctAnswers['sent' + i]) {
+                    score += 1.5;
+                } else if (elem && elem.value.trim()) {
+                    feedback.push(`Sentence ${i}: Correct answer is "${correctAnswers['sent' + i]}"`);
+                }
+            }
+            
+            // Section 2: Spelling challenge
+            for (let i = 1; i <= 5; i++) {
+                const elem = document.getElementById('spell_chal' + i);
+                if (elem && elem.value.toLowerCase().trim() === correctAnswers['spell_chal' + i]) {
+                    score += 2;
+                } else if (elem && elem.value.trim()) {
+                    feedback.push(`Spelling challenge ${i}: Correct answer is "${correctAnswers['spell_chal' + i]}"`);
+                }
+            }
+            
+            // Section 4: Adjectives (3 points each)
+            for (let i = 1; i <= 5; i++) {
+                const elem = document.getElementById('adj' + i);
+                if (elem && elem.value.toLowerCase().trim() === correctAnswers['adj' + i]) {
+                    score += 3;
+                } else if (elem && elem.value.trim()) {
+                    feedback.push(`Adjective ${i}: Correct answer is "${correctAnswers['adj' + i]}"`);
+                }
+            }
+            
+            for (let i = 1; i <= 5; i++) {
+                const elem = document.getElementById('sent_adj' + i);
+                if (elem && elem.value.toLowerCase().trim() === correctAnswers['sent_adj' + i]) {
+                    score += 3;
+                } else if (elem && elem.value.trim()) {
+                    feedback.push(`Sentence adjective ${i}: Correct answer is "${correctAnswers['sent_adj' + i]}"`);
+                }
+            }
+            
+            // Section 5: Spelling changes (2 points each)
+            for (let i = 1; i <= 5; i++) {
+                const elem = document.getElementById('spell_change' + i);
+                if (elem && elem.value.toLowerCase().trim() === correctAnswers['spell_change' + i]) {
+                    score += 2;
+                } else if (elem && elem.value.trim()) {
+                    feedback.push(`Spelling change ${i}: Correct answer is "${correctAnswers['spell_change' + i]}"`);
+                }
+            }
+            
+            // Section 8: Prefixes (2.5 points each)
+            for (let i = 1; i <= 8; i++) {
+                const elem = document.getElementById('prefix' + i);
+                if (elem && elem.value.toLowerCase().trim() === correctAnswers['prefix' + i]) {
+                    score += 2.5;
+                } else if (elem && elem.value.trim()) {
+                    feedback.push(`Prefix ${i}: Correct answer is "${correctAnswers['prefix' + i]}"`);
+                }
+            }
+            
+            // Section 9: Root words (2 points each)
+            for (let i = 1; i <= 5; i++) {
+                const elem = document.getElementById('root' + i);
+                if (elem && elem.value.toLowerCase().trim() === correctAnswers['root' + i]) {
+                    score += 2;
+                } else if (elem && elem.value.trim()) {
+                    feedback.push(`Root ${i}: Correct answer is "${correctAnswers['root' + i]}"`);
+                }
+            }
+            
+            // Section 10: Bonus (1 point each)
+            for (let i = 1; i <= 10; i++) {
+                const elem = document.getElementById('bonus' + i);
+                if (elem && elem.value.toLowerCase().trim() === correctAnswers['bonus' + i]) {
+                    score += 1;
+                } else if (elem && elem.value.trim()) {
+                    feedback.push(`Bonus ${i}: Correct answer is "${correctAnswers['bonus' + i]}"`);
+                }
+            }
+            
+            // Calculate percentage
+            const percentage = Math.round((score / totalPoints) * 100);
+            
+            // Get grade
+            let grade;
+            if (percentage >= 90) grade = 'A+';
+            else if (percentage >= 80) grade = 'A';
+            else if (percentage >= 70) grade = 'B';
+            else if (percentage >= 60) grade = 'C';
+            else if (percentage >= 50) grade = 'D';
+            else grade = 'F';
+            
+            // Display results
+            const resultDiv = document.getElementById('quizResult');
+            resultDiv.innerHTML = `
+                <h2>Quiz Results for ${document.getElementById('studentName').value}</h2>
+                <div class="score">${percentage}%</div>
+                <h3>Grade: ${grade}</h3>
+                <p><strong>Score:</strong> ${score.toFixed(1)} out of ${totalPoints} points</p>
+                <p><strong>Date:</strong> ${document.getElementById('testDate').value}</p>
+                ${feedback.length > 0 ? `
+                <div class="feedback">
+                    <h3>Areas to Review:</h3>
+                    <ul>${feedback.slice(0, 15).map(f => '<li>' + f + '</li>').join('')}</ul>
+                    ${feedback.length > 15 ? '<p><em>...and ' + (feedback.length - 15) + ' more items to review</em></p>' : ''}
+                </div>` : '<p style="color: #28a745; font-size: 1.2em;"><strong>Perfect score! Excellent work!</strong></p>'}
+            `;
+            resultDiv.style.display = 'block';
+            
+            // Scroll to results
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+    </script>
+</body>
+</html>

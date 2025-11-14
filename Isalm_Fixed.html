@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Islam Study Guide & Assessment - 6th Grade</title>
+
+  <script>
+
+    const DESTINATION_EMAIL = 'my2jada@gmail.com'; // where results are sent
+
+    document.addEventListener('DOMContentLoaded', () => {
+      try {}
+      catch(e){}
+    });
+  </script>
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background:linear-gradient(135deg,#667eea 0%, #764ba2 100%);
+      padding:20px; line-height:1.6;
+    }
+    .container {
+      max-width:900px; margin:0 auto; background:#fff; padding:30px;
+      border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    }
+    h1 {
+      color:#2c3e50; text-align:center; margin-bottom:10px; font-size:2.2em;
+      border-bottom:4px solid #667eea; padding-bottom:15px;
+    }
+    h2 { color:#667eea; margin-top:30px; margin-bottom:15px; font-size:1.8em; border-left:5px solid #764ba2; padding-left:15px; }
+    h3 { color:#764ba2; margin-top:20px; margin-bottom:10px; font-size:1.25em; }
+    .subtitle { text-align:center; color:#7f8c8d; font-style:italic; margin-bottom:20px; }
+
+    .topbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin:10px 0 5px; }
+    .topbar input {
+      padding:10px; border:2px solid #667eea; border-radius:8px; min-width:260px;
+    }
+
+    .nav-buttons { display:flex; justify-content:center; gap:15px; margin:20px 0; flex-wrap:wrap; }
+    .nav-btn {
+      background:linear-gradient(135deg,#667eea 0%, #764ba2 100%);
+      color:#fff; border:none; padding:12px 25px; border-radius:25px;
+      cursor:pointer; font-size:1em; font-weight:bold;
+      transition:transform .2s, box-shadow .2s;
+    }
+    .nav-btn:hover { transform:translateY(-2px); box-shadow:0 5px 15px rgba(102,126,234,.4); }
+
+    .section { display:none; }
+    .section.active { display:block; animation:fadeIn .4s; }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)} }
+
+    .vocab-card { background:linear-gradient(135deg,#f5f7fa 0%, #c3cfe2 100%);
+      padding:15px; margin:10px 0; border-radius:10px; border-left:5px solid #667eea; }
+    .vocab-term { font-weight:bold; color:#2c3e50; font-size:1.15em; }
+    .vocab-def { color:#34495e; margin-top:5px; }
+
+    .flip-card { background:#fff; border:3px solid #667eea; border-radius:10px; padding:20px; margin:15px 0; cursor:pointer; transition:all .3s; }
+    .flip-card:hover { box-shadow:0 5px 15px rgba(102,126,234,.3); transform:scale(1.01); }
+    .flip-card .question { font-weight:bold; color:#2c3e50; }
+    .flip-card .answer { display:none; color:#27ae60; margin-top:10px; padding-top:10px; border-top:2px dashed #667eea; }
+    .flip-card.revealed .answer { display:block; }
+
+    .belief-box { background:linear-gradient(135deg,#ffeaa7 0%, #fdcb6e 100%); padding:15px; margin:10px 0; border-radius:10px; border-left:5px solid #e17055; }
+    .belief-number { font-weight:bold; color:#d63031; font-size:1.1em; }
+    .practice-box { background:#ecf0f1; padding:20px; border-radius:10px; margin:15px 0; }
+
+    input[type="text"] { width:100%; padding:10px; margin:5px 0; border:2px solid #667eea; border-radius:5px; }
+    label { display:block; margin:8px 0; cursor:pointer; }
+    input[type="radio"] { margin-right:6px; }
+
+    .assessment-question { background:#f8f9fa; padding:20px; margin:15px 0; border-radius:10px; border-left:5px solid #667eea; }
+    .question-number { font-weight:bold; color:#667eea; margin-bottom:10px; }
+    textarea { width:100%; padding:10px; border:2px solid #667eea; border-radius:5px; min-height:100px; }
+
+    .check-btn {
+      background:#27ae60; color:#fff; border:none; padding:12px 22px; border-radius:10px;
+      cursor:pointer; font-weight:bold;
+    }
+    .score-display {
+      background:linear-gradient(135deg,#667eea 0%, #764ba2 100%); color:#fff;
+      padding:20px; border-radius:10px; text-align:center; font-size:1.2em; margin:15px 0; display:none;
+    }
+    .feedback { margin-top:10px; }
+    .correct { background:#d4edda; color:#155724; padding:10px; border-radius:8px; }
+    .incorrect { background:#f8d7da; color:#721c24; padding:10px; border-radius:8px; }
+
+    .print-btn { background:#34495e; color:#fff; border:none; padding:12px 25px; border-radius:25px; cursor:pointer; font-weight:bold; margin:10px 0; }
+    .email-status { margin-top:8px; font-size:.95em; }
+    .email-status.ok { color:#1f8f54; }
+    .email-status.err { color:#b00020; }
+
+    @media print {
+      body { background:#fff; }
+      .nav-buttons, .check-btn, .print-btn, .topbar { display:none; }
+      .section { display:block !important; page-break-after:always; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🕌 Islam Study Guide & Assessment 📚</h1>
+    <p class="subtitle">Interactive Learning Guide for 6th Grade</p>
+
+    <div id="vocab" class="section active">
+      <h2>📖 Key Vocabulary Terms</h2>
+      <p><strong>Instructions:</strong> Read each term and its definition carefully. These words are essential for understanding Islam!</p>
+
+      <div class="vocab-card"><div class="vocab-term">🕌 Islam</div><div class="vocab-def">The name of the religion. It means "submission to God" or "peace."</div></div>
+      <div class="vocab-card"><div class="vocab-term">👥 Muslims</div><div class="vocab-def">People who follow the religion of Islam. A person who submits to God's will.</div></div>
+      <div class="vocab-card"><div class="vocab-term">☪️ Allah</div><div class="vocab-def">The Arabic word for God. Muslims believe in one God who created everything.</div></div>
+      <div class="vocab-card"><div class="vocab-term">🕌 Mosque</div><div class="vocab-def">The place where Muslims gather to worship and pray.</div></div>
+      <div class="vocab-card"><div class="vocab-term">📖 Qur'an (Koran)</div><div class="vocab-def">The holy book of Islam, written in Arabic.</div></div>
+      <div class="vocab-card"><div class="vocab-term">👨‍🏫 Imam</div><div class="vocab-def">The religious leader who leads prayers at the mosque.</div></div>
+      <div class="vocab-card"><div class="vocab-term">🌙 Prophet Muhammad</div><div class="vocab-def">The final prophet in Islam who received God's messages through the angel Gabriel.</div></div>
+      <div class="vocab-card"><div class="vocab-term">👼 Gabriel (Jibril)</div><div class="vocab-def">The angel who delivered Allah's messages to Prophet Muhammad.</div></div>
+      <div class="vocab-card"><div class="vocab-term">💧 Wudu</div><div class="vocab-def">Ritual washing before prayer.</div></div>
+      <div class="vocab-card"><div class="vocab-term">🕌 Jumu'ah</div><div class="vocab-def">The special Friday prayer held at the mosque.</div></div>
+      <div class="vocab-card"><div class="vocab-term">⚖️ Qadr</div><div class="vocab-def">Belief that everything happens according to God's plan.</div></div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div id="overview" class="section">
+      <h2>🌟 Islam: Quick Overview</h2>
+      <div class="practice-box">
+        <h3>📌 Fast Facts</h3>
+        <ul style="margin-left:20px; margin-top:10px;">
+          <li><strong>Name:</strong> Islam (means “Submission to God”)</li>
+          <li><strong>Followers:</strong> Muslims</li>
+          <li><strong>Founded:</strong> 7th century CE, Mecca</li>
+          <li><strong>Main belief:</strong> One God (Allah)</li>
+        </ul>
+      </div>
+      <h3>🕌 The Mosque: A Special Place</h3>
+      <div class="practice-box">
+        <ul style="margin-left:20px; margin-top:10px;">
+          <li>Remove shoes before entering</li>
+          <li>Wudu before prayer</li>
+          <li>Imam leads prayers</li>
+          <li>Friday Jumu'ah prayer</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- BELIEFS -->
+    <div id="beliefs" class="section">
+      <h2>💭 The Six Main Beliefs of Islam</h2>
+      <div class="belief-box"><div class="belief-number">1️⃣ Belief in One God (Allah)</div><p>There is only one God.</p></div>
+      <div class="belief-box"><div class="belief-number">2️⃣ Belief in Angels</div><p>Angels serve God; Gabriel brought revelations.</p></div>
+      <div class="belief-box"><div class="belief-number">3️⃣ Belief in the Prophets</div><p>Adam, Noah, Abraham, Moses, Jesus, and Muhammad (final prophet).</p></div>
+      <div class="belief-box"><div class="belief-number">4️⃣ Belief in the Holy Books</div><p>Torah, Psalms, Gospel, Qur'an (final).</p></div>
+      <div class="belief-box"><div class="belief-number">5️⃣ Belief in the Day of Judgment</div><p>God judges all people fairly.</p></div>
+      <div class="belief-box"><div class="belief-number">6️⃣ Belief in God's Will (Qadr)</div><p>Everything happens according to God's plan.</p></div>
+    </div>
+
+    <!-- PRACTICES -->
+    <div id="practices" class="section">
+      <h2>🙏 Islamic Practices & Customs</h2>
+      <div class="practice-box">
+        <div><strong>Wudu steps:</strong> hands, face, arms, head (wipe), feet.</div>
+        <div style="margin-top:10px;"><strong>Friday:</strong> Jumu'ah, sermon, community prayer.</div>
+      </div>
+    </div>
+
+    <!-- REVIEW -->
+    <div id="review" class="section">
+      <h2>🔄 Interactive Review</h2>
+      <div class="flip-card" onclick="this.classList.toggle('revealed')">
+        <div class="question">What does "Islam" mean?</div><div class="answer">Submission to God / Peace</div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('revealed')">
+        <div class="question">Place of worship?</div><div class="answer">Mosque</div>
+      </div>
+
+      <h3 style="margin-top:20px;">🎯 Quick Practice: Fill in the Blanks</h3>
+      <div class="practice-box" id="fillBlanks">
+        <p>1. Followers of Islam are <input type="text" id="blank1" style="width:160px;"></p>
+        <p>2. Muslims worship at a <input type="text" id="blank2" style="width:160px;"></p>
+        <p>3. The holy book is the <input type="text" id="blank3" style="width:160px;"></p>
+        <p>4. The prayer leader is an <input type="text" id="blank4" style="width:160px;"></p>
+        <p>5. The Arabic word for God is <input type="text" id="blank5" style="width:160px;"></p>
+        <button class="check-btn" onclick="checkFillBlanks()">Check Answers</button>
+        <div id="fillBlanksFeedback"></div>
+      </div>
+    </div>
+
+    <!-- ASSESSMENT -->
+    <div id="assessment" class="section">
+      <h2>✏️ Comprehensive Assessment</h2>
+      <p><strong>Instructions:</strong> Answer all questions carefully. Click submit to grade and email results.</p>
+
+      <h3>Part 1: Multiple Choice (20 points)</h3>
+      <div class="assessment-question">
+        <div class="question-number">Question 1 (2 pts)</div>
+        <p><strong>What does the word "Islam" mean?</strong></p>
+        <label><input type="radio" name="q1" value="a"> A) Peace and submission to God</label>
+        <label><input type="radio" name="q1" value="b"> B) Strength and power</label>
+        <label><input type="radio" name="q1" value="c"> C) Wisdom and knowledge</label>
+        <label><input type="radio" name="q1" value="d"> D) Faith and hope</label>
+      </div>
+      <div class="assessment-question">
+        <div class="question-number">Question 2 (2 pts)</div>
+        <p><strong>What is the place of worship in Islam called?</strong></p>
+        <label><input type="radio" name="q2" value="a"> A) Church</label>
+        <label><input type="radio" name="q2" value="b"> B) Temple</label>
+        <label><input type="radio" name="q2" value="c"> C) Mosque</label>
+        <label><input type="radio" name="q2" value="d"> D) Synagogue</label>
+      </div>
+      <div class="assessment-question">
+        <div class="question-number">Question 3 (2 pts)</div>
+        <p><strong>Who is the final prophet in Islam?</strong></p>
+        <label><input type="radio" name="q3" value="a"> A) Moses</label>
+        <label><input type="radio" name="q3" value="b"> B) Jesus</label>
+        <label><input type="radio" name="q3" value="c"> C) Muhammad</label>
+        <label><input type="radio" name="q3" value="d"> D) Abraham</label>
+      </div>
+      <div class="assessment-question">
+        <div class="question-number">Question 4 (2 pts)</div>
+        <p><strong>What is the holy book of Islam?</strong></p>
+        <label><input type="radio" name="q4" value="a"> A) The Bible</label>
+        <label><input type="radio" name="q4" value="b"> B) The Torah</label>
+        <label><input type="radio" name="q4" value="c"> C) The Qur'an</label>
+        <label><input type="radio" name="q4" value="d"> D) The Vedas</label>
+      </div>
+      <div class="assessment-question">
+        <div class="question-number">Question 5 (2 pts)</div>
+        <p><strong>What language is the Qur'an written in?</strong></p>
+        <label><input type="radio" name="q5" value="a"> A) English</label>
+        <label><input type="radio" name="q5" value="b"> B) Hebrew</label>
+        <label><input type="radio" name="q5" value="c"> C) Latin</label>
+        <label><input type="radio" name="q5" value="d"> D) Arabic</label>
+      </div>
+      <div class="assessment-question">
+        <div class="question-number">Question 6 (2 pts)</div>
+        <p><strong>What is the main day of worship for Muslims?</strong></p>
+        <label><input type="radio" name="q6" value="a"> A) Sunday</label>
+        <label><input type="radio" name="q6" value="b"> B) Friday</label>
+        <label><input type="radio"
