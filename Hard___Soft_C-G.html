@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hard and Soft C and G</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.5em;
+        }
+        
+        .score-board {
+            background: #fff9c4;
+            padding: 20px;
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 4px solid #ffd700;
+        }
+        
+        .score-item {
+            text-align: center;
+        }
+        
+        .score-label {
+            font-size: 1.2em;
+            color: #ff6b6b;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .score-value {
+            font-size: 3em;
+            font-weight: bold;
+            color: #f093fb;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: linear-gradient(to right, #fff9e6, #ffe6f0);
+            border-radius: 20px;
+            border: 4px solid #f093fb;
+        }
+        
+        .section-title {
+            font-size: 2.5em;
+            color: #f5576c;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .lesson-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 3px solid #f093fb;
+        }
+        
+        .lesson-title {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .rule {
+            font-size: 1.4em;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 6px solid #2196f3;
+        }
+        
+        .examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .example-word {
+            font-size: 1.8em;
+            font-weight: bold;
+            padding: 15px 25px;
+            background: #4caf50;
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .question {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border: 4px solid #ffd700;
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #f093fb;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 1.8em;
+            margin: 20px 0;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .word-display {
+            font-size: 3em;
+            font-weight: bold;
+            color: #f5576c;
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: #fff9e6;
+            border-radius: 15px;
+        }
+        
+        .radio-option {
+            padding: 15px;
+            margin: 15px 0;
+            background: #e8f5e9;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 3px solid transparent;
+            font-size: 1.4em;
+        }
+        
+        .radio-option:hover {
+            background: #c8e6c9;
+            transform: scale(1.05);
+            border-color: #4caf50;
+        }
+        
+        .radio-option input {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+        
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            margin: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .btn-check {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .btn-check:hover {
+            background: #45a049;
+            transform: translateY(-3px);
+        }
+        
+        .btn-hint {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .btn-hint:hover {
+            background: #ffb300;
+        }
+        
+        .btn-reset {
+            background: #f44336;
+            color: white;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 1.5em;
+            display: none;
+            text-align: center;
+        }
+        
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #1b5e20;
+            border: 4px solid #4caf50;
+            display: block;
+            animation: bounce 0.5s;
+        }
+        
+        .feedback.incorrect {
+            background: #ffcdd2;
+            color: #b71c1c;
+            border: 4px solid #f44336;
+            display: block;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .hint-box {
+            background: #fff3cd;
+            border: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 15px;
+            display: none;
+            font-size: 1.3em;
+        }
+        
+        .hint-box.show {
+            display: block;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 40px;
+            background: #e0e0e0;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+        
+        .celebration {
+            text-align: center;
+            padding: 50px;
+            display: none;
+        }
+        
+        .celebration.show {
+            display: block;
+        }
+        
+        .celebration h2 {
+            font-size: 4em;
+            color: #f093fb;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+        
+        .star {
+            font-size: 5em;
+            animation: spin 2s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .emoji {
+            font-size: 2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Hard & Soft C and G 🎵</h1>
+            <p>Learn the sounds! Have fun!</p>
+        </div>
+        
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">⭐ Stars</div>
+                <div class="score-value" id="correct-score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">🎯 Tried</div>
+                <div class="score-value" id="attempted-score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">💯 Score</div>
+                <div class="score-value" id="accuracy-score">0%</div>
+            </div>
+        </div>
+        
+        <div style="padding: 20px; background: white;">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%;">0%</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- LESSON SECTION -->
+            <div class="section">
+                <h2 class="section-title">📚 Let's Learn!</h2>
+                
+                <div class="lesson-box">
+                    <div class="lesson-title">🔴 Hard C Sound (like K)</div>
+                    <div class="rule">
+                        <strong>Hard C Rule:</strong> When C comes before <strong>a, o, or u</strong>, it sounds like <strong>K</strong>!
+                    </div>
+                    <div class="examples">
+                        <span class="example-word">cat 🐱</span>
+                        <span class="example-word">coat 🧥</span>
+                        <span class="example-word">cup ☕</span>
+                        <span class="example-word">car 🚗</span>
+                    </div>
+                </div>
+                
+                <div class="lesson-box">
+                    <div class="lesson-title">🔵 Soft C Sound (like S)</div>
+                    <div class="rule">
+                        <strong>Soft C Rule:</strong> When C comes before <strong>e, i, or y</strong>, it sounds like <strong>S</strong>!
+                    </div>
+                    <div class="examples">
+                        <span class="example-word">cell 📱</span>
+                        <span class="example-word">city 🏙️</span>
+                        <span class="example-word">cent 💰</span>
+                        <span class="example-word">ice 🧊</span>
+                    </div>
+                </div>
+                
+                <div class="lesson-box">
+                    <div class="lesson-title">🟢 Hard G Sound</div>
+                    <div class="rule">
+                        <strong>Hard G Rule:</strong> When G comes before <strong>a, o, or u</strong>, it has its regular G sound!
+                    </div>
+                    <div class="examples">
+                        <span class="example-word">goat 🐐</span>
+                        <span class="example-word">gate 🚪</span>
+                        <span class="example-word">gum 🍬</span>
+                        <span class="example-word">garden 🌸</span>
+                    </div>
+                </div>
+                
+                <div class="lesson-box">
+                    <div class="lesson-title">🟡 Soft G Sound (like J)</div>
+                    <div class="rule">
+                        <strong>Soft G Rule:</strong> When G comes before <strong>e, i, or y</strong>, it usually sounds like <strong>J</strong>!
+                    </div>
+                    <div class="examples">
+                        <span class="example-word">giraffe 🦒</span>
+                        <span class="example-word">giant 👹</span>
+                        <span class="example-word">gem 💎</span>
+                        <span class="example-word">gym 🏋️</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PRACTICE SECTION -->
+            <div class="section">
+                <h2 class="section-title">🎯 Practice Time!</h2>
+                
+                <div class="question">
+                    <span class="question-number">Question 1</span>
+                    <div class="question-text">What kind of sound does C make in this word?</div>
+                    <div class="word-display">cat 🐱</div>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="q1" value="hard">
+                            <span>🔴 Hard C (sounds like K)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="q1" value="soft">
+                            <span>🔵 Soft C (sounds like S)</span>
+                        </label>
+                    </div>
+                    <button class="btn btn-check" onclick="checkAnswer('q1', 'hard')">Check Answer ✓</button>
+                    <button class="btn btn-hint" onclick="toggleHint('q1')">💡 Hint</button>
+                    <div class="feedback" id="feedback-q1"></div>
+                    <div class="hint-box" id="hint-q1">
+                        <strong>Hint:</strong> Look at the letter after C! It's "a"! What sound does C make before a, o, or u?
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <span class="question-number">Question 2</span>
+                    <div class="question-text">What kind of sound does C make in this word?</div>
+                    <div class="word-display">cell 📱</div>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="q2" value="hard">
+                            <span>🔴 Hard C (sounds like K)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="q2" value="soft">
+                            <span>🔵 Soft C (sounds like S)</span>
+                        </label>
+                    </div>
+                    <button class="btn btn-check" onclick="checkAnswer('q2', 'soft')">Check Answer ✓</button>
+                    <button class="btn btn-hint" onclick="toggleHint('q2')">💡 Hint</button>
+                    <div class="feedback" id="feedback-q2"></div>
+                    <div class="hint-box" id="hint-q2">
+                        <strong>Hint:</strong> The letter after C is "e"! C sounds like S before e, i, or y!
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <span class="question-number">Question 3</span>
+                    <div class="question-text">What kind of sound does G make in this word?</div>
+                    <div class="word-display">goat 🐐</div>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="q3" value="hard">
+                            <span>🟢 Hard G (regular G sound)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="q3" value="soft">
+                            <span>🟡 Soft G (sounds like J)</span>
+                        </label>
+                    </div>
+                    <button class="btn btn-check" onclick="checkAnswer('q3', 'hard')">Check Answer ✓</button>
+                    <button class="btn btn-hint" onclick="toggleHint('q3')">💡 Hint</button>
+                    <div class="feedback" id="feedback-q3"></div>
+                    <div class="hint-box" id="hint-q3">
+                        <strong>Hint:</strong> The letter after G is "o"! G has its regular sound before a, o, or u!
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <span class="question-number">Question 4</span>
+                    <div class="question-text">What kind of sound does G make in this word?</div>
+                    <div class="word-display">giraffe 🦒</div>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="q4" value="hard">
+                            <span>🟢 Hard G (regular G sound)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="q4" value="soft">
+                            <span>🟡 Soft G (sounds like J)</span>
+                        </label>
+                    </div>
+                    <button class="btn btn-check" onclick="checkAnswer('q4', 'soft')">Check Answer ✓</button>
+                    <button class="btn btn-hint" onclick="toggleHint('q4')">💡 Hint</button>
+                    <div class="feedback" id="feedback-q4"></div>
+                    <div class="hint-box" id="hint-q4">
+                        <strong>Hint:</strong> The letter after G is "i"! G sounds like J before e, i, or y!
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <span class="question-number">Question 5</span>
+                    <div class="question-text">What kind of sound does C make in this word?</div>
+                    <div class="word-display">cup ☕</div>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="q5" value="hard">
+                            <span>🔴 Hard C (sounds like K)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="q5" value="soft">
+                            <span>🔵 Soft C (sounds like S)</span>
+                        </label>
+                    </div>
+                    <button class="btn btn-check" onclick="checkAnswer('q5', 'hard')">Check Answer ✓</button>
+                    <button class="btn btn-hint" onclick="toggleHint('q5')">💡 Hint</button>
+                    <div class="feedback" id="feedback-q5"></div>
+                    <div class="hint-box" id="hint-q5">
+                        <strong>Hint:</strong> The letter after C is "u"! Remember: a, o, u make C hard!
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <span class="question-number">Question 6</span>
+                    <div class="question-text">What kind of sound does C make in this word?</div>
+                    <div class="word-display">city 🏙️</div>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="q6" value="hard">
+                            <span>🔴 Hard C (sounds like K)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="q6" value="soft">
+                            <span>🔵 Soft C (sounds like S)</span>
+                        </label>
+                    </div>
+                    <button class="btn btn-check" onclick="checkAnswer('q6', 'soft')">Check Answer ✓</button>
+                    <button class="btn btn-hint" onclick="toggleHint('q6')">💡 Hint</button>
+                    <div class="feedback" id="feedback-q6"></div>
+                    <div class="hint-box" id="hint-q6">
+                        <strong>Hint:</strong> The letter after C is "i"! Remember: e, i, y make C soft (S sound)!
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <span class="question-number">Question 7</span>
+                    <div class="question-text">What kind of sound does G make in this word?</div>
+                    <div class="word-display">gate 🚪</div>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="q7" value="hard">
+                            <span>🟢 Hard G (regular G sound)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="q7" value="soft">
+                            <span>🟡 Soft G (sounds like J)</span>
+                        </label>
+                    </div>
+                    <button class="btn btn-check" onclick="checkAnswer('q7', 'hard')">Check Answer ✓</button>
+                    <button class="btn btn-hint" onclick="toggleHint('q7')">💡 Hint</button>
+                    <div class="feedback" id="feedback-q7"></div>
+                    <div class="hint-box" id="hint-q7">
+                        <strong>Hint:</strong> The letter after G is "a"! Remember: a, o, u make G hard!
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <span class="question-number">Question 8</span>
+                    <div class="question-text">What kind of sound does G make in this word?</div>
+                    <div class="word-display">gem 💎</div>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="q8" value="hard">
+                            <span>🟢 Hard G (regular G sound)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="q8" value="soft">
+                            <span>🟡 Soft G (sounds like J)</span>
+                        </label>
+                    </div>
+                    <button class="btn btn-check" onclick="checkAnswer('q8', 'soft')">Check Answer ✓</button>
+                    <button class="btn btn-hint" onclick="toggleHint('q8')">💡 Hint</button>
+                    <div class="feedback" id="feedback-q8"></div>
+                    <div class="hint-box" id="hint-q8">
+                        <strong>Hint:</strong> The letter after G is "e"! Remember: e, i, y make G soft (J sound)!
+                    </div>
+                </div>
+            </div>
+            
+            <div class="celebration" id="celebration">
+                <div class="star">⭐</div>
+                <h2>🎉 AMAZING JOB! 🎉</h2>
+                <p style="font-size: 2em; color: #f093fb; margin: 20px 0;">
+                    You're a superstar! <span class="emoji">🌟</span>
+                </p>
+                <p style="font-size: 1.8em; color: #667eea;">
+                    You learned about hard and soft C and G! <span class="emoji">👏</span>
+                </p>
+                <button class="btn btn-reset" onclick="resetWorkbook()" style="margin-top: 30px; font-size: 1.5em;">🔄 Try Again!</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let correctCount = 0;
+        let attemptedCount = 0;
+        const totalQuestions = 8;
+        const answeredQuestions = new Set();
+        
+        function checkAnswer(questionId, correctAnswer) {
+            const selected = document.querySelector(`input[name="${questionId}"]:checked`);
+            const feedback = document.getElementById(`feedback-${questionId}`);
+            
+            if (!selected) {
+                alert('Please pick an answer! 😊');
+                return;
+            }
+            
+            const isFirstAttempt = !answeredQuestions.has(questionId);
+            
+            if (selected.value === correctAnswer) {
+                feedback.className = 'feedback correct';
+                feedback.innerHTML = '🎉 YES! You got it right! Great job! ⭐';
+                if (isFirstAttempt) {
+                    correctCount++;
+                    answeredQuestions.add(questionId);
+                }
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = '😊 Not quite! Try again or check the hint! 💡';
+            }
+            
+            if (isFirstAttempt) {
+                attemptedCount++;
+            }
+            
+            updateScores();
+        }
+        
+        function toggleHint(questionId) {
+            const hint = document.getElementById(`hint-${questionId}`);
+            hint.classList.toggle('show');
+        }
+        
+        function updateScores() {
+            document.getElementById('correct-score').textContent = correctCount;
+            document.getElementById('attempted-score').textContent = attemptedCount;
+            
+            const accuracy = attemptedCount > 0 ? Math.round((correctCount / attemptedCount) * 100) : 0;
+            document.getElementById('accuracy-score').textContent = accuracy + '%';
+            
+            const progress = Math.round((answeredQuestions.size / totalQuestions) * 100);
+            const progressFill = document.getElementById('progress-fill');
+            progressFill.style.width = progress + '%';
+            progressFill.textContent = progress + '%';
+            
+            if (answeredQuestions.size === totalQuestions) {
+                setTimeout(() => {
+                    document.getElementById('celebration').classList.add('show');
+                    document.querySelector('.content').scrollIntoView({ behavior: 'smooth' });
+                }, 500);
+            }
+        }
+        
+        function resetWorkbook() {
+            correctCount = 0;
+            attemptedCount = 0;
+            answeredQuestions.clear();
+            
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+            
+            document.querySelectorAll('.feedback').forEach(feedback => {
+                feedback.style.display = 'none';
+            });
+            
+            document.querySelectorAll('.hint-box').forEach(hint => {
+                hint.classList.remove('show');
+            });
+            
+            document.getElementById('celebration').classList.remove('show');
+            
+            updateScores();
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>

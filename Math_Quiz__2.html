@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2nd Grade Place Value Math Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #764ba2;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .student-info {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .student-info input {
+            margin: 5px;
+            padding: 8px;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .section-title {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .question {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .question h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        
+        input[type="text"], input[type="number"], input[type="email"] {
+            padding: 10px;
+            margin: 8px 5px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .result {
+            display: none;
+            background: #d4edda;
+            border: 2px solid #28a745;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .score {
+            font-size: 3em;
+            color: #764ba2;
+            margin: 20px 0;
+        }
+        
+        .feedback {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .instructions {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #17a2b8;
+        }
+        
+        .place-value-chart {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .chart-row {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        
+        .chart-header {
+            background: #667eea;
+            color: white;
+            padding: 15px 30px;
+            margin: 5px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .chart-number {
+            background: #e8f4fd;
+            padding: 15px 30px;
+            margin: 5px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            border: 2px solid #667eea;
+        }
+        
+        .math-problem {
+            font-size: 18px;
+            line-height: 1.8;
+            margin: 15px 0;
+        }
+        
+        .inline-input {
+            width: 80px;
+            display: inline-block;
+            margin: 0 8px;
+        }
+        
+        .visual-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .tens-group {
+            background: #667eea;
+            width: 15px;
+            height: 80px;
+            margin: 3px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        
+        .ones-dot {
+            background: #764ba2;
+            width: 15px;
+            height: 15px;
+            margin: 3px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .number-choice {
+            background: #e8f4fd;
+            border: 3px solid #4ECDC4;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .number-choice:hover {
+            background: #4ECDC4;
+            color: white;
+        }
+        
+        .number-choice.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .number-choice.correct {
+            background: #28a745 !important;
+            color: white;
+            border-color: #28a745;
+        }
+        
+        .number-choice.incorrect {
+            background: #dc3545 !important;
+            color: white;
+            border-color: #dc3545;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>2nd Grade Place Value Math Quiz</h1>
+        
+        <div class="student-info">
+            <h3>Student Information</h3>
+            <input type="text" id="studentName" placeholder="Student Name">
+            <input type="email" id="parentEmail" placeholder="Parent/Teacher Email">
+            <input type="text" id="testDate" placeholder="Test Date">
+        </div>
+        
+        <!-- Place Value Chart Reference -->
+        <div class="place-value-chart">
+            <h3>Place Value Chart</h3>
+            <div class="chart-row">
+                <div class="chart-header">TENS</div>
+                <div class="chart-header">ONES</div>
+            </div>
+            <div class="chart-row">
+                <div class="chart-number">3</div>
+                <div class="chart-number">7</div>
+            </div>
+            
+                ${feedback.length > 0 ? `
+                <div class="feedback">
+                    <h3>Areas to Review:</h3>
+                    <ul>${feedback.slice(0, 10).map(f => `<li>${f}</li>`).join('')}</ul>
+                    ${feedback.length > 10 ? `<p>...and ${feedback.length - 10} more items to review</p>` : ''}
+                </div>` : '<p>Perfect score! Excellent work!</p>'}
+            `;
+            resultDiv.style.display = 'block';
+            
+            // Send email with results
+            sendResults(percentage, score, totalPoints, feedback);
+            
+            // Show reset button after grading
+            document.getElementById('resetBtn').style.display = 'block';
+        }
+        
+        function resetQuiz() {
+            // Reset all form inputs
+            const inputs = document.querySelectorAll('input[type="text"], input[type="number"]');
+            inputs.forEach(input => {
+                if (input.id !== 'studentName' && input.id !== 'parentEmail' && input.id !== 'testDate') {
+                    input.value = '';
+                }
+            });
+            
+            // Reset comparison choices
+            comparisonChoices = {};
+            
+            // Reset all button selections
+            document.querySelectorAll('.number-choice').forEach(button => {
+                button.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Hide results and reset button
+            document.getElementById('quizResult').style.display = 'none';
+            document.getElementById('resetBtn').style.display = 'none';
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Show confirmation
+            alert('Quiz has been reset. You can start over!');
+        }
+        
+        function getGrade(percentage) {
+            if (percentage >= 90) return 'A+';
+            if (percentage >= 80) return 'A';
+            if (percentage >= 70) return 'B';
+            if (percentage >= 60) return 'C';
+            if (percentage >= 50) return 'D';
+            return 'F';
+        }
+        
+        function sendResults(percentage, score, total, feedback) {
+            const studentName = document.getElementById('studentName').value || 'Student';
+            const parentEmail = document.getElementById('parentEmail').value;
+            
+            if (!parentEmail) {
+                alert('Please enter an email address to receive the results.');
+                return;
+            }
+            
+            const templateParams = {
+                to_email: parentEmail,
+                student_name: studentName,
+                subject: '2nd Grade Place Value Math Quiz Results',
+                score: score.toString(),
+                total: total.toString(),
+                percentage: percentage.toString(),
+                grade: getGrade(percentage),
+                date: new Date().toLocaleDateString(),
+                feedback: feedback.length > 0 ? feedback.slice(0, 20).join('\n') : 'All answers correct!'
+            };
+
+                    alert('Quiz results have been sent to ' + parentEmail);
+                }, function(error) {
+                    console.log('Email error:', error);
+                    alert('There was an error sending the email. Please check the email address.');
+                });
+        }
+    </script>
+</body>
+</html>

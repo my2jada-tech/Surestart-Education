@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Value Interactive Worksheet</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 2px solid #667eea;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+        
+        input[type="number"], input[type="text"] {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        input[type="text"].wide {
+            width: 120px;
+        }
+        
+        .blocks-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            padding: 10px;
+        }
+        
+        .tens-blocks, .ones-blocks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+        }
+        
+        .ten-block {
+            width: 30px;
+            height: 100px;
+            background: linear-gradient(to bottom, #4CAF50, #45a049);
+            border: 1px solid #333;
+            border-radius: 3px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            padding: 2px;
+        }
+        
+        .ten-block-unit {
+            width: 25px;
+            height: 8px;
+            background: #81C784;
+            border: 1px solid #2E7D32;
+        }
+        
+        .one-block {
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            border: 1px solid #333;
+            border-radius: 3px;
+        }
+        
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .question {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .correct {
+            background-color: #d4edda !important;
+            border-color: #28a745 !important;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .score-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-size: 1.2em;
+            z-index: 100;
+        }
+        
+        .score {
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        @media print {
+            .score-display, button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="score-display">
+        Score: <span class="score" id="score">0</span> / <span id="total">0</span>
+    </div>
+    
+    <div class="container">
+        <h1>🔢 Place Value Worksheet 🔢</h1>
+        <div class="subtitle">Master tens and ones with interactive practice!</div>
+        
+        <!-- Original Table Section -->
+        <div class="section">
+            <h2>Part 1: Complete the Place Value Table</h2>
+            <table>
+                <tr>
+                    <th>Number</th>
+                    <th>Words</th>
+                    <th>Expanded Form</th>
+                    <th>Picture</th>
+                </tr>
+                <tr>
+                    <td><input type="number" id="q1-number" placeholder="?"></td>
+                    <td>
+                        <input type="number" id="q1-tens" style="width:40px"> tens<br>
+                        <input type="number" id="q1-ones" style="width:40px"> ones
+                    </td>
+                    <td>50 + 2 = <input type="number" id="q1-sum" style="width:50px"></td>
+                    <td><button onclick="drawBlocks(5, 2, 'blocks1')">Show</button><div id="blocks1" class="blocks-container"></div></td>
+                </tr>
+                <tr>
+                    <td><input type="number" id="q2-number" placeholder="?"></td>
+                    <td>
+                        3 tens<br>
+                        9 ones
+                    </td>
+                    <td><input type="number" id="q2-exp1" style="width:40px"> + <input type="number" id="q2-exp2" style="width:40px"> = <input type="number" id="q2-sum" style="width:50px"></td>
+                    <td><button onclick="drawBlocks(3, 9, 'blocks2')">Show</button><div id="blocks2" class="blocks-container"></div></td>
+                </tr>
+                <tr>
+                    <td><input type="number" id="q3-number" placeholder="?"></td>
+                    <td>
+                        <input type="number" id="q3-tens" style="width:40px"> tens<br>
+                        <input type="number" id="q3-ones" style="width:40px"> ones
+                    </td>
+                    <td>20 + 7 = <input type="number" id="q3-sum" style="width:50px"></td>
+                    <td><button onclick="drawBlocks(2, 7, 'blocks3')">Show</button><div id="blocks3" class="blocks-container"></div></td>
+                </tr>
+                <tr>
+                    <td><input type="number" id="q4-number" placeholder="?"></td>
+                    <td>
+                        <input type="number" id="q4-tens" style="width:40px"> tens<br>
+                        <input type="number" id="q4-ones" style="width:40px"> ones
+                    </td>
+                    <td><input type="number" id="q4-exp1" style="width:40px"> + <input type="number" id="q4-exp2" style="width:40px"> = <input type="number" id="q4-sum" style="width:50px"></td>
+                    <td><button onclick="drawBlocks(4, 3, 'blocks4')">Show</button><div id="blocks4" class="blocks-container"></div></td>
+                </tr>
+                <tr>
+                    <td>75</td>
+                    <td>
+                        <input type="number" id="q5-tens" style="width:40px"> tens<br>
+                        <input type="number" id="q5-ones" style="width:40px"> ones
+                    </td>
+                    <td><input type="number" id="q5-exp1" style="width:40px"> + <input type="number" id="q5-exp2" style="width:40px"> = <input type="number" id="q5-sum" style="width:50px"></td>
+                    <td><button onclick="drawBlocks(7, 5, 'blocks5')">Show</button><div id="blocks5" class="blocks-container"></div></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>
+                        <input type="number" id="q6-tens" style="width:40px"> tens<br>
+                        <input type="number" id="q6-ones" style="width:40px"> ones
+                    </td>
+                    <td><input type="number" id="q6-exp1" style="width:40px"> + <input type="number" id="q6-exp2" style="width:40px"> = <input type="number" id="q6-sum" style="width:50px"></td>
+                    <td><button onclick="drawBlocks(1, 5, 'blocks6')">Show</button><div id="blocks6" class="blocks-container"></div></td>
+                </tr>
+                <tr>
+                    <td><input type="number" id="q7-number" placeholder="?"></td>
+                    <td>
+                        <input type="number" id="q7-tens" style="width:40px"> tens<br>
+                        <input type="number" id="q7-ones" style="width:40px"> ones
+                    </td>
+                    <td>70 + 8 = <input type="number" id="q7-sum" style="width:50px"></td>
+                    <td><button onclick="drawBlocks(7, 8, 'blocks7')">Show</button><div id="blocks7" class="blocks-container"></div></td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- Additional Practice Section 1 -->
+        <div class="section">
+            <h2>Part 2: Which Number Am I?</h2>
+            <div class="question">
+                <p>I have 6 tens and 4 ones. What number am I?</p>
+                <input type="number" id="riddle1"> 
+                <button onclick="checkSimpleAnswer('riddle1', 64)">Check</button>
+                <div class="feedback" id="feedback-riddle1"></div>
+            </div>
+            <div class="question">
+                <p>I have 8 tens and 0 ones. What number am I?</p>
+                <input type="number" id="riddle2"> 
+                <button onclick="checkSimpleAnswer('riddle2', 80)">Check</button>
+                <div class="feedback" id="feedback-riddle2"></div>
+            </div>
+            <div class="question">
+                <p>I am 40 + 9. What number am I?</p>
+                <input type="number" id="riddle3"> 
+                <button onclick="checkSimpleAnswer('riddle3', 49)">Check</button>
+                <div class="feedback" id="feedback-riddle3"></div>
+            </div>
+        </div>
+        
+        <!-- Additional Practice Section 2 -->
+        <div class="section">
+            <h2>Part 3: Compare Numbers</h2>
+            <div class="question">
+                <p>Fill in with >, <, or =</p>
+                <p>23 <input type="text" id="compare1" style="width:30px"> 32</p>
+                <button onclick="checkTextAnswer('compare1', '<')">Check</button>
+                <div class="feedback" id="feedback-compare1"></div>
+            </div>
+            <div class="question">
+                <p>45 <input type="text" id="compare2" style="width:30px"> 45</p>
+                <button onclick="checkTextAnswer('compare2', '=')">Check</button>
+                <div class="feedback" id="feedback-compare2"></div>
+            </div>
+            <div class="question">
+                <p>67 <input type="text" id="compare3" style="width:30px"> 76</p>
+                <button onclick="checkTextAnswer('compare3', '<')">Check</button>
+                <div class="feedback" id="feedback-compare3"></div>
+            </div>
+        </div>
+        
+        <!-- Additional Practice Section 3 -->
+        <div class="section">
+            <h2>Part 4: Build the Number</h2>
+            <div class="question">
+                <p>What number has 9 tens and 2 ones?</p>
+                <input type="number" id="build1"> 
+                <button onclick="checkSimpleAnswer('build1', 92)">Check</button>
+                <div class="feedback" id="feedback-build1"></div>
+            </div>
+            <div class="question">
+                <p>What number is 30 + 7?</p>
+                <input type="number" id="build2"> 
+                <button onclick="checkSimpleAnswer('build2', 37)">Check</button>
+                <div class="feedback" id="feedback-build2"></div>
+            </div>
+            <div class="question">
+                <p>What number has 5 tens and 5 ones?</p>
+                <input type="number" id="build3"> 
+                <button onclick="checkSimpleAnswer('build3', 55)">Check</button>
+                <div class="feedback" id="feedback-build3"></div>
+            </div>
+        </div>
+        
+        <!-- Additional Practice Section 4 -->
+        <div class="section">
+            <h2>Part 5: Word Problems</h2>
+            <div class="question">
+                <p>Sarah has 4 bags with 10 marbles in each bag, plus 6 extra marbles. How many marbles does she have in total?</p>
+                <input type="number" id="word1"> marbles
+                <button onclick="checkSimpleAnswer('word1', 46)">Check</button>
+                <div class="feedback" id="feedback-word1"></div>
+            </div>
+            <div class="question">
+                <p>Tom collected 60 stickers last week and 8 more stickers this week. How many stickers does he have now?</p>
+                <input type="number" id="word2"> stickers
+                <button onclick="checkSimpleAnswer('word2', 68)">Check</button>
+                <div class="feedback" id="feedback-word2"></div>
+            </div>
+        </div>
+        
+        <!-- Challenge Section -->
+        <div class="section">
+            <h2>🌟 Challenge Questions 🌟</h2>
+            <div class="question">
+                <p>I am a number between 50 and 60. I have 6 ones. What number am I?</p>
+                <input type="number" id="challenge1"> 
+                <button onclick="checkSimpleAnswer('challenge1', 56)">Check</button>
+                <div class="feedback" id="feedback-challenge1"></div>
+            </div>
+            <div class="question">
+                <p>What is 10 more than 73?</p>
+                <input type="number" id="challenge2"> 
+                <button onclick="checkSimpleAnswer('challenge2', 83)">Check</button>
+                <div class="feedback" id="feedback-challenge2"></div>
+            </div>
+            <div class="question">
+                <p>What is 10 less than 91?</p>
+                <input type="number" id="challenge3"> 
+                <button onclick="checkSimpleAnswer('challenge3', 81)">Check</button>
+                <div class="feedback" id="feedback-challenge3"></div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <button onclick="checkAllAnswers()">Check All Answers</button>
+            <button onclick="resetWorksheet()">Reset Worksheet</button>
+            <button id="showAnswersBtn" onclick="showAllAnswers()" style="display:none;">Show Correct Answers</button>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let totalQuestions = 0;
+        let answeredQuestions = new Set();
+        
+        function drawBlocks(tens, ones, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            const tensDiv = document.createElement('div');
+            tensDiv.className = 'tens-blocks';
+            for (let i = 0; i < tens; i++) {
+                const tenBlock = document.createElement('div');
+                tenBlock.className = 'ten-block';
+                for (let j = 0; j < 10; j++) {
+                    const unit = document.createElement('div');
+                    unit.className = 'ten-block-unit';
+                    tenBlock.appendChild(unit);
+                }
+                tensDiv.appendChild(tenBlock);
+            }
+            
+            const onesDiv = document.createElement('div');
+            onesDiv.className = 'ones-blocks';
+            for (let i = 0; i < ones; i++) {
+                const oneBlock = document.createElement('div');
+                oneBlock.className = 'one-block';
+                onesDiv.appendChild(oneBlock);
+            }
+            
+            container.appendChild(tensDiv);
+            container.appendChild(onesDiv);
+        }
+        
+        function checkSimpleAnswer(inputId, correctAnswer) {
+            const input = document.getElementById(inputId);
+            const feedbackId = 'feedback-' + inputId;
+            let feedback = document.getElementById(feedbackId);
+            
+            if (!feedback) {
+                feedback = document.createElement('div');
+                feedback.id = feedbackId;
+                feedback.className = 'feedback';
+                input.parentElement.appendChild(feedback);
+            }
+            
+            const value = parseInt(input.value);
+            
+            if (!answeredQuestions.has(inputId)) {
+                totalQuestions++;
+                answeredQuestions.add(inputId);
+            }
+            
+            if (value === correctAnswer) {
+                input.classList.add('correct');
+                input.classList.remove('incorrect');
+                feedback.className = 'feedback show correct';
+                feedback.textContent = '✓ Correct! Great job!';
+                
+                if (!input.dataset.scored) {
+                    score++;
+                    input.dataset.scored = 'true';
+                }
+            } else {
+                input.classList.add('incorrect');
+                input.classList.remove('correct');
+                feedback.className = 'feedback show incorrect';
+                feedback.textContent = '✗ Try again!';
+                input.dataset.scored = 'false';
+            }
+            
+            updateScore();
+        }
+        
+        function checkTextAnswer(inputId, correctAnswer) {
+            const input = document.getElementById(inputId);
+            const feedbackId = 'feedback-' + inputId;
+            let feedback = document.getElementById(feedbackId);
+            
+            if (!feedback) {
+                feedback = document.createElement('div');
+                feedback.id = feedbackId;
+                feedback.className = 'feedback';
+                input.parentElement.appendChild(feedback);
+            }
+            
+            const value = input.value.trim();
+            
+            if (!answeredQuestions.has(inputId)) {
+                totalQuestions++;
+                answeredQuestions.add(inputId);
+            }
+            
+            if (value === correctAnswer) {
+                input.classList.add('correct');
+                input.classList.remove('incorrect');
+                feedback.className = 'feedback show correct';
+                feedback.textContent = '✓ Correct! Great job!';
+                
+                if (!input.dataset.scored) {
+                    score++;
+                    input.dataset.scored = 'true';
+                }
+            } else {
+                input.classList.add('incorrect');
+                input.classList.remove('correct');
+                feedback.className = 'feedback show incorrect';
+                feedback.textContent = '✗ Try again!';
+                input.dataset.scored = 'false';
+            }
+            
+            updateScore();
+        }
+        
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('total').textContent = totalQuestions;
+        }
+        
+        function checkAllAnswers() {
+            // Check table questions
+            checkSimpleAnswer('q1-number', 52);
+            checkSimpleAnswer('q1-tens', 5);
+            checkSimpleAnswer('q1-ones', 2);
+            checkSimpleAnswer('q1-sum', 52);
+            
+            checkSimpleAnswer('q2-number', 39);
+            checkSimpleAnswer('q2-exp1', 30);
+            checkSimpleAnswer('q2-exp2', 9);
+            checkSimpleAnswer('q2-sum', 39);
+            
+            checkSimpleAnswer('q3-number', 27);
+            checkSimpleAnswer('q3-tens', 2);
+            checkSimpleAnswer('q3-ones', 7);
+            checkSimpleAnswer('q3-sum', 27);
+            
+            checkSimpleAnswer('q4-number', 43);
+            checkSimpleAnswer('q4-tens', 4);
+            checkSimpleAnswer('q4-ones', 3);
+            checkSimpleAnswer('q4-exp1', 40);
+            checkSimpleAnswer('q4-exp2', 3);
+            checkSimpleAnswer('q4-sum', 43);
+            
+            checkSimpleAnswer('q5-tens', 7);
+            checkSimpleAnswer('q5-ones', 5);
+            checkSimpleAnswer('q5-exp1', 70);
+            checkSimpleAnswer('q5-exp2', 5);
+            checkSimpleAnswer('q5-sum', 75);
+            
+            checkSimpleAnswer('q6-tens', 1);
+            checkSimpleAnswer('q6-ones', 5);
+            checkSimpleAnswer('q6-exp1', 10);
+            checkSimpleAnswer('q6-exp2', 5);
+            checkSimpleAnswer('q6-sum', 15);
+            
+            checkSimpleAnswer('q7-number', 78);
+            checkSimpleAnswer('q7-tens', 7);
+            checkSimpleAnswer('q7-ones', 8);
+            checkSimpleAnswer('q7-sum', 78);
+            
+            // Show the "Show Correct Answers" button after checking
+            document.getElementById('showAnswersBtn').style.display = 'inline-block';
+            
+            alert(`Great work! You got ${score} out of ${totalQuestions} questions correct!`);
+        }
+        
+        function resetWorksheet() {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.value = '';
+                input.classList.remove('correct', 'incorrect');
+                delete input.dataset.scored;
+            });
+            
+            const feedbacks = document.querySelectorAll('.feedback');
+            feedbacks.forEach(feedback => {
+                feedback.classList.remove('show');
+                feedback.textContent = '';
+            });
+            
+            const blockContainers = document.querySelectorAll('.blocks-container');
+            blockContainers.forEach(container => {
+                container.innerHTML = '';
+            });
+            
+            // Hide the "Show Correct Answers" button when resetting
+            document.getElementById('showAnswersBtn').style.display = 'none';
+            
+            score = 0;
+            totalQuestions = 0;
+            answeredQuestions.clear();
+            updateScore();
+        }
+        
+        function showAllAnswers() {
+            // Table answers
+            document.getElementById('q1-number').value = 52;
+            document.getElementById('q1-tens').value = 5;
+            document.getElementById('q1-ones').value = 2;
+            document.getElementById('q1-sum').value = 52;
+            
+            document.getElementById('q2-number').value = 39;
+            document.getElementById('q2-exp1').value = 30;
+            document.getElementById('q2-exp2').value = 9;
+            document.getElementById('q2-sum').value = 39;
+            
+            document.getElementById('q3-number').value = 27;
+            document.getElementById('q3-tens').value = 2;
+            document.getElementById('q3-ones').value = 7;
+            document.getElementById('q3-sum').value = 27;
+            
+            document.getElementById('q4-number').value = 43;
+            document.getElementById('q4-tens').value = 4;
+            document.getElementById('q4-ones').value = 3;
+            document.getElementById('q4-exp1').value = 40;
+            document.getElementById('q4-exp2').value = 3;
+            document.getElementById('q4-sum').value = 43;
+            
+            document.getElementById('q5-tens').value = 7;
+            document.getElementById('q5-ones').value = 5;
+            document.getElementById('q5-exp1').value = 70;
+            document.getElementById('q5-exp2').value = 5;
+            document.getElementById('q5-sum').value = 75;
+            
+            document.getElementById('q6-tens').value = 1;
+            document.getElementById('q6-ones').value = 5;
+            document.getElementById('q6-exp1').value = 10;
+            document.getElementById('q6-exp2').value = 5;
+            document.getElementById('q6-sum').value = 15;
+            
+            document.getElementById('q7-number').value = 78;
+            document.getElementById('q7-tens').value = 7;
+            document.getElementById('q7-ones').value = 8;
+            document.getElementById('q7-sum').value = 78;
+            
+            // Additional sections
+            document.getElementById('riddle1').value = 64;
+            document.getElementById('riddle2').value = 80;
+            document.getElementById('riddle3').value = 49;
+            
+            document.getElementById('compare1').value = '<';
+            document.getElementById('compare2').value = '=';
+            document.getElementById('compare3').value = '<';
+            
+            document.getElementById('build1').value = 92;
+            document.getElementById('build2').value = 37;
+            document.getElementById('build3').value = 55;
+            
+            document.getElementById('word1').value = 46;
+            document.getElementById('word2').value = 68;
+            
+            document.getElementById('challenge1').value = 56;
+            document.getElementById('challenge2').value = 83;
+            document.getElementById('challenge3').value = 81;
+            
+            // Draw all blocks
+            for (let i = 1; i <= 7; i++) {
+                const blocks = [
+                    [5, 2], [3, 9], [2, 7], [4, 3], [7, 5], [1, 5], [7, 8]
+                ];
+                drawBlocks(blocks[i-1][0], blocks[i-1][1], 'blocks' + i);
+            }
+        }
+        
+        // Initialize
+        updateScore();
+    </script>
+</body>
+</html>

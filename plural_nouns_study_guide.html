@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regular & Irregular Plural Nouns - Study Guide & Assessment</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .content {
+            padding: 30px;
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        .rule-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9ff;
+            border-left: 5px solid #667eea;
+            border-radius: 10px;
+        }
+
+        .rule-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .rule-description {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .example {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #667eea;
+            text-align: center;
+        }
+
+        .example .singular {
+            color: #764ba2;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .example .arrow {
+            color: #667eea;
+            margin: 5px 0;
+            font-size: 1.3em;
+        }
+
+        .example .plural {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 1.2em;
+        }
+
+        .exception-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .exception-box h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .question {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .question-number {
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .word-to-convert {
+            background: #764ba2;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .option {
+            background: white;
+            border: 3px solid #667eea;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .option:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .option.selected {
+            background: #667eea;
+            color: white;
+        }
+
+        .option.correct {
+            background: #28a745;
+            border-color: #28a745;
+            color: white;
+        }
+
+        .option.incorrect {
+            background: #dc3545;
+            border-color: #dc3545;
+            color: white;
+        }
+
+        .input-answer {
+            width: 100%;
+            padding: 15px;
+            border: 3px solid #667eea;
+            border-radius: 10px;
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+            display: block;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .score-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .score-display h2 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .score-display .score {
+            font-size: 4em;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .practice-section {
+            margin-bottom: 30px;
+        }
+
+        .practice-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .student-info {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .student-info input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 5px solid #2196F3;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .info-box h4 {
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Plural Nouns Study Guide & Assessment</h1>
+            <p>Master Regular and Irregular Plural Nouns</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('study')">📖 Study Guide</button>
+            <button class="tab" onclick="showTab('practice')">✏️ Practice</button>
+            <button class="tab" onclick="showTab('assessment')">🎯 Assessment</button>
+        </div>
+
+        <!-- STUDY GUIDE TAB -->
+        <div id="study" class="content active">
+            <h2 style="color: #667eea; margin-bottom: 20px; font-size: 2em;">Understanding Plural Nouns</h2>
+            
+            <div class="info-box">
+                <h4>What are Plural Nouns?</h4>
+                <p>Plural nouns refer to more than one person, place, thing, or idea. There are regular rules for forming plurals, but some nouns are irregular and don't follow the standard patterns.</p>
+            </div>
+
+            <h2 style="color: #764ba2; margin: 30px 0 20px 0; font-size: 1.8em;">✅ Regular Plural Nouns</h2>
+
+            <div class="rule-section">
+                <h3>Rule 1: Just Add -s</h3>
+                <div class="rule-description">
+                    Most nouns simply add <strong>-s</strong> to form the plural.
+                </div>
+                <div class="examples">
+                    <div class="example">
+                        <div class="singular">cat</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">cats</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">pencil</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">pencils</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">table</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">tables</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">book</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">books</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rule-section">
+                <h3>Rule 2: Add -es</h3>
+                <div class="rule-description">
+                    Nouns ending in <strong>-ch, -sh, -s, -x, or -o</strong> add <strong>-es</strong> to form the plural.
+                </div>
+                <div class="examples">
+                    <div class="example">
+                        <div class="singular">box</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">boxes</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">bus</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">buses</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">tomato</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">tomatoes</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">watch</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">watches</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">brush</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">brushes</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rule-section">
+                <h3>Rule 3: Change -y to -ies</h3>
+                <div class="rule-description">
+                    If the noun ends in a <strong>consonant + y</strong>, change the <strong>-y to -ies</strong>.
+                </div>
+                <div class="examples">
+                    <div class="example">
+                        <div class="singular">baby</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">babies</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">party</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">parties</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">puppy</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">puppies</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">city</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">cities</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">country</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">countries</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rule-section">
+                <h3>Rule 4: Change -f or -fe to -ves</h3>
+                <div class="rule-description">
+                    For some nouns ending in <strong>-f or -fe</strong>, change the <strong>f/fe to -ves</strong>.
+                </div>
+                <div class="examples">
+                    <div class="example">
+                        <div class="singular">knife</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">knives</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">life</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">lives</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">wolf</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">wolves</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">shelf</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">shelves</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">wife</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">wives</div>
+                    </div>
+                </div>
+                <div class="exception-box">
+                    <h4>⚠️ Exceptions!</h4>
+                    <p>Some nouns ending in -f just add -s:</p>
+                    <div class="examples" style="margin-top: 10px;">
+                        <div class="example">
+                            <div class="singular">roof</div>
+                            <div class="arrow">↓</div>
+                            <div class="plural">roofs</div>
+                        </div>
+                        <div class="example">
+                            <div class="singular">chef</div>
+                            <div class="arrow">↓</div>
+                            <div class="plural">chefs</div>
+                        </div>
+                        <div class="example">
+                            <div class="singular">belief</div>
+                            <div class="arrow">↓</div>
+                            <div class="plural">beliefs</div>
+                        </div>
+                        <div class="example">
+                            <div class="singular">cliff</div>
+                            <div class="arrow">↓</div>
+                            <div class="plural">cliffs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="color: #764ba2; margin: 40px 0 20px 0; font-size: 1.8em;">🌟 Irregular Plural Nouns</h2>
+
+            <div class="info-box">
+                <h4>What are Irregular Plurals?</h4>
+                <p>An irregular plural noun is a noun whose plural form does NOT follow the standard rule of adding "-s" or "-es". These must be memorized!</p>
+            </div>
+
+            <div class="rule-section">
+                <h3>Rule 1: Vowel Changes</h3>
+                <div class="rule-description">
+                    A vowel in the middle of the word changes to form the plural.
+                </div>
+                <div class="examples">
+                    <div class="example">
+                        <div class="singular">foot</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">feet</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">tooth</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">teeth</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">man</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">men</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">goose</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">geese</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rule-section">
+                <h3>Rule 2: Different Endings</h3>
+                <div class="rule-description">
+                    The ending of the word is changed completely.
+                </div>
+                <div class="examples">
+                    <div class="example">
+                        <div class="singular">child</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">children</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">ox</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">oxen</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">mouse</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">mice</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rule-section">
+                <h3>Rule 3: No Change</h3>
+                <div class="rule-description">
+                    Some nouns have the <strong>same singular and plural forms</strong>.
+                </div>
+                <div class="examples">
+                    <div class="example">
+                        <div class="singular">sheep</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">sheep</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">deer</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">deer</div>
+                    </div>
+                    <div class="example">
+                        <div class="singular">fish</div>
+                        <div class="arrow">↓</div>
+                        <div class="plural">fish</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRACTICE TAB -->
+        <div id="practice" class="content">
+            <h2 style="color: #667eea; margin-bottom: 20px; font-size: 2em;">Practice Exercises</h2>
+
+            <div class="practice-section">
+                <h3>Practice Set 1: Regular Plurals - Add -s</h3>
+                <div id="practice1"></div>
+            </div>
+
+            <div class="practice-section">
+                <h3>Practice Set 2: Regular Plurals - Add -es</h3>
+                <div id="practice2"></div>
+            </div>
+
+            <div class="practice-section">
+                <h3>Practice Set 3: Change -y to -ies</h3>
+                <div id="practice3"></div>
+            </div>
+
+            <div class="practice-section">
+                <h3>Practice Set 4: Irregular Plurals</h3>
+                <div id="practice4"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-success" onclick="checkAllPractice()">Check All Answers</button>
+                <button class="btn btn-secondary" onclick="resetPractice()">Reset Practice</button>
+            </div>
+        </div>
+
+        <!-- ASSESSMENT TAB -->
+        <div id="assessment" class="content">
+            <div id="assessment-start">
+                <h2 style="color: #667eea; margin-bottom: 20px; font-size: 2em;">Comprehensive Assessment</h2>
+                
+                <div class="student-info">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">Student Information</h3>
+                    <label>Student Name:</label>
+                    <input type="text" id="studentName" placeholder="Enter your name">
+                </div>
+
+                <div class="info-box">
+                    <h4>Assessment Instructions</h4>
+                    <p><strong>Total Questions:</strong> 20 multiple choice and fill-in-the-blank questions</p>
+                    <p><strong>Topics Covered:</strong> All regular and irregular plural noun rules</p>
+                    <p><strong>Time:</strong> Take your time and do your best!</p>
+                    <p><strong>Scoring:</strong> You'll receive immediate feedback and your results will be sent to your teacher.</p>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn" onclick="startAssessment()">Start Assessment</button>
+                </div>
+            </div>
+
+            <div id="assessment-questions" style="display: none;">
+                <div class="progress-bar">
+                    <div id="progress" class="progress-fill" style="width: 0%">0%</div>
+                </div>
+                <div id="questions-container"></div>
+                <div class="navigation">
+                    <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" disabled>← Previous</button>
+                    <button class="btn" id="nextBtn" onclick="nextQuestion()">Next →</button>
+                    <button class="btn btn-success" id="submitBtn" onclick="submitAssessment()" style="display: none;">Submit Assessment</button>
+                </div>
+            </div>
+
+            <div id="assessment-results" style="display: none;">
+                <div class="score-display">
+                    <h2>Assessment Complete! 🎉</h2>
+                    <div class="score" id="finalScore">0%</div>
+                    <p style="font-size: 1.2em;" id="scoreMessage"></p>
+                </div>
+
+                <div id="results-details"></div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn" onclick="resetAssessment()">Take Assessment Again</button>
+                    <button class="btn btn-secondary" onclick="showTab('study')">Return to Study Guide</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        // Practice questions
+        const practiceQuestions = {
+            practice1: [
+                { word: 'dog', answer: 'dogs' },
+                { word: 'car', answer: 'cars' },
+                { word: 'tree', answer: 'trees' },
+                { word: 'computer', answer: 'computers' },
+                { word: 'flower', answer: 'flowers' }
+            ],
+            practice2: [
+                { word: 'beach', answer: 'beaches' },
+                { word: 'glass', answer: 'glasses' },
+                { word: 'dish', answer: 'dishes' },
+                { word: 'fox', answer: 'foxes' },
+                { word: 'potato', answer: 'potatoes' }
+            ],
+            practice3: [
+                { word: 'lady', answer: 'ladies' },
+                { word: 'story', answer: 'stories' },
+                { word: 'candy', answer: 'candies' },
+                { word: 'family', answer: 'families' },
+                { word: 'penny', answer: 'pennies' }
+            ],
+            practice4: [
+                { word: 'woman', answer: 'women' },
+                { word: 'person', answer: 'people' },
+                { word: 'moose', answer: 'moose' },
+                { word: 'leaf', answer: 'leaves' },
+                { word: 'half', answer: 'halves' }
+            ]
+        };
+
+        // Assessment questions
+        const assessmentQuestions = [
+            {
+                type: 'multiple',
+                question: 'What is the plural form of "cat"?',
+                word: 'cat',
+                options: ['cats', 'cates', 'caties', 'catses'],
+                correct: 0
+            },
+            {
+                type: 'multiple',
+                question: 'What is the plural form of "box"?',
+                word: 'box',
+                options: ['boxs', 'boxes', 'boxies', 'boxen'],
+                correct: 1
+            },
+            {
+                type: 'multiple',
+                question: 'What is the plural form of "baby"?',
+                word: 'baby',
+                options: ['babys', 'babyes', 'babies', 'babyies'],
+                correct: 2
+            },
+            {
+                type: 'multiple',
+                question: 'What is the plural form of "knife"?',
+                word: 'knife',
+                options: ['knifes', 'knives', 'knifves', 'knifees'],
+                correct: 1
+            },
+            {
+                type: 'multiple',
+                question: 'What is the plural form of "foot"?',
+                word: 'foot',
+                options: ['foots', 'footes', 'feet', 'feets'],
+                correct: 2
+            },
+            {
+                type: 'fill',
+                question: 'Write the plural form of:',
+                word: 'child',
+                answer: 'children'
+            },
+            {
+                type: 'multiple',
+                question: 'What is the plural form of "sheep"?',
+                word: 'sheep',
+                options: ['sheeps', 'sheep', 'sheepes', 'sheepies'],
+                correct: 1
+            },
+            {
+                type: 'multiple',
+                question: 'What is the plural form of "watch"?',
+                word: 'watch',
+                options: ['watchs', 'watches', 'watchies', 'watchen'],
+                correct: 1
+            },
+            {
+                type: 'fill',
+                question: 'Write the plural form of:',
+                word: 'mouse',
+                answer: 'mice'
+            },
+            {
+                type: 'multiple',
+                question: 'What is the plural form of "tooth"?',
+                word: 'tooth',
+                options: ['tooths', 'toothes', 'teeth', 'teeths'],
+                correct: 2
+            },
+            {
+                type: 'multiple',
+                question: 'What is the plural form of "city"?',
+                word: 'city',
+                options: ['citys', 'cities', 'cityies', 'cityes'],
+                correct: 1
+            },
+            {
+                type: 'fill',
+                question: 'Write the plural form of:',
+                word: 'man',
+                answer: 'men'
+            },
+            {
+                type: 'multiple',
+                question: 'What is the plural form of "bus"?',
+                word: 'bus',
+                options: ['bus', 'buses', 'busies', 'buss'],
+                correct: 1
+            },
+            {
+                type: 'multiple',
+                question: 'What is the plural form of "shelf"?',
+                word: 'shelf',
+                options: ['shelfs', 'shelves', 'shelfes', 'shelfies'],
+                correct: 1
+            },
+            {
+                type: 'fill',
+                question: 'Write the plural form of:',
+                word: 'goose',
+                answer: 'geese'
+            },
+            {
+                type: 'multiple',
+                question: 'What is the plural form of "roof"?',
+                word: 'roof',
+                options: ['roofs', 'rooves', 'roofes', 'roofen'],
+                correct: 0
+            },
+            {
+                type: 'fill',
+                question: 'Write the plural form of:',
+                word: 'deer',
+                answer: 'deer'
+            },
+            {
+                type: 'multiple',
+                question: 'What is the plural form of "tomato"?',
+                word: 'tomato',
+                options: ['tomatos', 'tomatoes', 'tomatoies', 'tomaten'],
+                correct: 1
+            },
+            {
+                type: 'fill',
+                question: 'Write the plural form of:',
+                word: 'wolf',
+                answer: 'wolves'
+            },
+            {
+                type: 'multiple',
+                question: 'What is the plural form of "party"?',
+                word: 'party',
+                options: ['partys', 'parties', 'partyies', 'partyes'],
+                correct: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = [];
+        let studentName = '';
+
+        // Tab switching
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            document.querySelector(`[onclick="showTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Initialize practice questions
+        function initPractice() {
+            Object.keys(practiceQuestions).forEach(practiceId => {
+                const container = document.getElementById(practiceId);
+                const questions = practiceQuestions[practiceId];
+                
+                questions.forEach((q, index) => {
+                    const qDiv = document.createElement('div');
+                    qDiv.className = 'question';
+                    qDiv.innerHTML = `
+                        <div class="question-text">Convert to plural:</div>
+                        <div class="word-to-convert">${q.word}</div>
+                        <input type="text" class="input-answer" id="${practiceId}_${index}" placeholder="Type your answer">
+                        <div class="feedback" id="${practiceId}_${index}_feedback"></div>
+                    `;
+                    container.appendChild(qDiv);
+                });
+            });
+        }
+
+        // Check all practice answers
+        function checkAllPractice() {
+            let allCorrect = true;
+            
+            Object.keys(practiceQuestions).forEach(practiceId => {
+                const questions = practiceQuestions[practiceId];
+                
+                questions.forEach((q, index) => {
+                    const input = document.getElementById(`${practiceId}_${index}`);
+                    const feedback = document.getElementById(`${practiceId}_${index}_feedback`);
+                    const userAnswer = input.value.trim().toLowerCase();
+                    const correctAnswer = q.answer.toLowerCase();
+                    
+                    if (userAnswer === correctAnswer) {
+                        feedback.className = 'feedback correct';
+                        feedback.textContent = `✓ Correct! ${q.word} → ${q.answer}`;
+                        input.style.borderColor = '#28a745';
+                    } else {
+                        feedback.className = 'feedback incorrect';
+                        feedback.textContent = `✗ Not quite. The correct answer is: ${q.answer}`;
+                        input.style.borderColor = '#dc3545';
+                        allCorrect = false;
+                    }
+                });
+            });
+            
+            if (allCorrect) {
+                alert('🎉 Perfect! You got all practice questions correct!');
+            }
+        }
+
+        // Reset practice
+        function resetPractice() {
+            Object.keys(practiceQuestions).forEach(practiceId => {
+                const questions = practiceQuestions[practiceId];
+                
+                questions.forEach((q, index) => {
+                    const input = document.getElementById(`${practiceId}_${index}`);
+                    const feedback = document.getElementById(`${practiceId}_${index}_feedback`);
+                    input.value = '';
+                    input.style.borderColor = '#667eea';
+                    feedback.style.display = 'none';
+                });
+            });
+        }
+
+        // Start assessment
+        function startAssessment() {
+            studentName = document.getElementById('studentName').value.trim();
+            
+            if (!studentName) {
+                alert('Please enter your name before starting the assessment.');
+                return;
+            }
+            
+            document.getElementById('assessment-start').style.display = 'none';
+            document.getElementById('assessment-questions').style.display = 'block';
+            
+            currentQuestion = 0;
+            userAnswers = new Array(assessmentQuestions.length).fill(null);
+            
+            renderQuestion();
+        }
+
+        // Render current question
+        function renderQuestion() {
+            const container = document.getElementById('questions-container');
+            const question = assessmentQuestions[currentQuestion];
+            
+            let questionHTML = `
+                <div class="question">
+                    <div class="question-number">Question ${currentQuestion + 1} of ${assessmentQuestions.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="word-to-convert">${question.word}</div>
+            `;
+            
+            if (question.type === 'multiple') {
+                questionHTML += '<div class="options">';
+                question.options.forEach((option, index) => {
+                    const selected = userAnswers[currentQuestion] === index ? 'selected' : '';
+                    questionHTML += `
+                        <div class="option ${selected}" onclick="selectOption(${index})">
+                            ${option}
+                        </div>
+                    `;
+                });
+                questionHTML += '</div>';
+            } else {
+                const userAnswer = userAnswers[currentQuestion] || '';
+                questionHTML += `
+                    <input type="text" class="input-answer" id="fillAnswer" 
+                           value="${userAnswer}" placeholder="Type your answer"
+                           onkeyup="saveFillAnswer()">
+                `;
+            }
+            
+            questionHTML += '</div>';
+            container.innerHTML = questionHTML;
+            
+            updateProgress();
+            updateNavigation();
+        }
+
+        // Select option for multiple choice
+        function selectOption(index) {
+            userAnswers[currentQuestion] = index;
+            renderQuestion();
+        }
+
+        // Save fill-in answer
+        function saveFillAnswer() {
+            const input = document.getElementById('fillAnswer');
+            userAnswers[currentQuestion] = input.value.trim();
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const answered = userAnswers.filter(a => a !== null).length;
+            const percentage = Math.round((answered / assessmentQuestions.length) * 100);
+            const progress = document.getElementById('progress');
+            progress.style.width = percentage + '%';
+            progress.textContent = percentage + '%';
+        }
+
+        // Update navigation buttons
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            prevBtn.disabled = currentQuestion === 0;
+            
+            if (currentQuestion === assessmentQuestions.length - 1) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'inline-block';
+            } else {
+                nextBtn.style.display = 'inline-block';
+                submitBtn.style.display = 'none';
+            }
+        }
+
+        // Navigate questions
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < assessmentQuestions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+            }
+        }
+
+        // Submit assessment
+        function submitAssessment() {
+            const unanswered = userAnswers.filter(a => a === null).length;
+            
+            if (unanswered > 0) {
+                if (!confirm(`You have ${unanswered} unanswered question(s). Do you want to submit anyway?`)) {
+                    return;
+                }
+            }
+            
+            calculateResults();
+        }
+
+        // Calculate and display results
+        function calculateResults() {
+            let correct = 0;
+            const results = [];
+            
+            assessmentQuestions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                let isCorrect = false;
+                let correctAnswer = '';
+                let userAnswerText = '';
+                
+                if (question.type === 'multiple') {
+                    isCorrect = userAnswer === question.correct;
+                    correctAnswer = question.options[question.correct];
+                    userAnswerText = userAnswer !== null ? question.options[userAnswer] : 'No answer';
+                } else {
+                    const userText = (userAnswer || '').toLowerCase().trim();
+                    const correctText = question.answer.toLowerCase().trim();
+                    isCorrect = userText === correctText;
+                    correctAnswer = question.answer;
+                    userAnswerText = userAnswer || 'No answer';
+                }
+                
+                if (isCorrect) correct++;
+                
+                results.push({
+                    question: question.question,
+                    word: question.word,
+                    userAnswer: userAnswerText,
+                    correctAnswer: correctAnswer,
+                    isCorrect: isCorrect
+                });
+            });
+            
+            const percentage = Math.round((correct / assessmentQuestions.length) * 100);
+            
+            displayResults(correct, percentage, results);
+            sendResults(correct, percentage, results);
+        }
+
+        // Display results
+        function displayResults(correct, percentage, results) {
+            document.getElementById('assessment-questions').style.display = 'none';
+            document.getElementById('assessment-results').style.display = 'block';
+            
+            document.getElementById('finalScore').textContent = percentage + '%';
+            
+            const scoreMessage = document.getElementById('scoreMessage');
+            if (percentage >= 90) {
+                scoreMessage.textContent = `Excellent! You got ${correct} out of ${assessmentQuestions.length} correct!`;
+            } else if (percentage >= 80) {
+                scoreMessage.textContent = `Great job! You got ${correct} out of ${assessmentQuestions.length} correct!`;
+            } else if (percentage >= 70) {
+                scoreMessage.textContent = `Good effort! You got ${correct} out of ${assessmentQuestions.length} correct!`;
+            } else {
+                scoreMessage.textContent = `Keep practicing! You got ${correct} out of ${assessmentQuestions.length} correct.`;
+            }
+            
+            const detailsContainer = document.getElementById('results-details');
+            let detailsHTML = '<h3 style="color: #667eea; margin: 20px 0;">Detailed Results:</h3>';
+            
+            results.forEach((result, index) => {
+                const statusClass = result.isCorrect ? 'correct' : 'incorrect';
+                const statusIcon = result.isCorrect ? '✓' : '✗';
+                
+                detailsHTML += `
+                    <div class="question">
+                        <div class="question-number">${statusIcon} Question ${index + 1}</div>
+                        <div class="question-text">${result.question} <strong>${result.word}</strong></div>
+                        <div class="feedback ${statusClass}">
+                            Your answer: <strong>${result.userAnswer}</strong><br>
+                            Correct answer: <strong>${result.correctAnswer}</strong>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            detailsContainer.innerHTML = detailsHTML;
+        }
+
+        function sendResults(correct, percentage, results) {
+            const timestamp = new Date().toLocaleString();
+            
+            let resultsDetails = '';
+            results.forEach((result, index) => {
+                const status = result.isCorrect ? '✓ Correct' : '✗ Incorrect';
+                resultsDetails += `\nQ${index + 1}: ${result.word} → ${result.userAnswer} (${status})`;
+            });
+            
+            const templateParams = {
+                student_name: studentName,
+                assessment_title: 'Regular and Irregular Plural Nouns Assessment',
+                score: `${correct}/${assessmentQuestions.length}`,
+                percentage: `${percentage}%`,
+                timestamp: timestamp,
+                results_details: resultsDetails
+            };
+
+                }, function(error) {
+                    console.log('Failed to send results:', error);
+                });
+        }
+
+        // Reset assessment
+        function resetAssessment() {
+            document.getElementById('assessment-results').style.display = 'none';
+            document.getElementById('assessment-start').style.display = 'block';
+            document.getElementById('studentName').value = '';
+            currentQuestion = 0;
+            userAnswers = [];
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            initPractice();
+        };
+    </script>
+</body>
+</html>

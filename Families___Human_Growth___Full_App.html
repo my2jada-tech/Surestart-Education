@@ -1,0 +1,152 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Families & Human Growth – Full App</title><script src="https://cdn.tailwindcss.com"></script><script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script><script src="https://unpkg.com/@babel/standalone/babel.min.js"></script></head><body class="bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 min-h-screen"><div id="root"></div><script type="text/babel">
+const {useEffect,useRef,useState}=React;
+function App(){
+ const [mode,setMode]=useState("study");
+ const [topic,setTopic]=useState("family");
+ const [matchingAnswers,setMatchingAnswers]=useState({});
+ const [quizAnswers,setQuizAnswers]=useState({});
+ const [showResults,setShowResults]=useState(false);
+ const [currentCard,setCurrentCard]=useState(0);
+ const [myFamily,setMyFamily]=useState("");
+ const [studentName,setStudentName]=useState("");
+
+ useEffect(()=>{try{}catch(e){}},[]);
+
+  if(!studentName.trim()){return;}
+   
+  const date=new Date().toLocaleDateString(); const time=new Date().toLocaleTimeString(); const pct=Math.round((score/Math.max(total,1))*100);
+  const message=[`Student: ${studentName}`,`Activity: ${activityType}`,`Date: ${date}  Time: ${time}`,`Score: ${score} / ${total} (${isFinite(pct)?pct:0}%)`,"",details,"","---","Automatic Progress Report from Families & Human Growth Study Guide"].join("\n");
+  const templateParams={to_email:"my2jada@gmail.com",from_name:studentName,subject:`Families & Growth - ${activityType} for ${studentName}`,message};
+  const finish=(msg)=>{};
+  if(demoMode||!emailJsLoaded||!return;}
+  window.finish(`❌ Email failed: ${(err&&(err.text||err.message))||"Unknown error"}`);});};
+
+ const familyConcepts=[
+  {name:"Family",definition:"A group of people who love and care for each other. Families can look different but they all support each other.",icon:"👨‍👩‍👧‍👦",color:"bg-blue-100"},
+  {name:"Nuclear Family",definition:"A family with parents and their children living together in one home.",icon:"👨‍👩‍👧‍👦",color:"bg-green-100"},
+  {name:"Extended Family",definition:"A family that includes grandparents, aunts, uncles, cousins, and other relatives.",icon:"👵👴👨‍👩‍👧‍👦",color:"bg-purple-100"},
+  {name:"Single Parent Family",definition:"A family where one parent takes care of the children. This parent can be a mom or a dad.",icon:"👩‍👧‍👦",color:"bg-pink-100"}
+ ];
+ const growthStages=[
+  {name:"Baby",definition:"A very young child from birth to about 1 year old. Babies need lots of care and cannot walk or talk yet.",icon:"👶",color:"bg-yellow-100",age:"0-1 year"},
+  {name:"Infant",definition:"Another word for a baby, usually from birth to 1 year old. Infants are learning to see, hear, and move.",icon:"🍼",color:"bg-orange-100",age:"0-1 year"},
+  {name:"Child",definition:"A young person from about 2 to 12 years old. Children go to school, play, and learn new things every day!",icon:"🧒",color:"bg-cyan-100",age:"2-12 years"},
+  {name:"Adolescent",definition:"A young person going through teenage years, from about 13 to 19 years old. They are becoming more independent.",icon:"👦",color:"bg-indigo-100",age:"13-19 years"},
+  {name:"Young Adult",definition:"A person in their 20s and 30s. They may go to college, start careers, and begin their own families.",icon:"🧑",color:"bg-teal-100",age:"20-39 years"},
+  {name:"Middle Aged",definition:"Adults in their 40s, 50s, and early 60s. They have lots of experience and often have children of their own.",icon:"👨",color:"bg-lime-100",age:"40-64 years"},
+  {name:"Older Adult",definition:"People who are 65 years and older. They are often grandparents and have wisdom from many years of life.",icon:"👴",color:"bg-rose-100",age:"65+ years"}
+ ];
+ const allConcepts=topic==="family"?familyConcepts:growthStages;
+
+ const quizQuestions=[
+  {question:"What is a family?",options:["Only people who look alike","A group of people who love and care for each other","People who live on the same street","Only parents and children"],correct:"A group of people who love and care for each other",topic:"family"},
+  {question:"What is a nuclear family?",options:["Parents and children living together","Only grandparents","Friends living together","Just one person"],correct:"Parents and children living together",topic:"family"},
+  {question:"What is an extended family?",options:["Only mom and dad","Just brothers and sisters","Includes grandparents, aunts, uncles, and cousins","Only one parent"],correct:"Includes grandparents, aunts, uncles, and cousins",topic:"family"},
+  {question:"What is a single parent family?",options:["Two parents and children","One parent taking care of children","Only grandparents","No parents"],correct:"One parent taking care of children",topic:"family"},
+  {question:"Can families look different from each other?",options:["Yes, all families are special and unique","No, all families must be the same","Only sometimes","Families never change"],correct:"Yes, all families are special and unique",topic:"family"},
+  {question:"Who can be part of an extended family?",options:["Only parents","Only children","Grandparents, aunts, uncles, and cousins","Just neighbors"],correct:"Grandparents, aunts, uncles, and cousins",topic:"family"},
+  {question:"What do we call a very young child from birth to 1 year old?",options:["Adolescent","Baby or Infant","Young Adult","Child"],correct:"Baby or Infant",topic:"growth"},
+  {question:"What age group are you in if you are 2 to 12 years old?",options:["Baby","Child","Older Adult","Young Adult"],correct:"Child",topic:"growth"},
+  {question:"What do we call teenagers from 13 to 19 years old?",options:["Infants","Adolescents","Middle Aged","Babies"],correct:"Adolescents",topic:"growth"},
+  {question:"What age group goes to college or starts careers?",options:["Babies","Children","Young Adults","Infants"],correct:"Young Adults",topic:"growth"},
+  {question:"What do we call adults in their 40s, 50s, and early 60s?",options:["Adolescents","Young Adults","Middle Aged","Children"],correct:"Middle Aged",topic:"growth"},
+  {question:"What do we call people who are 65 years and older?",options:["Young Adults","Children","Older Adults","Adolescents"],correct:"Older Adults",topic:"growth"},
+  {question:"At what stage can a person not walk or talk yet?",options:["Young Adult","Baby/Infant","Middle Aged","Adolescent"],correct:"Baby/Infant",topic:"growth"},
+  {question:"Who often becomes grandparents?",options:["Babies","Children","Older Adults","Infants"],correct:"Older Adults",topic:"growth"},
+  {question:"What stage are you in when you go to elementary school?",options:["Baby","Child","Young Adult","Older Adult"],correct:"Child",topic:"growth"}
+ ];
+
+ const handleMatchingChange=(concept,value)=>setMatchingAnswers({...matchingAnswers,[concept]:value});
+ const handleQuizChange=(i,value)=>setQuizAnswers({...quizAnswers,[i]:value});
+ const checkMatchingAnswers=()=>{let c=0; allConcepts.forEach(x=>{if(matchingAnswers[x.name]===x.definition)c++;}); return c;};
+ const checkQuizAnswers=()=>{let c=0; quizQuestions.forEach((q,i)=>{if(quizAnswers[i]===q.correct)c++;}); return c;};
+
+ const StudyMode=()=> (<div className="space-y-4">
+  <h2 className="text-2xl font-bold text-center text-purple-700 mb-4">📚 Learn About {topic==="family"?"Families":"Human Growth"}!</h2>
+  <div className="flex justify-center gap-4 mb-6">
+    <button onClick={()=>{setTopic("family");setCurrentCard(0);}} className={`px-6 py-3 rounded-lg font-bold text-lg ${topic==="family"?"bg-blue-600 text-white":"bg-white text-blue-600 border-2 border-blue-600"}`}>👨‍👩‍👧‍👦 Families</button>
+    <button onClick={()=>{setTopic("growth");setCurrentCard(0);}} className={`px-6 py-3 rounded-lg font-bold text-lg ${topic==="growth"?"bg-green-600 text-white":"bg-white text-green-600 border-2 border-green-600"}`}>👶 Growth Stages</button>
+  </div>
+  <div className="bg-white p-6 rounded-lg shadow-lg max-w-2xl mx-auto">
+    <div className={`${allConcepts[currentCard].color} p-6 rounded-lg mb-4`}>
+      <div className="text-7xl text-center mb-4">{allConcepts[currentCard].icon}</div>
+      <h3 className="text-3xl font-bold text-center mb-3">{allConcepts[currentCard].name}</h3>
+      {allConcepts[currentCard].age&&(<p className="text-lg text-center font-semibold text-gray-600 mb-2">Age: {allConcepts[currentCard].age}</p>)}
+      <p className="text-xl text-center text-gray-700">{allConcepts[currentCard].definition}</p>
+    </div>
+    <div className="flex justify-between mt-6">
+      <button onClick={()=>setCurrentCard(Math.max(0,currentCard-1))} disabled={currentCard===0} className="px-6 py-3 bg-blue-500 text-white rounded-lg disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-600 text-lg font-semibold">← Previous</button>
+      <span className="text-lg font-semibold text-gray-600 self-center">{currentCard+1} of {allConcepts.length}</span>
+      <button onClick={()=>setCurrentCard(Math.min(allConcepts.length-1,currentCard+1))} disabled={currentCard===allConcepts.length-1} className="px-6 py-3 bg-blue-500 text-white rounded-lg disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-600 text-lg font-semibold">Next →</button>
+    </div>
+  </div></div>);
+
+ const MyFamilySection=()=> (<div className="space-y-4">
+  <h2 className="text-2xl font-bold text-center text-pink-700 mb-6">💝 Tell Me About Your Family!</h2>
+  <div className="bg-white p-8 rounded-lg shadow-lg max-w-3xl mx-auto">
+    <div className="bg-gradient-to-r from-pink-50 to-purple-50 p-6 rounded-lg mb-6 border-4 border-pink-300">
+      <h3 className="text-3xl font-bold mb-4 text-center text-pink-700">✨ My Special Family ✨</h3>
+      <p className="text-xl text-gray-700 mb-4 text-center font-semibold">I want to hear all about YOUR family! Tell me everything!</p>
+      <div className="bg-white p-4 rounded-lg mb-4">
+        <p className="text-lg font-semibold text-purple-700 mb-2">Write or talk about your family here:</p>
+        <textarea className="w-full p-4 border-2 border-pink-400 rounded-lg text-xl min-h-64 focus:outline-none focus:ring-4 focus:ring-pink-400 font-medium" placeholder={"Hi! Let me tell you about my family...\n\nWho is in my family:\n\nWhat we like to do together:\n\nWhat makes my family special:"} value={myFamily} onChange={e=>setMyFamily(e.target.value)} />
+      </div>
+      {myFamily&&(<div className="bg-yellow-50 p-4 rounded-lg border-2 border-yellow-300"><p className="text-lg font-bold text-yellow-800 text-center">🌟 Great job sharing about your family! Your family sounds wonderful! 🌟</p></div>)}
+    </div>
+  </div></div>);
+
+ const MatchingGame=()=>{ const handleCheck=()=>{setShowResults(true); const score=checkMatchingAnswers(); const topicName=topic==="family"?"Families":"Growth Stages"; sendAutomaticEmail(`Matching Game - ${topicName}`,score,allConcepts.length,`Matched terms to definitions for ${topicName}.`);}; return (<div className="space-y-4">
+  <h2 className="text-2xl font-bold text-center text-green-700 mb-4">🎯 Matching Game</h2>
+  <div className="flex justify-center gap-4 mb-6">
+    <button onClick={()=>{setTopic("family");setMatchingAnswers({});setShowResults(false);}} className={`px-6 py-3 rounded-lg font-bold text-lg ${topic==="family"?"bg-blue-600 text-white":"bg-white text-blue-600 border-2 border-blue-600"}`}>👨‍👩‍👧‍👦 Families</button>
+    <button onClick={()=>{setTopic("growth");setMatchingAnswers({});setShowResults(false);}} className={`px-6 py-3 rounded-lg font-bold text-lg ${topic==="growth"?"bg-green-600 text-white":"bg-white text-green-600 border-2 border-green-600"}`}>👶 Growth Stages</button>
+  </div>
+  <p className="text-center text-gray-700 text-lg mb-4">Match each term with its definition!</p>
+  <div className="grid gap-4 max-w-3xl mx-auto">
+    {allConcepts.map(concept=>(<div key={concept.name} className={`${concept.color} p-4 rounded-lg shadow`}>
+      <div className="flex items-center gap-4"><span className="text-5xl">{concept.icon}</span>
+        <div className="flex-1"><h3 className="text-xl font-bold mb-2">{concept.name}{concept.age&&<span className="text-base font-normal text-gray-600"> ({concept.age})</span>}</h3>
+          <select className="w-full p-2 border-2 border-gray-300 rounded text-lg" value={matchingAnswers[concept.name]||""} onChange={e=>handleMatchingChange(concept.name,e.target.value)}><option value="">Choose the definition...</option>
+            {allConcepts.map(c=>(<option key={c.definition} value={c.definition}>{c.definition}</option>))}
+          </select>
+        </div>
+      </div>
+    </div>))}
+  </div>
+  <div className="text-center mt-6"><button onClick={handleCheck} disabled={isSending} className={`px-8 py-4 text-white rounded-lg text-xl font-bold ${isSending?"bg-green-300 cursor-not-allowed":"bg-green-600 hover:bg-green-700"}`}>Check My Answers! ✓</button></div>
+  {showResults&&(<div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto mt-4"><h3 className="text-2xl font-bold text-center mb-4">Results</h3><p className="text-xl text-center">You got <span className="font-bold text-green-600">{checkMatchingAnswers()}</span> out of {allConcepts.length} correct!</p>{emailStatus&&(<div className={`mt-4 p-3 rounded-lg border-2 ${emailStatus.includes("✅")?"bg-green-50 border-green-300":emailStatus.includes("❌")?"bg-red-50 border-red-300":"bg-blue-50 border-blue-300"}`}><p className={`text-sm text-center font-semibold ${emailStatus.includes("✅")?"text-green-700":emailStatus.includes("❌")?"text-red-700":"text-blue-700"}`}>{emailStatus}</p></div>)}</div>)}
+</div>);};
+
+ const QuizMode=()=>{ const handleSubmit=()=>{setShowResults(true); const score=checkQuizAnswers(); const wrong=quizQuestions.map((q,i)=>(quizAnswers[i]!==q.correct?`Q${i+1}: ${q.question}`:null)).filter(Boolean); const details=wrong.length?`\nQuestions to review:\n${wrong.join("\n")}`:'\nAll questions answered correctly! 🎉'; sendAutomaticEmail('Quiz - Families & Growth',score,quizQuestions.length,details);}; return (<div className="space-y-4">
+  <h2 className="text-2xl font-bold text-center text-blue-700 mb-6">📝 Quiz Time!</h2>
+  <div className="space-y-6 max-w-3xl mx-auto">
+    {quizQuestions.map((q,index)=>(<div key={index} className="bg-white p-6 rounded-lg shadow-lg">
+      <div className="flex items-center gap-3 mb-4"><span className="text-3xl">{q.topic==='family'?'👨‍👩‍👧‍👦':'👶'}</span><h3 className="text-xl font-bold">Question {index+1}: {q.question}</h3></div>
+      <div className="space-y-2">{q.options.map(option=>(<label key={option} className="flex items-center space-x-3 p-3 hover:bg-gray-50 rounded cursor-pointer text-lg">
+        <input type="radio" name={`question-${index}`} value={option} checked={quizAnswers[index]===option} onChange={e=>handleQuizChange(index,e.target.value)} className="w-5 h-5"/><span>{option}</span>
+      </label>))}</div>
+    </div>))}
+  </div>
+  <div className="text-center mt-6"><button onClick={handleSubmit} disabled={isSending} className={`px-8 py-4 text-white rounded-lg text-xl font-bold ${isSending?"bg-blue-300 cursor-not-allowed":"bg-blue-600 hover:bg-blue-700"}`}>Submit Quiz! ✓</button></div>
+  {showResults&&(<div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto mt-4"><h3 className="text-2xl font-bold text-center mb-4">Quiz Results</h3><p className="text-xl text-center">You got <span className="font-bold text-blue-600">{checkQuizAnswers()}</span> out of {quizQuestions.length} correct!</p>{emailStatus&&(<div className={`mt-4 p-3 rounded-lg border-2 ${emailStatus.includes("✅")?"bg-green-50 border-green-300":emailStatus.includes("❌")?"bg-red-50 border-red-300":"bg-blue-50 border-blue-300"}`}><p className={`text-sm text-center font-semibold ${emailStatus.includes("✅")?"text-green-700":emailStatus.includes("❌")?"text-red-700":"text-blue-700"}`}>{emailStatus}</p></div>)}</div>)}
+</div>);};
+
+ return (<div className="p-6 max-w-5xl mx-auto">
+  <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+    <h1 className="text-4xl font-bold text-center text-purple-800 flex-1">👨‍👩‍👧‍👦 Families & Human Growth 👶</h1>
+    <div className="flex flex-col items-end"><label className="text-xs text-gray-600 mb-1">Student Name</label>
+      <input value={studentName} onChange={e=>setStudentName(e.target.value)} placeholder="Type a name" className="px-3 py-2 border rounded w-56 text-sm"/>
+      <div className="text-xs mt-1">{demoMode?<span className="text-blue-700">ℹ️ Demo mode (no real emails)</span>:emailJsLoaded?<span className="text-green-600">✅ Email tracking active</span>:<span className="text-yellow-700">⚠️ Loading EmailJS…</span>}</div>
+      <button onClick={()=>sendAutomaticEmail("Test Email",5,10,"This is a test to verify email is working")} disabled={isSending} className={`mt-2 px-3 py-1 text-white rounded text-xs ${isSending?"bg-blue-300 cursor-not-allowed":"bg-blue-500 hover:bg-blue-600"}`}>🧪 Test Email Now</button>
+    </div>
+  </div>
+  <div className="flex justify-center gap-4 mb-8 flex-wrap">
+    <button onClick={()=>{setMode("study");setShowResults(false);}} className={`px-6 py-3 rounded-lg font-bold text-lg ${mode==="study"?"bg-purple-600 text-white":"bg-white text-purple-600"}`}>📚 Study Mode</button>
+    <button onClick={()=>{setMode("myfamily");setShowResults(false);}} className={`px-6 py-3 rounded-lg font-bold text-lg ${mode==="myfamily"?"bg-pink-600 text-white":"bg-white text-pink-600"}`}>💝 My Family</button>
+    <button onClick={()=>{setMode("matching");setShowResults(false);setMatchingAnswers({});}} className={`px-6 py-3 rounded-lg font-bold text-lg ${mode==="matching"?"bg-green-600 text-white":"bg-white text-green-600"}`}>🎯 Matching Game</button>
+    <button onClick={()=>{setMode("quiz");setShowResults(false);setQuizAnswers({});}} className={`px-6 py-3 rounded-lg font-bold text-lg ${mode==="quiz"?"bg-blue-600 text-white":"bg-white text-blue-600"}`}>📝 Quiz</button>
+  </div>
+  {mode==="study"&&<StudyMode/>}{mode==="myfamily"&&<MyFamilySection/>}{mode==="matching"&&<MatchingGame/>}{mode==="quiz"&&<QuizMode/>}
+ </div>);}
+ReactDOM.render(<App/>,document.getElementById("root"));
+</script></body></html>

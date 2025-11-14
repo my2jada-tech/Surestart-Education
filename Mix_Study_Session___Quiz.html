@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Janea's Study Adventure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', 'Arial', cursive;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .welcome-screen {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .welcome-screen h1 {
+            color: #4a90e2;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        
+        .welcome-screen p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        .start-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            margin: 10px;
+        }
+        
+        .start-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .study-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: slideIn 0.5s ease-out;
+            margin-bottom: 20px;
+        }
+        
+        .subject-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+        
+        .lesson-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border-left: 5px solid #4a90e2;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .lesson-title {
+            color: #2c3e50;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .lesson-content {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        .info-box {
+            background: #e8f4f8;
+            border: 2px solid #4a90e2;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .info-box strong {
+            color: #2c5aa0;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .tip-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .tip-box strong {
+            color: #856404;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .example-box {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .drawing-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .emotion-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #4a90e2;
+        }
+        
+        .emotion-icon {
+            font-size: 3em;
+            margin: 10px 0;
+        }
+        
+        .practice-canvas {
+            border: 3px dashed #4a90e2;
+            border-radius: 10px;
+            background: white;
+            cursor: crosshair;
+            display: block;
+            margin: 20px auto;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .progress-indicator {
+            text-align: center;
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #2c5aa0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Quiz Styles */
+        .quiz-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .quiz-header {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .question-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #28a745;
+        }
+        
+        .question-text {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        
+        .option-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: #e8f4f8;
+            border: 2px solid #4a90e2;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .option-btn:hover {
+            background: #d4edda;
+            transform: translateX(10px);
+        }
+        
+        .option-btn.selected {
+            background: #4a90e2;
+            color: white;
+        }
+        
+        .option-btn.correct {
+            background: #28a745;
+            color: white;
+        }
+        
+        .option-btn.incorrect {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #4a90e2;
+            border-radius: 10px;
+            font-size: 1.1em;
+            margin: 10px 0;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        textarea.input-field {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .word-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            background: #e8f4f8;
+            border: 2px solid #4a90e2;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1.1em;
+        }
+        
+        .word-btn:hover {
+            background: #d4edda;
+        }
+        
+        .word-btn.selected {
+            background: #4a90e2;
+            color: white;
+        }
+        
+        .word-btn.correct-noun {
+            background: #28a745;
+            color: white;
+        }
+        
+        .word-btn.incorrect-noun {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .word-btn.missed-noun {
+            background: #ffc107;
+            color: black;
+        }
+        
+        .drag-item {
+            display: inline-block;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            margin: 8px;
+            cursor: move;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .drop-zone {
+            min-height: 60px;
+            border: 2px solid #4a90e2;
+            border-radius: 10px;
+            margin: 10px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .drop-zone.correct-drop {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .drop-zone.incorrect-drop {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .drag-source-area {
+            min-height: 80px;
+            border: 2px dashed #4a90e2;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            background: #f8f9fa;
+            text-align: center;
+        }
+        
+        .feedback {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 1.2em;
+            text-align: center;
+            font-weight: bold;
+            animation: popIn 0.5s ease;
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+        
+        .quiz-progress {
+            text-align: center;
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+        
+        .completion-screen {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .completion-screen h2 {
+            color: #28a745;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        
+        .score-display {
+            font-size: 3em;
+            color: #4a90e2;
+            margin: 30px 0;
+            font-weight: bold;
+        }
+        
+        .stars {
+            font-size: 4em;
+            margin: 20px 0;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        ul {
+            margin-left: 25px;
+            line-height: 1.8;
+        }
+        
+        .timeline {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .timeline-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #4a90e2;
+            text-align: center;
+            min-width: 100px;
+            margin: 5px;
+        }
+        
+        .arrow {
+            font-size: 2em;
+            color: #4a90e2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="welcome-screen">
+            <h1>🌟 Welcome Janea Gangardine! 🌟</h1>
+            <p>Ready to learn about all your subjects?</p>
+            <p>First, you'll study the material for each subject.<br>Then you'll take a fun quiz to test what you've learned!</p>
+            <p style="font-size: 1em; color: #666;">📖 Religious Studies • 😊 Health Science • ✍️ Creative Writing<br>
+            📝 Grammar • 🌱 General Science • 💻 Info Tech • 🏝️ Social Studies</p>
+            <button class="start-btn" onclick="startLearning()">Start Learning! 📚</button>
+        </div>
+
+        <!-- Study Mode -->
+        <div id="study-mode" class="hidden">
+            <div class="study-container">
+                <div class="progress-indicator" id="study-progress">Subject 1 of 7</div>
+                <div id="study-content"></div>
+                <div class="navigation-buttons">
+                    <button class="btn btn-secondary" id="prev-btn" onclick="previousSubject()">← Previous</button>
+                    <button class="btn btn-primary" id="next-btn" onclick="nextSubject()">Next →</button>
+                    <button class="btn btn-success hidden" id="quiz-btn" onclick="startQuiz()">Start Quiz! 🎯</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Mode -->
+        <div id="quiz-mode" class="hidden">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <h2>📝 Knowledge Quiz</h2>
+                    <p>Let's see what you've learned!</p>
+                </div>
+                <div class="quiz-progress" id="quiz-progress">Question 1 of 12</div>
+                <div id="quiz-content"></div>
+                <div id="quiz-feedback" class="feedback hidden"></div>
+                <div class="navigation-buttons">
+                    <button class="btn btn-primary" id="submit-answer" onclick="checkQuizAnswer()">Check Answer ✓</button>
+                    <button class="btn btn-success hidden" id="next-question" onclick="nextQuizQuestion()">Next Question →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completion Screen -->
+        <div id="completion-screen" class="completion-screen hidden">
+            <h2>🎉 Amazing Work Janea! 🎉</h2>
+            <div class="stars" id="star-rating">⭐⭐⭐</div>
+            <div class="score-display" id="final-score">0/12</div>
+            <p style="font-size: 1.3em; margin: 20px 0;">You completed your study session and quiz!</p>
+            <div id="subject-scores" style="text-align: left; margin: 30px auto; max-width: 600px;"></div>
+            <button class="btn btn-primary" onclick="restartSession()">Study Again 📚</button>
+        </div>
+    </div>
+
+    <script>
+        // Study content for each subject
+        const studyMaterial = [
+            {
+                subject: "📖 Religious Studies",
+                title: "The Creation Story - What God Made Each Day",
+                content: `
+                    <div class="lesson-card">
+                        <div class="lesson-title">🌍 The 7 Days of Creation</div>
+                        <div class="lesson-content">
+                            <p>In the beginning, God created the world in 7 days. Let's learn what He made each day!</p>
+                            
+                            <div class="info-box">
+                                <strong>📅 Day 1: Light and Darkness</strong>
+                                God said "Let there be light!" and separated light from darkness, making day and night.
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>☁️ Day 2: Sky and Heaven</strong>
+                                God made the sky above and separated the waters.
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>🌳 Day 3: Land, Seas, and Plants</strong>
+                                God gathered the waters to make seas and created dry land. Then He made all the plants, trees, and flowers.
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>☀️ Day 4: Sun, Moon, and Stars</strong>
+                                God created the sun to shine during the day, the moon for night, and all the beautiful stars.
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>🐟 Day 5: Fish and Birds</strong>
+                                God created all the fish that swim in the sea and all the birds that fly in the sky.
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>🦁 Day 6: Animals and People</strong>
+                                God created all the land animals. Then He created people (Adam and Eve) in His own image.
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>😌 Day 7: God Rested</strong>
+                                God finished creating and rested. This is why we have a day of rest each week!
+                            </div>
+                            
+                            <div class="tip-box">
+                                <strong>💡 Memory Trick:</strong>
+                                "Light, Sky, Land-Plants, Stars, Swimming-Flying, Animals-People, Rest!"
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                subject: "😊 Health Science",
+                title: "Understanding Our Emotions",
+                content: `
+                    <div class="lesson-card">
+                        <div class="lesson-title">😊 Different Emotions and Feelings</div>
+                        <div class="lesson-content">
+                            <p>We all have different feelings every day! Let's learn about emotions and how to show them on our faces.</p>
+                            
+                            <div class="drawing-demo">
+                                <div class="emotion-card">
+                                    <div class="emotion-icon">😊</div>
+                                    <strong>HAPPY</strong>
+                                    <p>• Big smile curving up<br>• Bright, open eyes<br>• Relaxed eyebrows</p>
+                                </div>
+                                
+                                <div class="emotion-card">
+                                    <div class="emotion-icon">😢</div>
+                                    <strong>SAD</strong>
+                                    <p>• Mouth curved down<br>• Eyes looking down<br>• Maybe teardrops<br>• Droopy eyebrows</p>
+                                </div>
+                                
+                                <div class="emotion-card">
+                                    <div class="emotion-icon">😠</div>
+                                    <strong>ANGRY</strong>
+                                    <p>• Straight or frowning mouth<br>• Stern eyes<br>• Eyebrows pointing down toward nose</p>
+                                </div>
+                                
+                                <div class="emotion-card">
+                                    <div class="emotion-icon">😴</div>
+                                    <strong>TIRED</strong>
+                                    <p>• Half-closed sleepy eyes<br>• Slightly open mouth<br>• Drooping eyebrows</p>
+                                </div>
+                                
+                                <div class="emotion-card">
+                                    <div class="emotion-icon">😨</div>
+                                    <strong>AFRAID</strong>
+                                    <p>• Wide open eyes<br>• Mouth in small "O" shape<br>• Eyebrows raised up high</p>
+                                </div>
+                            </div>
+                            
+                            <div class="tip-box">
+                                <strong>💡 Remember:</strong>
+                                All feelings are okay! It's important to understand and express our emotions in healthy ways.
+                            </div>
+                            
+                            <p style="margin-top: 20px; text-align: center;"><strong>Practice drawing these faces below:</strong></p>
+                            <canvas id="practice-canvas" class="practice-canvas" width="500" height="300"></canvas>
+                            <div style="text-align: center;">
+                                <button class="btn btn-secondary" onclick="clearPracticeCanvas()">Clear Canvas</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                subject: "✍️ Creative Writing",
+                title: "Writing About My Favorite Place",
+                content: `
+                    <div class="lesson-card">
+                        <div class="lesson-title">✍️ Describing Your Favorite Place</div>
+                        <div class="lesson-content">
+                            <p>When we write about a place we love, we want to help readers feel like they're there with us!</p>
+                            
+                            <div class="info-box">
+                                <strong>🤔 Questions to Think About:</strong>
+                                <ul>
+                                    <li><strong>Where</strong> is your favorite place? (Your room, a park, the beach, grandma's house?)</li>
+                                    <li><strong>What</strong> do you see there? (Colors, objects, people)</li>
+                                    <li><strong>What</strong> sounds do you hear? (Birds, waves, music, laughter)</li>
+                                    <li><strong>What</strong> smells are there? (Fresh air, cookies baking, flowers)</li>
+                                    <li><strong>How</strong> does it make you feel? (Happy, peaceful, excited)</li>
+                                    <li><strong>What</strong> do you like to do there?</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="example-box">
+                                <strong>📝 Example:</strong>
+                                <p>"My favorite place is my grandmother's garden. I see bright red roses and yellow sunflowers everywhere. I hear bees buzzing and birds singing happy songs. The air smells sweet like flowers and fresh grass. I feel peaceful and happy there. I love to help my grandmother water the plants and pick ripe tomatoes. It's the best place in the world!"</p>
+                            </div>
+                            
+                            <div class="tip-box">
+                                <strong>💡 Writing Tips:</strong>
+                                <ul>
+                                    <li>Use your 5 senses: see, hear, smell, feel, taste</li>
+                                    <li>Use describing words (adjectives): beautiful, cozy, bright, warm</li>
+                                    <li>Show your feelings: "It makes me feel..."</li>
+                                    <li>Start with: "My favorite place is..."</li>
+                                    <li>Try to write at least 50 words</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                subject: "📝 Grammar",
+                title: "Sentences and Nouns",
+                content: `
+                    <div class="lesson-card">
+                        <div class="lesson-title">📝 Writing Good Sentences</div>
+                        <div class="lesson-content">
+                            <p>A sentence is a group of words that tells a complete idea!</p>
+                            
+                            <div class="info-box">
+                                <strong>✏️ Rules for Good Sentences:</strong>
+                                <ul>
+                                    <li>Start with a <strong>CAPITAL LETTER</strong></li>
+                                    <li>End with a <strong>PUNCTUATION MARK</strong> (. ! ?)</li>
+                                    <li>Express a complete thought</li>
+                                    <li>Make sense when you read it</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="example-box">
+                                <strong>📝 Example Sentences:</strong>
+                                <ul>
+                                    <li>"The girl plays in the park."</li>
+                                    <li>"The sun shines brightly today."</li>
+                                    <li>"I hurt my leg while running."</li>
+                                    <li>"The happy girl jumps under the warm sun."</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lesson-card">
+                        <div class="lesson-title">📝 Understanding Nouns</div>
+                        <div class="lesson-content">
+                            <p>A NOUN is a naming word. Nouns name people, places, or things!</p>
+                            
+                            <div class="info-box">
+                                <strong>👥 Types of Nouns:</strong>
+                                <ul>
+                                    <li><strong>People:</strong> girl, boy, teacher, sister, friend</li>
+                                    <li><strong>Places:</strong> school, park, home, beach, island</li>
+                                    <li><strong>Things:</strong> ball, book, sun, leg, car</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="example-box">
+                                <strong>🔍 Finding Nouns:</strong>
+                                <p>"The cat sits on the mat."</p>
+                                <p>Nouns: <strong>cat</strong> (thing), <strong>mat</strong> (thing)</p>
+                                <br>
+                                <p>"My sister reads a book at school."</p>
+                                <p>Nouns: <strong>sister</strong> (person), <strong>book</strong> (thing), <strong>school</strong> (place)</p>
+                            </div>
+                            
+                            <div class="tip-box">
+                                <strong>💡 Remember:</strong>
+                                If you can point to it, see it, or it's a person or place - it's probably a NOUN!
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                subject: "🌱 General Science",
+                title: "How Humans Grow",
+                content: `
+                    <div class="lesson-card">
+                        <div class="lesson-title">🌱 The Stages of Human Growth</div>
+                        <div class="lesson-content">
+                            <p>All humans go through different stages as they grow from babies to adults. Let's learn about each stage!</p>
+                            
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div style="font-size: 2em;">👶</div>
+                                    <strong>BABY</strong>
+                                    <p style="font-size: 0.9em;">0-2 years</p>
+                                </div>
+                                <div class="arrow">→</div>
+                                <div class="timeline-item">
+                                    <div style="font-size: 2em;">🧒</div>
+                                    <strong>CHILD</strong>
+                                    <p style="font-size: 0.9em;">3-12 years</p>
+                                </div>
+                                <div class="arrow">→</div>
+                                <div class="timeline-item">
+                                    <div style="font-size: 2em;">👦</div>
+                                    <strong>TEENAGER</strong>
+                                    <p style="font-size: 0.9em;">13-19 years</p>
+                                </div>
+                                <div class="arrow">→</div>
+                                <div class="timeline-item">
+                                    <div style="font-size: 2em;">👨</div>
+                                    <strong>ADULT</strong>
+                                    <p style="font-size: 0.9em;">20-60 years</p>
+                                </div>
+                                <div class="arrow">→</div>
+                                <div class="timeline-item">
+                                    <div style="font-size: 2em;">👴</div>
+                                    <strong>ELDERLY</strong>
+                                    <p style="font-size: 0.9em;">60+ years</p>
+                                </div>
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>📏 What Changes as We Grow:</strong>
+                                <ul>
+                                    <li><strong>Height:</strong> We get taller and bigger</li>
+                                    <li><strong>Strength:</strong> Our muscles get stronger</li>
+                                    <li><strong>Skills:</strong> We learn to walk, talk, read, and do many things</li>
+                                    <li><strong>Knowledge:</strong> We learn new things every day</li>
+                                    <li><strong>Independence:</strong> We can do more things by ourselves</li>
+                                    <li><strong>Voice:</strong> Our voices change as we grow</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="example-box">
+                                <strong>🌟 Fun Facts:</strong>
+                                <ul>
+                                    <li>You are growing every single day, even while you sleep!</li>
+                                    <li>Children grow fastest during their first year and during teenage years</li>
+                                    <li>You are learning new things constantly, which helps your brain grow too!</li>
+                                    <li>Right now, you are in the CHILD stage (age 7) - you're learning and growing so much!</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="tip-box">
+                                <strong>💡 Remember:</strong>
+                                Everyone grows at their own pace. Be patient with yourself and enjoy each stage of life!
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                subject: "💻 Info Tech",
+                title: "Parts of a Computer",
+                content: `
+                    <div class="lesson-card">
+                        <div class="lesson-title">💻 Main Parts of a Computer</div>
+                        <div class="lesson-content">
+                            <p>A computer has many parts that work together like a team! Let's learn what each part does.</p>
+                            
+                            <div class="info-box">
+                                <strong>🖥️ MONITOR (Screen)</strong>
+                                <p>This is where you SEE everything! Pictures, words, videos - they all show up on the monitor. It's like a TV for your computer!</p>
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>⌨️ KEYBOARD</strong>
+                                <p>This is where you TYPE! It has all the letters, numbers, and special keys. You use it to write stories, send messages, and tell the computer what to do.</p>
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>🖱️ MOUSE</strong>
+                                <p>This helps you POINT and CLICK on things! You move the mouse on your desk, and an arrow moves on the screen. Click the buttons to select things!</p>
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>🧠 CPU (Computer Brain)</strong>
+                                <p>This is the BRAIN of the computer! It's usually in a box called a tower. The CPU thinks and makes everything work. It's the most important part!</p>
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>🔊 SPEAKERS</strong>
+                                <p>This is where SOUNDS come from! Music, voices, sound effects - you hear everything through the speakers.</p>
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>📷 WEBCAM (Optional)</strong>
+                                <p>This is like a small camera on top of your monitor. It takes pictures and videos of YOU so you can video chat with friends and family!</p>
+                            </div>
+                            
+                            <div class="tip-box">
+                                <strong>💡 Memory Trick:</strong>
+                                "My Keyboard Makes Cool Sounds" - Monitor, Keyboard, Mouse, CPU, Speakers!
+                            </div>
+                            
+                            <div class="example-box">
+                                <strong>🎮 How They Work Together:</strong>
+                                <p>When you play a game: You use the MOUSE and KEYBOARD to play, watch it on the MONITOR, hear sounds through SPEAKERS, and the CPU makes it all work!</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                subject: "🏝️ Social Studies",
+                title: "The Turks & Caicos Islands",
+                content: `
+                    <div class="lesson-card">
+                        <div class="lesson-title">🏝️ Our Beautiful Islands</div>
+                        <div class="lesson-content">
+                            <p>The Turks & Caicos Islands are special Caribbean islands where you live! Let's learn all about them!</p>
+                            
+                            <div class="info-box">
+                                <strong>📍 Location</strong>
+                                <p>The Turks & Caicos Islands are located in the beautiful Caribbean Sea. They are near the Bahamas and Haiti.</p>
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>🏛️ Capital City</strong>
+                                <p>The capital is <strong>Cockburn Town</strong>, located on the island of Grand Turk. This is where the government is!</p>
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>🏝️ Main Islands</strong>
+                                <p>There are many islands, but the main ones are:</p>
+                                <ul>
+                                    <li><strong>Grand Turk</strong> - Where the capital is</li>
+                                    <li><strong>Salt Cay</strong> - Known for salt production</li>
+                                    <li><strong>South Caicos</strong></li>
+                                    <li><strong>Middle Caicos</strong> - The largest island</li>
+                                    <li><strong>North Caicos</strong></li>
+                                    <li><strong>Providenciales</strong> - Where most people live and visit</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>🏖️ Famous For</strong>
+                                <ul>
+                                    <li><strong>Beautiful Beaches:</strong> Some of the most beautiful beaches in the world!</li>
+                                    <li><strong>Conch Shells:</strong> The beautiful pink conch shell is very special here</li>
+                                    <li><strong>Salt Production:</strong> Long ago, people made salt here</li>
+                                    <li><strong>Clear Blue Water:</strong> Perfect for swimming and seeing fish!</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>🌤️ Weather</strong>
+                                <p>The weather is warm and sunny most of the time! Perfect for enjoying the beautiful outdoors.</p>
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>👥 People</strong>
+                                <p>People who live in Turks & Caicos are called <strong>Turks and Caicos Islanders</strong> or <strong>Belongers</strong>.</p>
+                            </div>
+                            
+                            <div class="info-box">
+                                <strong>🚩 The Flag</strong>
+                                <p>The Turks & Caicos flag has a <strong>conch shell</strong> on it, along with other symbols that represent the islands!</p>
+                            </div>
+                            
+                            <div class="example-box">
+                                <strong>🌵 Fun Facts:</strong>
+                                <ul>
+                                    <li>The islands are named after the Turk's head cactus (a plant that looks like a Turkish hat)</li>
+                                    <li>"Caicos" comes from a word meaning "string of islands"</li>
+                                    <li>The islands have some of the clearest water in the world!</li>
+                                    <li>You can see beautiful coral reefs and sea turtles in the water</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="tip-box">
+                                <strong>💡 Remember:</strong>
+                                You live in a very special and beautiful place! The Turks & Caicos Islands are known all over the world for their beauty.
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        // Quiz questions
+        const quizQuestions = [
+            {
+                subject: "📖 Religious Studies",
+                type: "drag-drop",
+                question: "Match each day with what God created:",
+                items: [
+                    {day: "Day 1", answer: "Light and darkness", index: 0},
+                    {day: "Day 2", answer: "Sky and heaven", index: 1},
+                    {day: "Day 3", answer: "Land, seas, and plants", index: 2},
+                    {day: "Day 4", answer: "Sun, moon, and stars", index: 3},
+                    {day: "Day 5", answer: "Fish and birds", index: 4},
+                    {day: "Day 6", answer: "Animals and people", index: 5},
+                    {day: "Day 7", answer: "God rested", index: 6}
+                ]
+            },
+            {
+                subject: "😊 Health Science",
+                type: "multiple-choice",
+                question: "Which emotion shows wide open eyes and eyebrows raised up high?",
+                options: ["Happy", "Tired", "Afraid", "Angry"],
+                correct: 2
+            },
+            {
+                subject: "😊 Health Science",
+                type: "multiple-choice",
+                question: "How do you draw a SAD face?",
+                options: [
+                    "Big smile curving up with bright eyes",
+                    "Mouth curved down with droopy eyebrows and maybe teardrops",
+                    "Straight mouth with eyebrows pointing down",
+                    "Half-closed eyes with drooping eyebrows"
+                ],
+                correct: 1
+            },
+            {
+                subject: "✍️ Creative Writing",
+                type: "text",
+                question: "Write about YOUR FAVORITE PLACE. Try to write at least 40 words! Describe what you see, hear, and how it makes you feel.",
+                minWords: 40
+            },
+            {
+                subject: "📝 Grammar",
+                type: "text-multiple",
+                question: "Write TWO sentences. Each sentence should use at least ONE of these words: girl, sun, leg",
+                words: ["girl", "sun", "leg"],
+                numSentences: 2
+            },
+            {
+                subject: "📝 Grammar",
+                type: "word-selection",
+                question: "Click on all the NOUNS (naming words) in this sentence:",
+                sentence: "The happy cat sits on the chair",
+                words: ["The", "happy", "cat", "sits", "on", "the", "chair"],
+                nouns: [2, 6]
+            },
+            {
+                subject: "🌱 General Science",
+                type: "ordering",
+                question: "Put these life stages in order from youngest to oldest:",
+                items: ["Baby", "Child", "Teenager", "Adult", "Elderly Person"],
+                correctOrder: [0, 1, 2, 3, 4]
+            },
+            {
+                subject: "🌱 General Science",
+                type: "multiple-choice",
+                question: "What happens as humans grow?",
+                options: [
+                    "We get smaller and weaker",
+                    "We get taller, stronger, and learn new things",
+                    "Nothing changes",
+                    "We stay exactly the same"
+                ],
+                correct: 1
+            },
+            {
+                subject: "💻 Info Tech",
+                type: "matching",
+                question: "Match each computer part with what it does:",
+                pairs: [
+                    {part: "Monitor", function: "Where you see pictures and words", index: 0},
+                    {part: "Keyboard", function: "Where you type letters and numbers", index: 1},
+                    {part: "Mouse", function: "Helps you point and click", index: 2},
+                    {part: "CPU", function: "The brain that makes everything work", index: 3}
+                ]
+            },
+            {
+                subject: "🏝️ Social Studies",
+                type: "multiple-choice",
+                question: "What is the capital of Turks & Caicos Islands?",
+                options: ["Providenciales", "Cockburn Town", "Grand Turk City", "Nassau"],
+                correct: 1
+            },
+            {
+                subject: "🏝️ Social Studies",
+                type: "multiple-choice",
+                question: "Where are the Turks & Caicos Islands located?",
+                options: ["Pacific Ocean", "Indian Ocean", "Caribbean Sea", "Mediterranean Sea"],
+                correct: 2
+            },
+            {
+                subject: "🏝️ Social Studies",
+                type: "multiple-choice",
+                question: "What special shell is on the Turks & Caicos flag?",
+                options: ["Oyster shell", "Conch shell", "Clam shell", "Scallop shell"],
+                correct: 1
+            }
+        ];
+
+        // State variables
+        let currentStudyIndex = 0;
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let canvas, ctx, isDrawing = false;
+        let draggedElement = null;
+        let selectedOption = null;
+        let selectedWords = [];
+
+        function startLearning() {
+            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById('study-mode').classList.remove('hidden');
+            loadStudyContent();
+        }
+
+        function loadStudyContent() {
+            const material = studyMaterial[currentStudyIndex];
+            document.getElementById('study-content').innerHTML = `
+                <div class="subject-header">${material.subject}</div>
+                <h2 style="text-align: center; color: #2c3e50; margin-bottom: 20px;">${material.title}</h2>
+                ${material.content}
+            `;
+            
+            document.getElementById('study-progress').textContent = `Subject ${currentStudyIndex + 1} of ${studyMaterial.length}`;
+            
+            // Show/hide navigation buttons
+            document.getElementById('prev-btn').classList.toggle('hidden', currentStudyIndex === 0);
+            
+            if (currentStudyIndex === studyMaterial.length - 1) {
+                document.getElementById('next-btn').classList.add('hidden');
+                document.getElementById('quiz-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('next-btn').classList.remove('hidden');
+                document.getElementById('quiz-btn').classList.add('hidden');
+            }
+            
+            // Initialize canvas if on Health Science
+            if (currentStudyIndex === 1) {
+                setTimeout(initPracticeCanvas, 100);
+            }
+        }
+
+        function previousSubject() {
+            if (currentStudyIndex > 0) {
+                currentStudyIndex--;
+                loadStudyContent();
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function nextSubject() {
+            if (currentStudyIndex < studyMaterial.length - 1) {
+                currentStudyIndex++;
+                loadStudyContent();
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function initPracticeCanvas() {
+            canvas = document.getElementById('practice-canvas');
+            if (!canvas) return;
+            
+            ctx = canvas.getContext('2d');
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#2c3e50';
+            
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+            ctx.beginPath();
+        }
+
+        function clearPracticeCanvas() {
+            if (ctx && canvas) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        function startQuiz() {
+            document.getElementById('study-mode').classList.add('hidden');
+            document.getElementById('quiz-mode').classList.remove('hidden');
+            currentQuizIndex = 0;
+            quizScore = 0;
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            const question = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-progress').textContent = `Question ${currentQuizIndex + 1} of ${quizQuestions.length}`;
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('submit-answer').classList.remove('hidden');
+            document.getElementById('next-question').classList.add('hidden');
+            
+            selectedOption = null;
+            selectedWords = [];
+            
+            let html = `<div class="question-card"><div class="question-text">${question.question}</div><div style="margin-top: 20px;">`;
+            
+            switch(question.type) {
+                case 'multiple-choice':
+                    question.options.forEach((option, index) => {
+                        html += `<button class="option-btn" onclick="selectQuizOption(${index})">${option}</button>`;
+                    });
+                    break;
+                    
+                case 'text':
+                    html += `<textarea id="quiz-text-answer" class="input-field" placeholder="Write your answer here..." rows="6"></textarea>`;
+                    html += `<p style="color: #666; margin-top: 5px;">Try to write at least ${question.minWords} words!</p>`;
+                    break;
+                    
+                case 'text-multiple':
+                    for (let i = 0; i < question.numSentences; i++) {
+                        html += `<input type="text" id="quiz-sentence-${i}" class="input-field" placeholder="Sentence ${i + 1}: Use girl, sun, or leg">`;
+                    }
+                    break;
+                    
+                case 'word-selection':
+                    html += `<p style="margin-bottom: 15px; font-size: 1.1em;">"${question.sentence}"</p>`;
+                    question.words.forEach((word, index) => {
+                        html += `<button class="word-btn" onclick="toggleQuizWord(${index})" id="quiz-word-${index}">${word}</button>`;
+                    });
+                    break;
+                    
+                case 'drag-drop':
+                    html += `<div class="drag-source-area" id="quiz-drag-source">`;
+                    question.items.forEach((item) => {
+                        html += `<span class="drag-item" draggable="true" data-index="${item.index}" id="quiz-drag-${item.index}">${item.day}</span>`;
+                    });
+                    html += `</div>`;
+                    question.items.forEach((item) => {
+                        html += `<div class="drop-zone" data-index="${item.index}"><strong>${item.answer}</strong><span id="quiz-drop-${item.index}"></span></div>`;
+                    });
+                    setTimeout(initQuizDragDrop, 100);
+                    break;
+                    
+                case 'matching':
+                    html += `<div class="drag-source-area" id="quiz-drag-source">`;
+                    question.pairs.forEach((pair) => {
+                        html += `<span class="drag-item" draggable="true" data-index="${pair.index}" id="quiz-drag-${pair.index}">${pair.part}</span>`;
+                    });
+                    html += `</div>`;
+                    question.pairs.forEach((pair) => {
+                        html += `<div class="drop-zone" data-index="${pair.index}"><strong>${pair.function}</strong><span id="quiz-drop-${pair.index}"></span></div>`;
+                    });
+                    setTimeout(initQuizDragDrop, 100);
+                    break;
+                    
+                case 'ordering':
+                    html += `<div class="drag-source-area" id="quiz-drag-source">`;
+                    // Shuffle items for quiz
+                    const shuffled = [...question.items].sort(() => Math.random() - 0.5);
+                    shuffled.forEach((item, displayIndex) => {
+                        const originalIndex = question.items.indexOf(item);
+                        html += `<span class="drag-item" draggable="true" data-value="${item}" data-original="${originalIndex}" id="quiz-drag-${displayIndex}">${item}</span>`;
+                    });
+                    html += `</div>`;
+                    for (let i = 0; i < question.items.length; i++) {
+                        html += `<div class="drop-zone" data-position="${i}"><strong>Position ${i + 1}:</strong><span id="quiz-drop-${i}"></span></div>`;
+                    }
+                    setTimeout(initQuizDragDrop, 100);
+                    break;
+            }
+            
+            html += `</div></div>`;
+            document.getElementById('quiz-content').innerHTML = html;
+            window.scrollTo(0, 0);
+        }
+
+        function selectQuizOption(index) {
+            document.querySelectorAll('.option-btn').forEach((btn, i) => {
+                btn.classList.remove('selected');
+                if (i === index) {
+                    btn.classList.add('selected');
+                    selectedOption = index;
+                }
+            });
+        }
+
+        function toggleQuizWord(index) {
+            const btn = document.getElementById(`quiz-word-${index}`);
+            btn.classList.toggle('selected');
+            
+            const idx = selectedWords.indexOf(index);
+            if (idx > -1) {
+                selectedWords.splice(idx, 1);
+            } else {
+                selectedWords.push(index);
+            }
+        }
+
+        function initQuizDragDrop() {
+            const draggables = document.querySelectorAll('.drag-item');
+            const dropZones = document.querySelectorAll('.drop-zone');
+            
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', (e) => {
+                    draggedElement = e.target;
+                });
+            });
+            
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    zone.style.backgroundColor = '#d4edda';
+                });
+                
+                zone.addEventListener('dragleave', () => {
+                    zone.style.backgroundColor = '';
+                });
+                
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.style.backgroundColor = '';
+                    
+                    if (draggedElement) {
+                        const dropSpan = zone.querySelector('span[id^="quiz-drop-"]');
+                        if (dropSpan) {
+                            dropSpan.innerHTML = '';
+                            dropSpan.appendChild(draggedElement.cloneNode(true));
+                            if (draggedElement.parentElement.id !== 'quiz-drag-source') {
+                                draggedElement.remove();
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
+        function checkQuizAnswer() {
+            const question = quizQuestions[currentQuizIndex];
+            const feedback = document.getElementById('quiz-feedback');
+            let isCorrect = false;
+            let feedbackText = '';
+            
+            switch(question.type) {
+                case 'multiple-choice':
+                    if (selectedOption === question.correct) {
+                        isCorrect = true;
+                        feedbackText = '🌟 Excellent! That\'s the correct answer!';
+                        document.querySelectorAll('.option-btn')[selectedOption].classList.add('correct');
+                    } else {
+                        feedbackText = '❌ Not quite. The correct answer is: ' + question.options[question.correct];
+                        if (selectedOption !== null) {
+                            document.querySelectorAll('.option-btn')[selectedOption].classList.add('incorrect');
+                        }
+                        document.querySelectorAll('.option-btn')[question.correct].classList.add('correct');
+                    }
+                    break;
+                    
+                case 'text':
+                    const text = document.getElementById('quiz-text-answer').value;
+                    const wordCount = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+                    
+                    if (wordCount >= question.minWords) {
+                        isCorrect = true;
+                        feedbackText = `🌟 Wonderful! You wrote ${wordCount} words! Great description!`;
+                    } else {
+                        feedbackText = `You wrote ${wordCount} words. Try to write at least ${question.minWords} words with more details.`;
+                    }
+                    break;
+                    
+                case 'text-multiple':
+                    let validCount = 0;
+                    for (let i = 0; i < question.numSentences; i++) {
+                        const sentence = document.getElementById(`quiz-sentence-${i}`).value.trim();
+                        const hasWord = question.words.some(word => sentence.toLowerCase().includes(word.toLowerCase()));
+                        const hasCapital = sentence.length > 0 && sentence[0] === sentence[0].toUpperCase();
+                        const hasPunctuation = /[.!?]$/.test(sentence);
+                        
+                        if (sentence && hasWord && hasCapital && hasPunctuation) {
+                            validCount++;
+                        }
+                    }
+                    
+                    if (validCount === question.numSentences) {
+                        isCorrect = true;
+                        feedbackText = '🌟 Perfect! All your sentences are correct!';
+                    } else {
+                        feedbackText = `You got ${validCount} out of ${question.numSentences} sentences correct. Remember: use the required words, start with a capital, and end with punctuation!`;
+                    }
+                    break;
+                    
+                case 'word-selection':
+                    const correctNouns = question.nouns;
+                    const allCorrect = correctNouns.every(i => selectedWords.includes(i)) && 
+                                      selectedWords.every(i => correctNouns.includes(i));
+                    
+                    question.words.forEach((word, index) => {
+                        const btn = document.getElementById(`quiz-word-${index}`);
+                        if (correctNouns.includes(index) && selectedWords.includes(index)) {
+                            btn.classList.add('correct-noun');
+                        } else if (correctNouns.includes(index) && !selectedWords.includes(index)) {
+                            btn.classList.add('missed-noun');
+                        } else if (!correctNouns.includes(index) && selectedWords.includes(index)) {
+                            btn.classList.add('incorrect-noun');
+                        }
+                    });
+                    
+                    if (allCorrect) {
+                        isCorrect = true;
+                        feedbackText = '🌟 Perfect! You found all the nouns!';
+                    } else {
+                        feedbackText = '❌ The correct nouns are: ' + correctNouns.map(i => question.words[i]).join(', ');
+                    }
+                    break;
+                    
+                case 'drag-drop':
+                case 'matching':
+                    let correctMatches = 0;
+                    const dropZones = document.querySelectorAll('.drop-zone');
+                    const totalItems = question.items ? question.items.length : question.pairs.length;
+                    
+                    dropZones.forEach((zone) => {
+                        const droppedItem = zone.querySelector('.drag-item');
+                        const zoneIndex = parseInt(zone.dataset.index);
+                        
+                        if (droppedItem) {
+                            const droppedIndex = parseInt(droppedItem.dataset.index);
+                            if (droppedIndex === zoneIndex) {
+                                correctMatches++;
+                                zone.classList.add('correct-drop');
+                            } else {
+                                zone.classList.add('incorrect-drop');
+                            }
+                        } else {
+                            zone.classList.add('incorrect-drop');
+                        }
+                    });
+                    
+                    if (correctMatches === totalItems) {
+                        isCorrect = true;
+                        feedbackText = '🌟 Perfect! All matches are correct!';
+                    } else {
+                        feedbackText = `You matched ${correctMatches} out of ${totalItems} correctly.`;
+                    }
+                    break;
+                    
+                case 'ordering':
+                    let correctOrder = true;
+                    const orderedZones = document.querySelectorAll('.drop-zone');
+                    
+                    orderedZones.forEach((zone, position) => {
+                        const droppedItem = zone.querySelector('.drag-item');
+                        if (droppedItem) {
+                            const originalIndex = parseInt(droppedItem.dataset.original);
+                            if (originalIndex === position) {
+                                zone.classList.add('correct-drop');
+                            } else {
+                                zone.classList.add('incorrect-drop');
+                                correctOrder = false;
+                            }
+                        } else {
+                            zone.classList.add('incorrect-drop');
+                            correctOrder = false;
+                        }
+                    });
+                    
+                    if (correctOrder) {
+                        isCorrect = true;
+                        feedbackText = '🌟 Excellent! Perfect order!';
+                    } else {
+                        feedbackText = '❌ The correct order is: ' + question.items.join(' → ');
+                    }
+                    break;
+            }
+            
+            if (isCorrect) {
+                quizScore++;
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.className = 'feedback incorrect';
+            }
+            
+            feedback.textContent = feedbackText;
+            feedback.classList.remove('hidden');
+            
+            document.getElementById('submit-answer').classList.add('hidden');
+            document.getElementById('next-question').classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex++;
+            
+            if (currentQuizIndex >= quizQuestions.length) {
+                showCompletion();
+            } else {
+                loadQuizQuestion();
+            }
+        }
+
+        function showCompletion() {
+            document.getElementById('quiz-mode').classList.add('hidden');
+            document.getElementById('completion-screen').classList.remove('hidden');
+            
+            const percentage = (quizScore / quizQuestions.length) * 100;
+            const stars = percentage >= 90 ? '⭐⭐⭐⭐⭐' : 
+                         percentage >= 75 ? '⭐⭐⭐⭐' :
+                         percentage >= 60 ? '⭐⭐⭐' :
+                         percentage >= 50 ? '⭐⭐' : '⭐';
+            
+            document.getElementById('star-rating').textContent = stars;
+            document.getElementById('final-score').textContent = `${quizScore}/${quizQuestions.length}`;
+            
+            // Calculate subject breakdown
+            const subjectScores = {};
+            quizQuestions.forEach((q, index) => {
+                if (!subjectScores[q.subject]) {
+                    subjectScores[q.subject] = {correct: 0, total: 0};
+                }
+                subjectScores[q.subject].total++;
+            });
+            
+            // This is simplified - in reality you'd track per-question results
+            let scoresHTML = '<h3 style="text-align: center; margin-bottom: 20px;">Great Job Studying!</h3>';
+            scoresHTML += `<div style="background: #e8f4f8; padding: 20px; border-radius: 10px; text-align: center;">
+                <p style="font-size: 1.2em; margin-bottom: 10px;">You studied all 7 subjects and completed the quiz!</p>
+                <p style="font-size: 1.1em;">Keep up the excellent work, Janea! 🌟</p>
+            </div>`;
+            
+            document.getElementById('subject-scores').innerHTML = scoresHTML;
+            window.scrollTo(0, 0);
+        }
+
+        function restartSession() {
+            currentStudyIndex = 0;
+            currentQuizIndex = 0;
+            quizScore = 0;
+            selectedOption = null;
+            selectedWords = [];
+            
+            document.getElementById('completion-screen').classList.add('hidden');
+            document.getElementById('welcome-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

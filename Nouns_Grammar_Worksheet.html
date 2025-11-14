@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouns Grammar Worksheet</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(to bottom, #e8f4f8, #f0f8ff);
+            min-height: 100vh;
+        }
+        
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        
+        .name-field {
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .name-field input {
+            width: 300px;
+            padding: 8px;
+            font-size: 16px;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        
+        .instructions {
+            background: #fffacd;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px dashed #ffa500;
+            font-size: 1.1em;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .sentence {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            font-size: 1.15em;
+            line-height: 1.8;
+            transition: transform 0.2s;
+        }
+        
+        .sentence:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        .sentence-number {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .word {
+            display: inline-block;
+            padding: 3px 6px;
+            margin: 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            user-select: none;
+        }
+        
+        .word:hover {
+            background: #f0f0f0;
+            transform: scale(1.05);
+        }
+        
+        .noun {
+            background: #90EE90;
+            font-weight: bold;
+            animation: bounce 0.5s;
+        }
+        
+        .wrong {
+            background: #ffcccb;
+            animation: shake 0.5s;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .score-display {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            font-size: 1.3em;
+        }
+        
+        .score {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+        
+        .own-sentence {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .own-sentence textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            resize: vertical;
+            min-height: 60px;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        
+        .buttons {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            font-family: 'Comic Sans MS', cursive;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .celebration {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            animation: celebrate 1s ease-out;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        @keyframes celebrate {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(2) rotate(360deg); opacity: 0; }
+        }
+        
+        .hint {
+            background: #e6f3ff;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 Nouns Grammar Worksheet 🎯</h1>
+        <div class="subtitle">Let's practice identifying nouns!</div>
+    </div>
+    
+    <div class="name-field">
+        <label>Name: </label>
+        <input type="text" id="studentName" placeholder="Enter your name here">
+    </div>
+    
+    <div class="instructions">
+        📝 <strong>Instructions:</strong> Click on the nouns in each sentence below. When you click a noun, it will turn green! If you click a word that isn't a noun, it will turn red briefly.
+    </div>
+    
+    <div class="hint">
+        💡 <strong>Remember:</strong> A noun is a person, place, thing, or idea!
+    </div>
+    
+    <div id="sentences"></div>
+    
+    <div class="score-display">
+        Your Score: <span class="score" id="score">0</span> / <span id="totalNouns">0</span> nouns found!
+    </div>
+    
+    <div class="own-sentence">
+        <h3>✍️ Now write your own sentence with nouns:</h3>
+        <textarea id="ownSentence" placeholder="Write your sentence here..."></textarea>
+        <button onclick="checkOwnSentence()">Check My Sentence</button>
+        <div id="ownSentenceWords"></div>
+    </div>
+    
+    <div class="buttons">
+        <button onclick="resetWorksheet()">🔄 Reset Worksheet</button>
+        <button onclick="showAnswers()">👀 Show All Answers</button>
+        <button onclick="printWorksheet()">🖨️ Print Worksheet</button>
+    </div>
+
+    <script>
+        const sentences = [
+            { text: "My teacher gave me homework to do on Friday.", nouns: ["teacher", "homework", "Friday"] },
+            { text: "The girl hiked up a large mountain.", nouns: ["girl", "mountain"] },
+            { text: "The team kicked the ball off of the field.", nouns: ["team", "ball", "field"] },
+            { text: "Emily takes piano lessons after school.", nouns: ["Emily", "piano", "lessons", "school"] },
+            { text: "I brushed the horse at the stable.", nouns: ["horse", "stable"] },
+            { text: "My brother found five kittens in the barn.", nouns: ["brother", "kittens", "barn"] },
+            { text: "Sarah is a very good dancer.", nouns: ["Sarah", "dancer"] },
+            { text: "The nurse said that I needed to get glasses.", nouns: ["nurse", "glasses"] },
+            { text: "Mom wore a new dress to the party.", nouns: ["Mom", "dress", "party"] },
+            { text: "The baby likes to snuggle with her blanket.", nouns: ["baby", "blanket"] }
+        ];
+        
+        let score = 0;
+        let totalNouns = 0;
+        let foundNouns = new Set();
+        
+        function initWorksheet() {
+            const container = document.getElementById('sentences');
+            container.innerHTML = '';
+            
+            sentences.forEach((sentence, index) => {
+                const sentenceDiv = document.createElement('div');
+                sentenceDiv.className = 'sentence';
+                
+                const numberSpan = document.createElement('span');
+                numberSpan.className = 'sentence-number';
+                numberSpan.textContent = `${index + 1}. `;
+                sentenceDiv.appendChild(numberSpan);
+                
+                const words = sentence.text.split(/(\s+|(?=[.,!?])|(?<=[.,!?]))/);
+                words.forEach(word => {
+                    const cleanWord = word.replace(/[.,!?]/g, '').trim();
+                    if (cleanWord) {
+                        const wordSpan = document.createElement('span');
+                        wordSpan.className = 'word';
+                        wordSpan.textContent = word;
+                        wordSpan.onclick = () => checkWord(cleanWord, wordSpan, sentence.nouns);
+                        sentenceDiv.appendChild(wordSpan);
+                    } else if (word.trim()) {
+                        sentenceDiv.appendChild(document.createTextNode(word));
+                    }
+                });
+                
+                container.appendChild(sentenceDiv);
+                totalNouns += sentence.nouns.length;
+            });
+            
+            document.getElementById('totalNouns').textContent = totalNouns;
+        }
+        
+        function checkWord(word, element, correctNouns) {
+            const cleanWord = word.toLowerCase();
+            const isNoun = correctNouns.some(noun => noun.toLowerCase() === cleanWord);
+            
+            if (isNoun && !element.classList.contains('noun')) {
+                element.classList.add('noun');
+                element.classList.remove('wrong');
+                const nounKey = element.parentElement.textContent + word;
+                if (!foundNouns.has(nounKey)) {
+                    foundNouns.add(nounKey);
+                    score++;
+                    document.getElementById('score').textContent = score;
+                    
+                    if (score === totalNouns) {
+                        celebrate();
+                    }
+                }
+            } else if (!isNoun && !element.classList.contains('noun')) {
+                element.classList.add('wrong');
+                setTimeout(() => element.classList.remove('wrong'), 500);
+            }
+        }
+        
+        function checkOwnSentence() {
+            const textarea = document.getElementById('ownSentence');
+            const text = textarea.value.trim();
+            if (!text) {
+                alert('Please write a sentence first!');
+                return;
+            }
+            
+            const wordsDiv = document.getElementById('ownSentenceWords');
+            wordsDiv.innerHTML = '<h4>Click on the nouns in your sentence:</h4>';
+            
+            const words = text.split(/(\s+|(?=[.,!?])|(?<=[.,!?]))/);
+            words.forEach(word => {
+                if (word.trim() && !word.match(/^[.,!?]$/)) {
+                    const wordSpan = document.createElement('span');
+                    wordSpan.className = 'word';
+                    wordSpan.textContent = word;
+                    wordSpan.onclick = () => {
+                        wordSpan.classList.toggle('noun');
+                    };
+                    wordsDiv.appendChild(wordSpan);
+                } else {
+                    wordsDiv.appendChild(document.createTextNode(word));
+                }
+            });
+        }
+        
+        function resetWorksheet() {
+            score = 0;
+            foundNouns.clear();
+            document.getElementById('score').textContent = score;
+            document.getElementById('ownSentence').value = '';
+            document.getElementById('ownSentenceWords').innerHTML = '';
+            initWorksheet();
+        }
+        
+        function showAnswers() {
+            document.querySelectorAll('.sentence').forEach((sentenceDiv, index) => {
+                const sentence = sentences[index];
+                sentenceDiv.querySelectorAll('.word').forEach(wordSpan => {
+                    const cleanWord = wordSpan.textContent.replace(/[.,!?]/g, '').trim().toLowerCase();
+                    if (sentence.nouns.some(noun => noun.toLowerCase() === cleanWord)) {
+                        wordSpan.classList.add('noun');
+                    }
+                });
+            });
+            score = totalNouns;
+            document.getElementById('score').textContent = score;
+            celebrate();
+        }
+        
+        function celebrate() {
+            const celebration = document.createElement('div');
+            celebration.className = 'celebration';
+            celebration.textContent = '🎉';
+            document.body.appendChild(celebration);
+            setTimeout(() => celebration.remove(), 1000);
+        }
+        
+        function printWorksheet() {
+            window.print();
+        }
+        
+        // Initialize on load
+        initWorksheet();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turks and Caicos Islands Adventure!</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #00CED1;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .nav-btn {
+            padding: 12px 20px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-weight: bold;
+        }
+        
+        .nav-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .nav-btn.home {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .nav-btn.about {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+        
+        .nav-btn.islands {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+        }
+        
+        .nav-btn.colors {
+            background: linear-gradient(135deg, #00CED1, #1E90FF);
+            color: white;
+        }
+        
+        .nav-btn.symbols {
+            background: linear-gradient(135deg, #FF69B4, #FF1493);
+            color: white;
+        }
+        
+        .nav-btn.dress {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: white;
+        }
+        
+        .nav-btn.games {
+            background: linear-gradient(135deg, #32CD32, #228B22);
+            color: white;
+        }
+        
+        .nav-btn.quiz {
+            background: linear-gradient(135deg, #FF4500, #DC143C);
+            color: white;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .color-card {
+            background: white;
+            border: 4px solid #ddd;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .color-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        
+        .color-preview {
+            width: 100%;
+            height: 80px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border: 3px solid #333;
+        }
+        
+        .symbol-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .symbol-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .symbol-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .symbol-card .emoji {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .island-group {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .island-group h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .island-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .island-item {
+            background: white;
+            color: #333;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .game-area {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .matching-game {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .match-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 3px solid #ddd;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1.2em;
+            transition: all 0.3s;
+        }
+        
+        .match-card:hover {
+            background: #e3f2fd;
+            transform: translateY(-5px);
+        }
+        
+        .match-card.selected {
+            background: #FFD700;
+            border-color: #FFA500;
+        }
+        
+        .match-card.matched {
+            background: #90EE90;
+            border-color: #32CD32;
+            pointer-events: none;
+        }
+        
+        .quiz-question {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #00CED1;
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .quiz-option {
+            padding: 15px;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            font-size: 1.1em;
+        }
+        
+        .quiz-option:hover {
+            background: #e3f2fd;
+            transform: translateX(10px);
+        }
+        
+        .quiz-option.correct {
+            background: #90EE90;
+            border-color: #32CD32;
+        }
+        
+        .quiz-option.incorrect {
+            background: #FFB6C6;
+            border-color: #FF69B4;
+        }
+        
+        .celebration {
+            text-align: center;
+            padding: 40px;
+            font-size: 2em;
+            color: #FFD700;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .btn-large {
+            padding: 15px 30px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin: 10px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .star-rating {
+            font-size: 2em;
+            margin: 20px 0;
+        }
+        
+        .info-box {
+            background: #FFF9E6;
+            border: 3px solid #FFD700;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .fun-fact {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 3px solid #FFD700;
+        }
+        
+        .fun-fact h3 {
+            margin-bottom: 10px;
+        }
+        
+        /* Email Settings Styles */
+        .email-settings {
+            background: #e3f2fd;
+            border: 3px solid #2196F3;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        .email-settings h3 {
+            color: #1976D2;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .email-input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .email-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #2196F3;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        
+        .reset-btn {
+            padding: 12px 20px;
+            background: #757575;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        
+        .reset-btn:hover {
+            background: #616161;
+        }
+        
+        .email-status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .email-success {
+            background: #C8E6C9;
+            color: #2E7D32;
+            border: 2px solid #4CAF50;
+        }
+        
+        .email-error {
+            background: #FFCDD2;
+            color: #C62828;
+            border: 2px solid #F44336;
+        }
+        
+        .email-preview {
+            background: white;
+            border: 2px solid #2196F3;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏝️ Turks and Caicos Islands Adventure! 🏝️</h1>
+            <p style="font-size: 1.2em; color: #666;">Let's Learn About This Beautiful Place!</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar">0%</div>
+            </div>
+            <div class="star-rating" id="starRating"></div>
+        </div>
+
+        <div id="home" class="section active">
+            <h2 style="color: #00CED1; text-align: center; margin-bottom: 20px;">Welcome, Young Explorer! 🧭</h2>
+            <div class="info-box">
+                <p style="font-size: 1.2em; line-height: 1.8;">
+                    The Turks and Caicos Islands are beautiful islands with amazing blue water, white sandy beaches, 
+                    and lots of interesting animals! Today you'll learn all about the different islands, colors, symbols, and special 
+                    things that make these islands unique!
+                </p>
+            </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn-large btn-primary" onclick="showSection('about')">Let's Start Learning! 🚀</button>
+            </div>
+        </div>
+        
+        <!-- ABOUT TCI SECTION -->
+        <div id="about" class="section">
+            <h2 style="color: #f5576c; text-align: center;">📖 All About Turks and Caicos! 📖</h2>
+            
+            <div class="color-card">
+                <h3>🏝️ How Did It Get Its Name?</h3>
+                <p style="font-size: 1.1em; line-height: 1.8; margin-top: 10px;">
+                    The name has two parts:
+                </p>
+                <ul style="font-size: 1.1em; line-height: 2; margin-top: 10px;">
+                    <li><strong>"Turks"</strong> comes from the <strong>Turk's Head Cactus</strong>! The red top of this cactus looks like a special Turkish hat called a fez! 🌵</li>
+                    <li><strong>"Caicos"</strong> comes from the native Lucayan word <strong>"caya hico"</strong> which means "string of islands"! It's like beads on a necklace! 📿</li>
+                </ul>
+            </div>
+            
+            <div class="fun-fact">
+                <h3>🎩 Fun Fact About the Cactus!</h3>
+                <p style="font-size: 1.1em; line-height: 1.8;">
+                    The Turk's Head cactus has a bright red top that really does look like a Turkish fez hat! That's how the islands might have gotten the name "Turks"!
+                </p>
+            </div>
+            
+            <div class="color-card">
+                <h3>📍 Where Are the Islands?</h3>
+                <p style="font-size: 1.1em; line-height: 1.8; margin-top: 10px;">
+                    The Turks and Caicos Islands are at the bottom (southeast) of the Bahamas! They're made up of many small islands all grouped together.
+                </p>
+                <ul style="font-size: 1.1em; line-height: 2; margin-top: 10px;">
+                    <li>The islands are pretty small - about <strong>166 square miles</strong> total (that's like a big city!)</li>
+                    <li>They have about <strong>230 miles of beautiful beaches</strong>! 🏖️</li>
+                    <li>The longest beach is <strong>Grace Bay</strong> on Providenciales - it's 12 miles long! That's really long!</li>
+                    <li>The islands are flat and have marshes, mangrove swamps, and limestone rock</li>
+                </ul>
+            </div>
+            
+            <div class="color-card">
+                <h3>☀️ What's the Weather Like?</h3>
+                <p style="font-size: 1.1em; line-height: 1.8; margin-top: 10px;">
+                    The islands were called <strong>"The Isles of Perpetual June"</strong> because it feels like summer all year long!
+                </p>
+                <ul style="font-size: 1.1em; line-height: 2; margin-top: 10px;">
+                    <li>It's usually <strong>sunny and hot</strong> ☀️</li>
+                    <li><strong>May</strong> is the rainy month 🌧️</li>
+                    <li>Other months are very dry with little rain</li>
+                    <li>Hurricane season is <strong>June to November</strong> 🌀</li>
+                </ul>
+            </div>
+            
+            <div class="fun-fact">
+                <h3>💧 Did You Know?</h3>
+                <p style="font-size: 1.1em; line-height: 1.8;">
+                    People on the islands get their water from Provo Water Company and electricity from Pelican Energy TCI!
+                </p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-large btn-primary" onclick="markComplete('about'); showSection('islands')">Next: The Islands! 🏝️</button>
+            </div>
+        </div>
+        
+        <!-- ISLANDS SECTION -->
+        <div id="islands" class="section">
+            <h2 style="color: #00f2fe; text-align: center;">🏝️ The Different Islands! 🏝️</h2>
+            
+            <div class="info-box">
+                <p style="font-size: 1.2em; line-height: 1.8; text-align: center;">
+                    The Turks and Caicos Islands are split into <strong>TWO groups</strong>: the Turks Group and the Caicos Group!
+                </p>
+            </div>
+            
+            <div class="island-group">
+                <h3>🏝️ The Turks Group 🏝️</h3>
+                <p style="font-size: 1.1em; text-align: center; margin-bottom: 15px;">These are the smaller group with 2 main islands!</p>
+                <div class="island-list">
+                    <div class="island-item" style="background: #FFE4E1;">
+                        <div style="font-size: 2em;">🏛️</div>
+                        Grand Turk<br>(The Capital!)
+                    </div>
+                    <div class="island-item" style="background: #F0E68C;">
+                        <div style="font-size: 2em;">🧂</div>
+                        Salt Cay
+                    </div>
+                </div>
+            </div>
+            
+            <div class="island-group" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <h3>🏝️ The Caicos Group 🏝️</h3>
+                <p style="font-size: 1.1em; text-align: center; margin-bottom: 15px;">This is the bigger group with 9 main islands!</p>
+                <div class="island-list">
+                    <div class="island-item" style="background: #98FB98;">
+                        <div style="font-size: 2em;">🌳</div>
+                        North Caicos
+                    </div>
+                    <div class="island-item" style="background: #FFB347;">
+                        <div style="font-size: 2em;">🦞</div>
+                        South Caicos
+                    </div>
+                    <div class="island-item" style="background: #DEB887;">
+                        <div style="font-size: 2em;">🏺</div>
+                        Middle Caicos
+                    </div>
+                    <div class="island-item" style="background: #FFE4B5;">
+                        <div style="font-size: 2em;">🏝️</div>
+                        East Caicos
+                    </div>
+                    <div class="island-item" style="background: #B0E0E6;">
+                        <div style="font-size: 2em;">🌊</div>
+                        West Caicos
+                    </div>
+                    <div class="island-item" style="background: #87CEEB;">
+                        <div style="font-size: 2em;">🏖️</div>
+                        Providenciales
+                    </div>
+                    <div class="island-item" style="background: #90EE90;">
+                        <div style="font-size: 2em;">🌲</div>
+                        Pine Cay
+                    </div>
+                    <div class="island-item" style="background: #FFB6C1;">
+                        <div style="font-size: 2em;">🦜</div>
+                        Parrot Cay
+                    </div>
+                    <div class="island-item" style="background: #F0E68C;">
+                        <div style="font-size: 2em;">💎</div>
+                        Ambergris Cay
+                    </div>
+                </div>
+            </div>
+            
+            <div class="fun-fact">
+                <h3>🎯 Cool Island Facts!</h3>
+                <ul style="font-size: 1.1em; line-height: 2; margin-top: 10px;">
+                    <li><strong>Grand Turk</strong> is the capital where the government is! 🏛️</li>
+                    <li><strong>Providenciales</strong> (also called "Provo") has the famous Grace Bay beach! 🏖️</li>
+                    <li><strong>North Caicos</strong> is the greenest island with lots of fruit trees! 🌳</li>
+                    <li><strong>Salt Cay</strong> was famous for making salt long ago! 🧂</li>
+                    <li>Some islands like <strong>Parrot Cay</strong> and <strong>Pine Cay</strong> are named after animals and plants! 🦜🌲</li>
+                </ul>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-large btn-primary" onclick="markComplete('islands'); showSection('colors')">Next: Learn About Colors! 🎨</button>
+            </div>
+        </div>
+        
+        <!-- COLORS SECTION -->
+        <div id="colors" class="section">
+            <h2 style="color: #00CED1; text-align: center;">🎨 The Amazing Colors! 🎨</h2>
+            
+            <div class="color-card">
+                <h3>🌊 Turquoise (Blue-Green)</h3>
+                <div class="color-preview" style="background: #40E0D0;"></div>
+                <p>This is the most famous color! The water looks like this because sunlight bounces off the white sand at the bottom of the clear ocean!</p>
+            </div>
+            
+            <div class="color-card">
+                <h3>⚪ White</h3>
+                <div class="color-preview" style="background: white; border: 3px solid #333;"></div>
+                <p>The beaches have soft, powdery white sand. It's made from tiny pieces of ancient coral reefs!</p>
+            </div>
+            
+            <div class="color-card">
+                <h3>🩷 Pink</h3>
+                <div class="color-preview" style="background: #FFB6C1;"></div>
+                <p>Pink represents the beautiful conch shells and pretty flamingos that live on the islands!</p>
+            </div>
+            
+            <div class="color-card">
+                <h3>☀️ Yellow</h3>
+                <div class="color-preview" style="background: #FFD700;"></div>
+                <p>Yellow is for the bright sun that shines on the islands all year long!</p>
+            </div>
+            
+            <div class="info-box" style="margin-top: 30px;">
+                <h3>🏝️ Each Island Has Its Own Color Too!</h3>
+                <ul style="font-size: 1.1em; line-height: 2; margin-top: 10px;">
+                    <li><strong style="color: #DC143C;">Red</strong> - Grand Turk (the capital!)</li>
+                    <li><strong style="color: #FF8C00;">Orange</strong> - South & East Caicos</li>
+                    <li><strong style="color: #D2B48C;">Tan</strong> - Middle Caicos</li>
+                    <li><strong style="color: #32CD32;">Green</strong> - North Caicos</li>
+                    <li><strong style="color: #00CED1;">Turquoise</strong> - Providenciales</li>
+                </ul>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-large btn-primary" onclick="markComplete('colors'); showSection('symbols')">Next: Symbols! ⭐</button>
+            </div>
+        </div>
+        
+        <!-- SYMBOLS SECTION -->
+        <div id="symbols" class="section">
+            <h2 style="color: #FF69B4; text-align: center;">⭐ National Symbols ⭐</h2>
+            <p style="text-align: center; font-size: 1.2em; margin: 20px 0;">Click on each symbol to learn more!</p>
+            
+            <div class="symbol-grid">
+                <div class="symbol-card" onclick="showSymbolInfo('cactus')">
+                    <div class="emoji">🌵</div>
+                    <h3>Turk's Head Cactus</h3>
+                </div>
+                
+                <div class="symbol-card" onclick="showSymbolInfo('conch')">
+                    <div class="emoji">🐚</div>
+                    <h3>Queen Conch</h3>
+                </div>
+                
+                <div class="symbol-card" onclick="showSymbolInfo('lobster')">
+                    <div class="emoji">🦞</div>
+                    <h3>Spiny Lobster</h3>
+                </div>
+                
+                <div class="symbol-card" onclick="showSymbolInfo('pelican')">
+                    <div class="emoji">🦜</div>
+                    <h3>Brown Pelican</h3>
+                </div>
+                
+                <div class="symbol-card" onclick="showSymbolInfo('flag')">
+                    <div class="emoji">🚩</div>
+                    <h3>The Flag</h3>
+                </div>
+                
+                <div class="symbol-card" onclick="showSymbolInfo('flamingo')">
+                    <div class="emoji">🦩</div>
+                    <h3>Flamingo</h3>
+                </div>
+            </div>
+            
+            <div id="symbolInfo" class="info-box" style="display: none; margin-top: 20px;">
+                <h3 id="symbolTitle"></h3>
+                <p id="symbolDescription" style="font-size: 1.1em; line-height: 1.8;"></p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-large btn-primary" onclick="markComplete('symbols'); showSection('dress')">Next: National Dress! 👗</button>
+            </div>
+        </div>
+        
+        <!-- DRESS SECTION -->
+        <div id="dress" class="section">
+            <h2 style="color: #FFD700; text-align: center;">👗 National Dress 👔</h2>
+            
+            <div class="color-card">
+                <h3>👧 What Girls Wear</h3>
+                <ul style="font-size: 1.1em; line-height: 2; margin-top: 10px;">
+                    <li>A pretty white dress with puffy sleeves</li>
+                    <li>A colorful sash (like a belt) around the waist</li>
+                    <li>A big straw hat</li>
+                    <li>Colorful bands on the sleeves and bottom of the dress</li>
+                </ul>
+            </div>
+            
+            <div class="color-card">
+                <h3>👦 What Boys Wear</h3>
+                <ul style="font-size: 1.1em; line-height: 2; margin-top: 10px;">
+                    <li>A loose white shirt with buttons</li>
+                    <li>Colorful bands on both sleeves</li>
+                    <li>White pants (sometimes rolled up to the knee)</li>
+                    <li>A straw hat with a colorful band</li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <p style="font-size: 1.1em;">
+                    The colorful bands have all the special colors: <strong>pink, yellow, red, white, orange, tan, and turquoise</strong>! 
+                    Each color represents a different island!
+                </p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-large btn-primary" onclick="markComplete('dress'); showSection('games')">Time for Games! 🎮</button>
+            </div>
+        </div>
+        
+        <!-- GAMES SECTION -->
+        <div id="games" class="section">
+            <h2 style="color: #32CD32; text-align: center;">🎮 Fun Matching Game! 🎮</h2>
+            <p style="text-align: center; font-size: 1.2em; margin: 20px 0;">Match the islands to their groups! Click two cards to match them!</p>
+            
+            <div class="game-area">
+                <div class="matching-game" id="matchingGame"></div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn-large btn-primary" onclick="resetGame()">Play Again! 🔄</button>
+                </div>
+            </div>
+            
+            <div id="gameResult" style="text-align: center; font-size: 1.5em; margin: 20px 0; font-weight: bold;"></div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-large btn-primary" onclick="markComplete('games'); showSection('quiz')">Take the Quiz! 📝</button>
+            </div>
+        </div>
+        
+        <!-- QUIZ SECTION -->
+        <div id="quiz" class="section">
+            <h2 style="color: #FF4500; text-align: center;">📝 Knowledge Quiz! 📝</h2>
+            <p style="text-align: center; font-size: 1.2em; margin: 20px 0;">Answer these questions to show what you learned!</p>
+            
+            <div id="quizContainer"></div>
+            
+            <div id="quizResult" style="display: none; text-align: center; margin-top: 30px;">
+                <h2 style="color: #FFD700;">🎉 Quiz Complete! 🎉</h2>
+                <p id="finalScore" style="font-size: 1.5em; margin: 20px 0;"></p>
+                <div style="margin: 20px 0;">
+                    <button class="btn-large btn-primary" onclick="sendQuizResults()">📧 Send Results via Email</button>
+                    <button class="btn-large btn-primary" onclick="resetQuiz()">Try Again! 🔄</button>
+                </div>
+                <div id="emailPreviewSection" style="display: none; margin-top: 20px;">
+                    <h3>📧 Email Preview</h3>
+                    <div class="email-preview" id="quizEmailPreview"></div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        
+        (function() {})();
+
+        let completedSections = new Set();
+        let stars = 0;
+        let correctAnswers = 0;
+        let currentQuestionIndex = 0;
+        let emailSent = false;
+        
+        const symbolInfo = {
+            cactus: {
+                title: "🌵 Turk's Head Cactus",
+                desc: "This special cactus got its name because the red top looks like a Turkish hat called a fez! It's one of the most important symbols of the islands and appears on the flag! The islands might have gotten the name 'Turks' from this cactus!"
+            },
+            conch: {
+                title: "🐚 Queen Conch",
+                desc: "This beautiful pink shell comes from a sea creature called a conch. People on the islands love to eat conch, and it's the national dish when it's 'cracked' (fried)! The shells are really pretty!"
+            },
+            lobster: {
+                title: "🦞 Spiny Lobster",
+                desc: "This special lobster lives in the waters around the islands. It's orange and has spines instead of big claws! It's also on the flag and represents the fishing industry."
+            },
+            pelican: {
+                title: "🦜 Brown Pelican (National Bird)",
+                desc: "The brown pelican is the national bird! These big birds have huge beaks with a pouch underneath. They dive into the water to catch fish!"
+            },
+            flag: {
+                title: "🚩 The Flag",
+                desc: "The flag has a blue background with the British flag in the corner. It also shows a yellow shield with a conch shell, lobster, and cactus on it! The flag was adopted on November 7, 1968."
+            },
+            flamingo: {
+                title: "🦩 Flamingo",
+                desc: "Beautiful pink flamingos live on the islands! They get their pink color from the food they eat. They represent the uninhabited (empty) islands!"
+            }
+        };
+        
+        const quizQuestions = [
+            {
+                question: "How many island groups are in Turks and Caicos?",
+                options: ["1 group", "2 groups", "3 groups", "5 groups"],
+                correct: 1
+            },
+            {
+                question: "Which are the TWO island groups?",
+                options: ["North and South", "Turks and Caicos", "Big and Small", "East and West"],
+                correct: 1
+            },
+            {
+                question: "Which island is the capital?",
+                options: ["Providenciales", "Grand Turk", "Salt Cay", "North Caicos"],
+                correct: 1
+            },
+            {
+                question: "Which island group does Grand Turk belong to?",
+                options: ["Caicos Group", "Turks Group", "North Group", "South Group"],
+                correct: 1
+            },
+            {
+                question: "How many main islands are in the Turks Group?",
+                options: ["2 islands", "5 islands", "9 islands", "11 islands"],
+                correct: 0
+            },
+            {
+                question: "Which island was famous for making salt?",
+                options: ["Grand Turk", "Salt Cay", "Pine Cay", "Parrot Cay"],
+                correct: 1
+            },
+            {
+                question: "Which island has Grace Bay beach?",
+                options: ["Grand Turk", "North Caicos", "Providenciales", "Middle Caicos"],
+                correct: 2
+            },
+            {
+                question: "Which island is the greenest with fruit trees?",
+                options: ["North Caicos", "South Caicos", "East Caicos", "West Caicos"],
+                correct: 0
+            },
+            {
+                question: "Which islands are named after animals?",
+                options: ["Salt Cay and Pine Cay", "Parrot Cay and Pine Cay", "Grand Turk and North Caicos", "East and West Caicos"],
+                correct: 1
+            },
+            {
+                question: "What does the word 'Caicos' mean?",
+                options: ["Big mountains", "String of islands", "Hot weather", "Blue water"],
+                correct: 1
+            }
+        ];
+        
+        // DOM elements
+        const userEmailEl = document.getElementById('userEmail');
+        const resetEmailBtnEl = document.getElementById('resetEmail');
+        const emailStatusEl = document.getElementById('emailStatus');
+        const emailPreviewEl = document.getElementById('emailPreview');
+        const quizEmailPreviewEl = document.getElementById('quizEmailPreview');
+        const emailPreviewSectionEl = document.getElementById('emailPreviewSection');
+        
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo(0, 0);
+            
+            if (sectionId === 'games') {
+                initMatchingGame();
+            } else if (sectionId === 'quiz') {
+                initQuiz();
+            }
+        }
+        
+        function markComplete(section) {
+            if (!completedSections.has(section)) {
+                completedSections.add(section);
+                stars++;
+                updateProgress();
+            }
+        }
+        
+        function updateProgress() {
+            const total = 7; // about, islands, colors, symbols, dress, games, quiz
+            const percentage = (completedSections.size / total) * 100;
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressBar').textContent = Math.round(percentage) + '%';
+            
+            let starDisplay = '';
+            for (let i = 0; i < stars; i++) {
+                starDisplay += '⭐';
+            }
+            document.getElementById('starRating').textContent = starDisplay;
+        }
+        
+        function showSymbolInfo(symbol) {
+            const info = symbolInfo[symbol];
+            document.getElementById('symbolTitle').textContent = info.title;
+            document.getElementById('symbolDescription').textContent = info.desc;
+            document.getElementById('symbolInfo').style.display = 'block';
+        }
+        
+        // Matching Game
+        let selectedCards = [];
+        let matchedPairs = 0;
+        
+        const matchingPairs = [
+            { id: 1, text: "Grand Turk", pair: "Turks Group" },
+            { id: 2, text: "Turks Group", pair: "Grand Turk" },
+            { id: 3, text: "Salt Cay", pair: "Turks Group" },
+            { id: 4, text: "Turks Group", pair: "Salt Cay" },
+            { id: 5, text: "Providenciales", pair: "Caicos Group" },
+            { id: 6, text: "Caicos Group", pair: "Providenciales" },
+            { id: 7, text: "North Caicos", pair: "Caicos Group" },
+            { id: 8, text: "Caicos Group", pair: "North Caicos" }
+        ];
+        
+        function initMatchingGame() {
+            const gameContainer = document.getElementById('matchingGame');
+            gameContainer.innerHTML = '';
+            selectedCards = [];
+            matchedPairs = 0;
+            document.getElementById('gameResult').textContent = '';
+            
+            const shuffled = [...matchingPairs].sort(() => Math.random() - 0.5);
+            
+            shuffled.forEach((card, index) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'match-card';
+                cardDiv.textContent = card.text;
+                cardDiv.dataset.pair = card.pair;
+                cardDiv.dataset.index = index;
+                cardDiv.onclick = () => selectCard(cardDiv, card);
+                gameContainer.appendChild(cardDiv);
+            });
+        }
+        
+        function selectCard(cardDiv, card) {
+            if (selectedCards.length < 2 && !cardDiv.classList.contains('selected') && !cardDiv.classList.contains('matched')) {
+                cardDiv.classList.add('selected');
+                selectedCards.push({ element: cardDiv, card: card });
+                
+                if (selectedCards.length === 2) {
+                    setTimeout(checkMatch, 500);
+                }
+            }
+        }
+        
+        function checkMatch() {
+            const [first, second] = selectedCards;
+            
+            if (first.card.text === second.card.pair) {
+                first.element.classList.add('matched');
+                second.element.classList.add('matched');
+                first.element.classList.remove('selected');
+                second.element.classList.remove('selected');
+                matchedPairs++;
+                
+                if (matchedPairs === 4) {
+                    document.getElementById('gameResult').innerHTML = '🎉 Amazing! You matched them all! 🎉';
+                    markComplete('games');
+                }
+            } else {
+                first.element.classList.remove('selected');
+                second.element.classList.remove('selected');
+            }
+            
+            selectedCards = [];
+        }
+        
+        function resetGame() {
+            initMatchingGame();
+        }
+        
+        // Quiz Functions
+        function initQuiz() {
+            currentQuestionIndex = 0;
+            correctAnswers = 0;
+            document.getElementById('quizResult').style.display = 'none';
+            displayQuestion();
+        }
+        
+        function displayQuestion() {
+            const container = document.getElementById('quizContainer');
+            
+            if (currentQuestionIndex >= quizQuestions.length) {
+                showQuizResults();
+                return;
+            }
+            
+            const q = quizQuestions[currentQuestionIndex];
+            
+            container.innerHTML = `
+                <div class="quiz-question">
+                    <h3>Question ${currentQuestionIndex + 1} of ${quizQuestions.length}</h3>
+                    <p style="font-size: 1.2em; margin: 15px 0;">${q.question}</p>
+                    <div class="quiz-options">
+                        ${q.options.map((opt, idx) => `
+                            <div class="quiz-option" onclick="checkAnswer(${idx})">${opt}</div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function checkAnswer(selectedIndex) {
+            const q = quizQuestions[currentQuestionIndex];
+            const options = document.querySelectorAll('.quiz-option');
+            
+            options.forEach((opt, idx) => {
+                opt.style.pointerEvents = 'none';
+                if (idx === q.correct) {
+                    opt.classList.add('correct');
+                } else if (idx === selectedIndex) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            if (selectedIndex === q.correct) {
+                correctAnswers++;
+            }
+            
+            setTimeout(() => {
+                currentQuestionIndex++;
+                displayQuestion();
+            }, 1500);
+        }
+        
+        function showQuizResults() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            
+            const resultDiv = document.getElementById('quizResult');
+            const percentage = (correctAnswers / quizQuestions.length) * 100;
+            
+            let message = '';
+            if (percentage === 100) {
+                message = '🌟 PERFECT! You are a Turks and Caicos expert! 🌟';
+            } else if (percentage >= 80) {
+                message = '🎉 Excellent work! You learned so much! 🎉';
+            } else if (percentage >= 60) {
+                message = '👍 Good job! Keep learning! 👍';
+            } else {
+                message = '💪 Nice try! Want to review and try again? 💪';
+            }
+            
+            document.getElementById('finalScore').innerHTML = `
+                You got ${correctAnswers} out of ${quizQuestions.length} correct!<br>
+                ${message}
+            `;
+            
+            resultDiv.style.display = 'block';
+            markComplete('quiz');
+            
+            // Show email preview
+            emailPreviewSectionEl.style.display = 'block';
+            quizEmailPreviewEl.textContent = generateEmailContent(correctAnswers, quizQuestions.length, percentage);
+            
+            if (completedSections.size === 7) {
+                setTimeout(() => {
+                    alert('🎊 CONGRATULATIONS! You completed everything! You are now a Turks and Caicos Islands expert! 🎊');
+                }, 500);
+            }
+        }
+        
+        function resetQuiz() {
+            initQuiz();
+        }
+        
+        // Email Functions
+        function generateEmailContent(score, total, percentage) {
+            const performanceMessage = getPerformanceMessage(score, total, percentage);
+            
+            return `
+Turks and Caicos Islands Quiz Results
+
+Score: ${score} out of ${total}
+Percentage: ${percentage}%
+
+${performanceMessage}
+
+Completed on: ${new Date().toLocaleString()}
+            `.trim();
+        }
+        
+        function getPerformanceMessage(score, total, percentage) {
+            if (score === total) return '🌟 PERFECT! You are a Turks and Caicos expert! 🌟';
+            if (percentage >= 80) return '🎉 Excellent work! You learned so much! 🎉';
+            if (percentage >= 60) return '👍 Good job! Keep learning! 👍';
+            return '💪 Nice try! Want to review and try again? 💪';
+        }
+        
+        function sendQuizResults() {
+            const score = correctAnswers;
+            const total = quizQuestions.length;
+            const percentage = Math.round((score / total) * 100);
+            
+            const emailContent = generateEmailContent(score, total, percentage);
+            
+            const emailStatusEl = document.getElementById('emailStatus');
+            emailStatusEl.textContent = '📧 Sending email...';
+            emailStatusEl.className = 'email-status';
+            emailStatusEl.style.display = 'block';
+            
+            const templateParams = {
+                from_name: 'Turks and Caicos Adventure App',
+                to_email: userEmailEl.value,
+                message: emailContent,
+                subject: `Turks and Caicos Quiz Results - ${percentage}% Score`
+            };
+
+                emailStatusEl.className = 'email-status email-success';
+                emailSent = true;
+            }, function(error) {
+                emailStatusEl.textContent = '❌ Failed to send email. Please try again.';
+                emailStatusEl.className = 'email-status email-error';
+                
+            });
+        }
+        
+        function resetEmail() {
+            userEmailEl.value = 'my2jada@gmail.com';
+        }
+        
+        // Event Listeners
+        resetEmailBtnEl.addEventListener('click', resetEmail);
+        
+        // Initialize
+        updateProgress();
+    </script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All About Plants – Full App</title>
+
+</head>
+<body class="bg-green-50">
+  <div id="root"></div>
+
+  <!-- React App Code -->
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    function PlantStudyGuideApp() {
+      const [mode, setMode] = useState("study");
+      const [topic, setTopic] = useState("parts");
+      const [matchingAnswers, setMatchingAnswers] = useState({});
+      const [quizAnswers, setQuizAnswers] = useState({});
+      const [showResults, setShowResults] = useState(false);
+      const [currentCard, setCurrentCard] = useState(0);
+      const [studentName, setStudentName] = useState("");
+      const [showNameInput, setShowNameInput] = useState(true);
+
+      useEffect(() => {
+        try {
+          
+        } catch (e) {
+
+        }
+      }, []);
+
+        if (!studentName.trim()) {
+          
+          return;
+        }
+
+        const date = new Date().toLocaleDateString();
+        const time = new Date().toLocaleTimeString();
+        const percentage = Math.round((score / total) * 100);
+
+        const message = [
+          `Student: ${studentName}`,
+          `Activity: ${activityType}`,
+          `Date: ${date}  Time: ${time}`,
+          `Score: ${score} / ${total} (${percentage}%)`,
+          "",
+          details,
+          "",
+          "---",
+          "Automatic Progress Report from Plant Study Guide"
+        ].join("\n");
+
+        const templateParams = {
+          to_email: "my2jada@gmail.com",
+          from_name: studentName,
+          subject: `Plant Study Guide - ${activityType} for ${studentName}`,
+          message
+        };
+
+        const finish = (statusMsg) => {
+
+        };
+
+        if (demoMode || !emailJsLoaded || !
+          return;
+        }
+
+            finish("✅ Report sent successfully to my2jada@gmail.com!");
+          })
+          .catch((error) => {
+            console.error("Email FAILED:", error);
+            const msg = (error && (error.text || error.message)) || "Unknown error";
+            finish(`❌ Email failed: ${msg}`);
+          });
+      };
+
+      const plantParts = [
+        { name: "Roots",  function: "Hold the plant in the soil and take in water and nutrients from the ground.", icon: "🌱", color: "bg-amber-100" },
+        { name: "Stem",   function: "Holds up the plant and carries water and food to all parts of the plant.",     icon: "🎋", color: "bg-green-100" },
+        { name: "Leaves", function: "Make food for the plant using sunlight, air, and water. This is called photosynthesis.", icon: "🍃", color: "bg-emerald-100" },
+        { name: "Flower", function: "The colorful part that makes seeds so new plants can grow.",                   icon: "🌸", color: "bg-pink-100" },
+        { name: "Seeds",  function: "Baby plants that can grow into new plants when planted in soil.",              icon: "🌰", color: "bg-orange-100" }
+      ];
+
+      const plantNeeds = [
+        { name: "Sunlight", function: "Plants need light from the sun to make their own food and grow strong.", icon: "☀️", color: "bg-yellow-100" },
+        { name: "Water",    function: "Plants need water to stay alive, grow, and make food. Water travels from roots to leaves.", icon: "💧", color: "bg-blue-100" },
+        { name: "Air",      function: "Plants need air to breathe and to make food. They take in carbon dioxide and give us oxygen!", icon: "💨", color: "bg-sky-100" },
+        { name: "Soil",     function: "Plants need good soil to hold their roots and give them nutrients (plant food).", icon: "🌍", color: "bg-stone-100" }
+      ];
+
+      const lifeStages = [
+        { name: "Seed",        function: "The beginning of a plant's life. Seeds wait in the soil for the right conditions to grow.", icon: "🌰", color: "bg-amber-100" },
+        { name: "Germination", function: "When the seed starts to sprout! A tiny root grows down and a small shoot grows up.", icon: "🌱", color: "bg-lime-100" },
+        { name: "Seedling",    function: "A baby plant with small leaves that is just starting to grow.", icon: "🌿", color: "bg-green-100" },
+        { name: "Adult Plant", function: "A fully grown plant with roots, stem, leaves, and flowers.", icon: "🌳", color: "bg-emerald-100" },
+        { name: "Flowering",   function: "When the plant makes flowers that will turn into seeds for new plants.", icon: "🌸", color: "bg-pink-100" },
+        { name: "Making Seeds",function: "The flowers turn into fruits or seed pods that hold new seeds. The cycle starts again!", icon: "🍎", color: "bg-red-100" }
+      ];
+
+      const getCurrentConcepts = () => {
+        if (topic === "parts") return plantParts;
+        if (topic === "needs") return plantNeeds;
+        return lifeStages;
+      };
+
+      const quizQuestions = [
+        { question: "What part of the plant takes in water from the soil?", options: ["Leaves", "Roots", "Flower", "Seeds"], correct: "Roots", topic: "parts" },
+        { question: "What part of the plant holds it up and carries water to the leaves?", options: ["Roots", "Flower", "Stem", "Seeds"], correct: "Stem", topic: "parts" },
+        { question: "What part of the plant makes food using sunlight?", options: ["Roots", "Stem", "Leaves", "Flower"], correct: "Leaves", topic: "parts" },
+        { question: "What part of the plant makes seeds?", options: ["Leaves", "Roots", "Flower", "Stem"], correct: "Flower", topic: "parts" },
+        { question: "What can grow into a new plant?", options: ["Seeds", "Stem", "Roots", "Water"], correct: "Seeds", topic: "parts" },
+        { question: "What does a plant need from the sky to make food?", options: ["Sunlight", "Rain only", "Snow", "Clouds"], correct: "Sunlight", topic: "needs" },
+        { question: "What do plants need to drink to stay alive?", options: ["Juice", "Milk", "Water", "Soda"], correct: "Water", topic: "needs" },
+        { question: "What do plants need to breathe?", options: ["Soil", "Air", "Water", "Rocks"], correct: "Air", topic: "needs" },
+        { question: "What holds the plant's roots and gives it nutrients?", options: ["Water", "Air", "Soil", "Sunlight"], correct: "Soil", topic: "needs" },
+        { question: "Plants need sunlight, water, air, and what else to grow?", options: ["Toys", "Soil", "Music", "Books"], correct: "Soil", topic: "needs" },
+        { question: "What is the first stage of a plant's life?", options: ["Flower", "Seed", "Adult Plant", "Leaves"], correct: "Seed", topic: "life" },
+        { question: "What do we call it when a seed starts to sprout?", options: ["Flowering", "Germination", "Seeding", "Rooting"], correct: "Germination", topic: "life" },
+        { question: "What is a baby plant with small leaves called?", options: ["Seedling", "Flower", "Adult", "Root"], correct: "Seedling", topic: "life" },
+        { question: "What does a plant make when it is ready to create new seeds?", options: ["Roots", "Stems", "Flowers", "Soil"], correct: "Flowers", topic: "life" },
+        { question: "Where do new seeds come from?", options: ["Roots", "Flowers that turn into fruits or seed pods", "Leaves", "Stems"], correct: "Flowers that turn into fruits or seed pods", topic: "life" },
+        { question: "What process do leaves use to make food?", options: ["Germination", "Photosynthesis", "Respiration", "Pollination"], correct: "Photosynthesis", topic: "parts" },
+        { question: "What do plants give us that we need to breathe?", options: ["Carbon dioxide", "Oxygen", "Water", "Soil"], correct: "Oxygen", topic: "needs" },
+        { question: "Which part of the plant grows down into the soil?", options: ["Stem", "Leaves", "Flower", "Roots"], correct: "Roots", topic: "parts" }
+      ];
+
+      const checkMatchingAnswers = () => {
+        const currentConcepts = getCurrentConcepts();
+        let correct = 0;
+        currentConcepts.forEach(concept => {
+          if (matchingAnswers[concept.name] === concept.function) correct++;
+        });
+        return correct;
+      };
+
+      const checkQuizAnswers = () => {
+        let correct = 0;
+        quizQuestions.forEach((q, index) => {
+          if (quizAnswers[index] === q.correct) correct++;
+        });
+        return correct;
+      };
+
+      const PlantDiagram = () => (
+        <svg width="300" height="400" viewBox="0 0 300 400" className="mx-auto">
+          <defs>
+            <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style={{stopColor: '#4CAF50'}} />
+              <stop offset="100%" style={{stopColor: '#2E7D32'}} />
+            </linearGradient>
+            <linearGradient id="stemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style={{stopColor: '#8BC34A'}} />
+              <stop offset="100%" style={{stopColor: '#689F38'}} />
+            </linearGradient>
+            <linearGradient id="rootGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style={{stopColor: '#8D6E63'}} />
+              <stop offset="100%" style={{stopColor: '#5D4037'}} />
+            </linearGradient>
+            <radialGradient id="flowerGrad">
+              <stop offset="0%" style={{stopColor: '#FF4081'}} />
+              <stop offset="100%" style={{stopColor: '#C2185B'}} />
+            </radialGradient>
+          </defs>
+
+          <rect x="0" y="280" width="300" height="120" fill="#8D6E63" opacity="0.3"/>
+          <line x1="0" y1="280" x2="300" y2="280" stroke="#5D4037" strokeWidth="3"/>
+
+                  <button
+                    onClick={() => sendAutomaticEmail("Test Email", 5, 10, "This is a test to verify email is working")}
+                    disabled={isSending}
+                    className={`mt-2 px-3 py-1 text-white rounded text-xs ${isSending ? "bg-blue-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"}`}
+                  >
+                    🧪 Test Email Now
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div className="flex justify-center gap-4 mb-8 flex-wrap">
+              <button onClick={() => { setMode("study"); setShowResults(false); }} className={`px-6 py-3 rounded-lg font-bold text-lg ${mode === "study" ? "bg-green-600 text-white" : "bg-white text-green-600"}`}>📚 Study Mode</button>
+              <button onClick={() => { setMode("matching"); setShowResults(false); setMatchingAnswers({}); }} className={`px-6 py-3 rounded-lg font-bold text-lg ${mode === "matching" ? "bg-emerald-600 text-white" : "bg-white text-emerald-600"}`}>🎯 Matching Game</button>
+              <button onClick={() => { setMode("quiz"); setShowResults(false); setQuizAnswers({}); }} className={`px-6 py-3 rounded-lg font-bold text-lg ${mode === "quiz" ? "bg-lime-600 text-white" : "bg-white text-lime-600"}`}>📝 Quiz</button>
+            </div>
+
+            {mode === "study" && <StudyMode />}
+            {mode === "matching" && <MatchingGame />}
+            {mode === "quiz" && <QuizMode />}
+          </div>
+        </div>
+      );
+    }
+
+    // Compatibility render path for Babel standalone
+    ReactDOM.render(<PlantStudyGuideApp />, document.getElementById('root'));
+  </script>
+</body>
+</html>

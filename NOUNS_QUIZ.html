@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouns Quiz - Janea Gangardine</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .question-container {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .question-number {
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .question {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .option {
+            background: white;
+            border: 3px solid #e0e6ff;
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+            position: relative;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: #f0f3ff;
+        }
+
+        .option.correct {
+            border-color: #4caf50;
+            background: #e8f5e8;
+        }
+
+        .option.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #ffeaa7, #fab1a0);
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 234, 167, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .score-container {
+            text-align: center;
+            background: linear-gradient(45deg, #a8edea, #fed6e3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .score {
+            font-size: 3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .score-text {
+            font-size: 1.3em;
+            color: #555;
+        }
+
+        .celebration {
+            font-size: 2em;
+            margin: 20px 0;
+        }
+
+        .email-notification {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .word-bank {
+            background: #fff3e0;
+            border: 3px dashed #ff9800;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .word-bank h4 {
+            color: #e65100;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .words {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .word-item {
+            background: #ffcc02;
+            color: #333;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            border: 2px solid #ff9800;
+        }
+
+        .underline-input {
+            border: none;
+            border-bottom: 2px solid #667eea;
+            background: transparent;
+            padding: 5px;
+            margin: 0 5px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+            width: 120px;
+        }
+
+        .underline-input:focus {
+            outline: none;
+            border-bottom-color: #ff9800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌟 NOUNS QUIZ 🌟</h1>
+            <p>For Janea Gangardine - Grade 2</p>
+            <p>Teacher: Aiko Solomon</p>
+        </div>
+
+        <div class="content">
+            <div id="quiz-content">
+                <!-- Question 1 -->
+                <div class="question-container">
+                    <div class="question-number">1</div>
+                    <div class="question">What is a noun?</div>
+                    <div class="options">
+                        <div class="option" onclick="selectAnswer(1, 0)">A word that describes an action</div>
+                        <div class="option" onclick="selectAnswer(1, 1)">A word for a person, place, thing, animal, or idea</div>
+                        <div class="option" onclick="selectAnswer(1, 2)">A word that describes how something looks</div>
+                        <div class="option" onclick="selectAnswer(1, 3)">A word that connects two sentences</div>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="question-container">
+                    <div class="question-number">2</div>
+                    <div class="question">Which of these is a noun that names a PERSON?</div>
+                    <div class="options">
+                        <div class="option" onclick="selectAnswer(2, 0)">run</div>
+                        <div class="option" onclick="selectAnswer(2, 1)">doctor</div>
+                        <div class="option" onclick="selectAnswer(2, 2)">happy</div>
+                        <div class="option" onclick="selectAnswer(2, 3)">quickly</div>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="question-container">
+                    <div class="question-number">3</div>
+                    <div class="question">Which of these is a noun that names a PLACE?</div>
+                    <div class="options">
+                        <div class="option" onclick="selectAnswer(3, 0)">beautiful</div>
+                        <div class="option" onclick="selectAnswer(3, 1)">school</div>
+                        <div class="option" onclick="selectAnswer(3, 2)">jumping</div>
+                        <div class="option" onclick="selectAnswer(3, 3)">slowly</div>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="question-container">
+                    <div class="question-number">4</div>
+                    <div class="question">Which of these is a noun that names a THING?</div>
+                    <div class="options">
+                        <div class="option" onclick="selectAnswer(4, 0)">singing</div>
+                        <div class="option" onclick="selectAnswer(4, 1)">book</div>
+                        <div class="option" onclick="selectAnswer(4, 2)">red</div>
+                        <div class="option" onclick="selectAnswer(4, 3)">quietly</div>
+                    </div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="question-container">
+                    <div class="question-number">5</div>
+                    <div class="question">Which of these is a noun that names an ANIMAL?</div>
+                    <div class="options">
+                        <div class="option" onclick="selectAnswer(5, 0)">flying</div>
+                        <div class="option" onclick="selectAnswer(5, 1)">green</div>
+                        <div class="option" onclick="selectAnswer(5, 2)">elephant</div>
+                        <div class="option" onclick="selectAnswer(5, 3)">loudly</div>
+                    </div>
+                </div>
+
+                <!-- Question 6 -->
+                <div class="question-container">
+                    <div class="question-number">6</div>
+                    <div class="question">Which of these is a noun that names an IDEA?</div>
+                    <div class="options">
+                        <div class="option" onclick="selectAnswer(6, 0)">love</div>
+                        <div class="option" onclick="selectAnswer(6, 1)">running</div>
+                        <div class="option" onclick="selectAnswer(6, 2)">big</div>
+                        <div class="option" onclick="selectAnswer(6, 3)">softly</div>
+                    </div>
+                </div>
+
+                <!-- Question 7 -->
+                <div class="question-container">
+                    <div class="question-number">7</div>
+                    <div class="question">In the sentence "My grandpa bought a pizza for the family," how many nouns are there?</div>
+                    <div class="options">
+                        <div class="option" onclick="selectAnswer(7, 0)">2 nouns</div>
+                        <div class="option" onclick="selectAnswer(7, 1)">3 nouns</div>
+                        <div class="option" onclick="selectAnswer(7, 2)">4 nouns</div>
+                        <div class="option" onclick="selectAnswer(7, 3)">5 nouns</div>
+                    </div>
+                </div>
+
+                <!-- Question 8 -->
+                <div class="question-container">
+                    <div class="question-number">8</div>
+                    <div class="question">Which word is NOT a noun?</div>
+                    <div class="options">
+                        <div class="option" onclick="selectAnswer(8, 0)">girl</div>
+                        <div class="option" onclick="selectAnswer(8, 1)">mountain</div>
+                        <div class="option" onclick="selectAnswer(8, 2)">quickly</div>
+                        <div class="option" onclick="selectAnswer(8, 3)">friendship</div>
+                    </div>
+                </div>
+
+                <!-- Question 9 -->
+                <div class="question-container">
+                    <div class="question-number">9</div>
+                    <div class="question">In the sentence "Two elephants crossed the road," which words are nouns?</div>
+                    <div class="options">
+                        <div class="option" onclick="selectAnswer(9, 0)">Two, crossed</div>
+                        <div class="option" onclick="selectAnswer(9, 1)">elephants, road</div>
+                        <div class="option" onclick="selectAnswer(9, 2)">Two, elephants</div>
+                        <div class="option" onclick="selectAnswer(9, 3)">crossed, road</div>
+                    </div>
+                </div>
+
+                <!-- Question 10 -->
+                <div class="question-container">
+                    <div class="question-number">10</div>
+                    <div class="question">Which of these is a proper noun (specific name)?</div>
+                    <div class="options">
+                        <div class="option" onclick="selectAnswer(10, 0)">dog</div>
+                        <div class="option" onclick="selectAnswer(10, 1)">Albert</div>
+                        <div class="option" onclick="selectAnswer(10, 2)">car</div>
+                        <div class="option" onclick="selectAnswer(10, 3)">book</div>
+                    </div>
+                </div>
+
+                <!-- Question 11 -->
+                <div class="question-container">
+                    <div class="question-number">11</div>
+                    <div class="question">Complete the sentence: The _______ is sleeping in the garden.</div>
+                    <div class="word-bank">
+                        <h4>Word Bank:</h4>
+                        <div class="words">
+                            <span class="word-item">cat</span>
+                            <span class="word-item">dog</span>
+                            <span class="word-item">bird</span>
+                            <span class="word-item">rabbit</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 15px;">
+                        <input type="text" class="underline-input" id="answer11" placeholder="Type here">
+                    </div>
+                </div>
+
+                <!-- Question 12 -->
+                <div class="question-container">
+                    <div class="question-number">12</div>
+                    <div class="question">Complete the sentence: We went to the _______ to buy groceries.</div>
+                    <div class="word-bank">
+                        <h4>Word Bank:</h4>
+                        <div class="words">
+                            <span class="word-item">store</span>
+                            <span class="word-item">market</span>
+                            <span class="word-item">shop</span>
+                            <span class="word-item">mall</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 15px;">
+                        <input type="text" class="underline-input" id="answer12" placeholder="Type here">
+                    </div>
+                </div>
+
+                <!-- Question 13 -->
+                <div class="question-container">
+                    <div class="question-number">13</div>
+                    <div class="question">Click on all the NOUNS in this sentence: "Annika has three cats and four dogs."</div>
+                    <div class="options">
+                        <div class="option" onclick="toggleWord(13, 'Annika')">Annika</div>
+                        <div class="option" onclick="toggleWord(13, 'has')">has</div>
+                        <div class="option" onclick="toggleWord(13, 'three')">three</div>
+                        <div class="option" onclick="toggleWord(13, 'cats')">cats</div>
+                        <div class="option" onclick="toggleWord(13, 'and')">and</div>
+                        <div class="option" onclick="toggleWord(13, 'four')">four</div>
+                        <div class="option" onclick="toggleWord(13, 'dogs')">dogs</div>
+                    </div>
+                </div>
+
+                <!-- Question 14 -->
+                <div class="question-container">
+                    <div class="question-number">14</div>
+                    <div class="question">Click on all the NOUNS in this sentence: "The countries achieved peace without war."</div>
+                    <div class="options">
+                        <div class="option" onclick="toggleWord(14, 'The')">The</div>
+                        <div class="option" onclick="toggleWord(14, 'countries')">countries</div>
+                        <div class="option" onclick="toggleWord(14, 'achieved')">achieved</div>
+                        <div class="option" onclick="toggleWord(14, 'peace')">peace</div>
+                        <div class="option" onclick="toggleWord(14, 'without')">without</div>
+                        <div class="option" onclick="toggleWord(14, 'war')">war</div>
+                    </div>
+                </div>
+
+                <!-- Question 15 -->
+                <div class="question-container">
+                    <div class="question-number">15</div>
+                    <div class="question">Which sentence has the MOST nouns?</div>
+                    <div class="options">
+                        <div class="option" onclick="selectAnswer(15, 0)">The dog runs fast.</div>
+                        <div class="option" onclick="selectAnswer(15, 1)">My teacher, Mrs. Smith, gave us homework about science.</div>
+                        <div class="option" onclick="selectAnswer(15, 2)">She is happy today.</div>
+                        <div class="option" onclick="selectAnswer(15, 3)">We play outside.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="submit-btn" class="btn btn-primary" onclick="submitQuiz()">Submit Quiz</button>
+                <button id="reset-btn" class="btn btn-secondary" onclick="resetQuiz()">Reset Quiz</button>
+            </div>
+
+            <div id="score-container" class="score-container">
+                <div class="celebration">🎉✨🌟✨🎉</div>
+                <div class="score" id="final-score">0/15</div>
+                <div class="score-text" id="score-message">Great job, Janea!</div>
+                <div id="email-notification" class="email-notification">
+                    <p>📧 Quiz results have been sent to Teacher Aiko Solomon!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Store answers
+        var answers = {};
+        var multiChoiceAnswers = {};
+        var submitted = false;
+        var emailSent = false;
+
+        // Correct answers
+        var correctAnswers = {
+            1: 1, 2: 1, 3: 1, 4: 1, 5: 2, 6: 0, 7: 1, 8: 2, 9: 1, 10: 1, 15: 1
+        };
+
+        var correctWords = {
+            13: ['Annika', 'cats', 'dogs'],
+            14: ['countries', 'peace', 'war']
+        };
+
+        var acceptableAnswers = {
+            11: ['cat', 'dog', 'bird', 'rabbit'],
+            12: ['store', 'market', 'shop', 'mall']
+        };
+
+        function selectAnswer(questionNum, optionNum) {
+            if (submitted) return;
+            
+            // Remove previous selections
+            var questionContainer = document.querySelector('.question-container:nth-child(' + questionNum + ')');
+            var options = questionContainer.querySelectorAll('.option');
+            options.forEach(function(option) {
+                option.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            options[optionNum].classList.add('selected');
+            multiChoiceAnswers[questionNum] = optionNum;
+        }
+
+        function toggleWord(questionNum, word) {
+            if (submitted) return;
+            
+            if (!answers[questionNum]) {
+                answers[questionNum] = [];
+            }
+            
+            var questionContainer = document.querySelector('.question-container:nth-child(' + questionNum + ')');
+            var options = questionContainer.querySelectorAll('.option');
+            
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].textContent === word) {
+                    var index = answers[questionNum].indexOf(word);
+                    if (index > -1) {
+                        // Remove word
+                        answers[questionNum].splice(index, 1);
+                        options[i].classList.remove('selected');
+                    } else {
+                        // Add word
+                        answers[questionNum].push(word);
+                        options[i].classList.add('selected');
+                    }
+                    break;
+                }
+            }
+        }
+
+        function submitQuiz() {
+            if (submitted) return;
+            submitted = true;
+            
+            var score = 0;
+            var total = 15;
+            
+            // Check multiple choice answers
+            for (var q in correctAnswers) {
+                if (multiChoiceAnswers[q] === correctAnswers[q]) {
+                    score++;
+                    markCorrect(q, correctAnswers[q]);
+                } else {
+                    markIncorrect(q, multiChoiceAnswers[q], correctAnswers[q]);
+                }
+            }
+            
+            // Check fill-in answers
+            var answer11 = document.getElementById('answer11').value.toLowerCase().trim();
+            var answer12 = document.getElementById('answer12').value.toLowerCase().trim();
+            
+            if (acceptableAnswers[11].includes(answer11)) {
+                score++;
+                document.getElementById('answer11').style.backgroundColor = '#e8f5e8';
+            } else {
+                document.getElementById('answer11').style.backgroundColor = '#ffebee';
+            }
+            
+            if (acceptableAnswers[12].includes(answer12)) {
+                score++;
+                document.getElementById('answer12').style.backgroundColor = '#e8f5e8';
+            } else {
+                document.getElementById('answer12').style.backgroundColor = '#ffebee';
+            }
+            
+            // Check word selection answers
+            for (var q in correctWords) {
+                var userWords = answers[q] || [];
+                var correct = correctWords[q];
+                var isCorrect = userWords.length === correct.length && 
+                               correct.every(function(word) { return userWords.includes(word); });
+                
+                if (isCorrect) {
+                    score++;
+                }
+                markWordSelection(q, correct);
+            }
+            
+            showResults(score, total);
+            document.getElementById('submit-btn').disabled = true;
+            
+            if (!emailSent) {
+                setTimeout(function() {
+                    document.getElementById('email-notification').style.display = 'block';
+                }, 1000);
+                emailSent = true;
+            }
+        }
+
+        function markCorrect(questionNum, correctOption) {
+            var questionContainer = document.querySelector('.question-container:nth-child(' + questionNum + ')');
+            var options = questionContainer.querySelectorAll('.option');
+            options[correctOption].classList.add('correct');
+        }
+
+        function markIncorrect(questionNum, userOption, correctOption) {
+            var questionContainer = document.querySelector('.question-container:nth-child(' + questionNum + ')');
+            var options = questionContainer.querySelectorAll('.option');
+            if (userOption !== undefined) {
+                options[userOption].classList.add('incorrect');
+            }
+            options[correctOption].classList.add('correct');
+        }
+
+        function markWordSelection(questionNum, correctWords) {
+            var questionContainer = document.querySelector('.question-container:nth-child(' + questionNum + ')');
+            var options = questionContainer.querySelectorAll('.option');
+            
+            options.forEach(function(option) {
+                var word = option.textContent;
+                if (correctWords.includes(word)) {
+                    option.classList.add('correct');
+                } else if (option.classList.contains('selected')) {
+                    option.classList.add('incorrect');
+                }
+            });
+        }
+
+        function showResults(score, total) {
+            var percentage = (score / total) * 100;
+            var message = '';
+            var celebration = '';
+
+            if (percentage >= 90) {
+                message = 'Outstanding work, Janea! You are a noun expert! 🌟';
+                celebration = '🎉🏆🌟🏆🎉';
+            } else if (percentage >= 80) {
+                message = 'Excellent job, Janea! You know your nouns well! 👏';
+                celebration = '🎉⭐🎊⭐🎉';
+            } else if (percentage >= 70) {
+                message = 'Good work, Janea! Keep practicing nouns! 😊';
+                celebration = '👍🌈💫🌈👍';
+            } else if (percentage >= 60) {
+                message = 'Nice try, Janea! Review the noun types and try again! 💪';
+                celebration = '🌟💫✨💫🌟';
+            } else {
+                message = 'Keep learning, Janea! Practice makes perfect! 📚';
+                celebration = '💪📖🌱📖💪';
+            }
+
+            document.getElementById('final-score').textContent = score + '/' + total;
+            document.getElementById('score-message').textContent = message;
+            document.querySelector('.celebration').textContent = celebration;
+            document.getElementById('score-container').style.display = 'block';
+        }
+
+        function resetQuiz() {
+            answers = {};
+            multiChoiceAnswers = {};
+            submitted = false;
+            
+            // Reset all visual elements
+            document.querySelectorAll('.option').forEach(function(option) {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            document.getElementById('answer11').value = '';
+            document.getElementById('answer12').value = '';
+            document.getElementById('answer11').style.backgroundColor = 'transparent';
+            document.getElementById('answer12').style.backgroundColor = 'transparent';
+            
+            document.getElementById('score-container').style.display = 'none';
+            document.getElementById('email-notification').style.display = 'none';
+            document.getElementById('submit-btn').disabled = false;
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

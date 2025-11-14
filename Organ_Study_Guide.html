@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organ Study Guide</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa 0%, #f3e5f5 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .mode-btn.active {
+            color: white;
+        }
+
+        .study-btn {
+            background-color: #8e44ad;
+            color: white;
+        }
+
+        .matching-btn {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .quiz-btn {
+            background-color: #2980b9;
+            color: white;
+        }
+
+        .mode-btn:not(.active) {
+            background-color: white;
+        }
+
+        .email-settings {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .email-settings h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .email-input-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .email-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .reset-btn {
+            padding: 12px 20px;
+            background-color: #7f8c8d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .reset-btn:hover {
+            background-color: #636e72;
+        }
+
+        .mode-content {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            min-height: 500px;
+        }
+
+        .study-card {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .organ-image {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .organ-name {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .organ-function {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #34495e;
+            margin-bottom: 30px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background-color: #2980b9;
+        }
+
+        .nav-btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .card-counter {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #7f8c8d;
+        }
+
+        .matching-game, .quiz-game {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .matching-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .matching-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .organ-preview {
+            width: 150px;
+            flex-shrink: 0;
+            margin-right: 20px;
+        }
+
+        .matching-details {
+            flex: 1;
+        }
+
+        .matching-details h3 {
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+            color: #2c3e50;
+        }
+
+        .function-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .quiz-question {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            background-color: #f8f9fa;
+        }
+
+        .quiz-question h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            color: #2c3e50;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .quiz-option:hover {
+            background-color: #e9ecef;
+        }
+
+        .quiz-option input {
+            margin-right: 10px;
+        }
+
+        .submit-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 40px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .submit-btn:hover {
+            background-color: #219653;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .submit-btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .results-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .score-card, .email-preview {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .score-card {
+            background-color: #f8f9fa;
+        }
+
+        .email-preview {
+            background-color: #e3f2fd;
+        }
+
+        .score-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 15px 0;
+            color: #27ae60;
+        }
+
+        .score-text {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .performance-message {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .perfect {
+            color: #27ae60;
+            background-color: #d5f5e3;
+        }
+
+        .excellent {
+            color: #2980b9;
+            background-color: #d6eaf8;
+        }
+
+        .good {
+            color: #f39c12;
+            background-color: #fdebd0;
+        }
+
+        .needs-practice {
+            color: #e74c3c;
+            background-color: #fadbd8;
+        }
+
+        .email-preview h4 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .preview-content {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #bdc3c7;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .email-sent-message {
+            text-align: center;
+            color: #27ae60;
+            font-weight: 600;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #d5f5e3;
+            border-radius: 8px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background-color: #27ae60;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .detailed-results {
+            margin-top: 30px;
+        }
+
+        .detailed-results h4 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .result-item {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .correct {
+            background-color: #d5f5e3;
+            border-left: 5px solid #27ae60;
+        }
+
+        .incorrect {
+            background-color: #fadbd8;
+            border-left: 5px solid #e74c3c;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .matching-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .organ-preview {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .mode-btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏥 My Body's Amazing Organs! 🏥</h1>
+            <p class="subtitle">Learn about the human body through interactive study tools and quizzes</p>
+        </header>
+        
+        <div class="email-settings">
+            <h3>📧 Email Settings</h3>
+            <div class="email-input-container">
+                <input type="email" class="email-input" id="userEmail" placeholder="Enter email for results" value="my2jada@gmail.com">
+                <button class="reset-btn" id="resetEmail">Reset</button>
+            </div>
+            <p style="margin-top: 10px; font-size: 0.9rem; color: #7f8c8d;">
+                Quiz results will be sent to this email address
+            </p>
+        </div>
+        
+        <div class="mode-selector">
+            <button class="mode-btn study-btn active" data-mode="study">📚 Study Mode</button>
+            <button class="mode-btn matching-btn" data-mode="matching">🎯 Matching Game</button>
+            <button class="mode-btn quiz-btn" data-mode="quiz">📝 Quiz</button>
+        </div>
+        
+        <div class="mode-content">
+            <!-- Study Mode Content -->
+            <div id="study-mode" class="mode-section">
+                <div class="study-card">
+                    <div class="organ-image" id="organImage">
+                        <!-- Organ SVG will be inserted here -->
+                    </div>
+                    <h2 class="organ-name" id="organName">Lungs</h2>
+                    <p class="organ-function" id="organFunction">
+                        A pair of spongy, air-filled organs on either side of the chest. They bring oxygen into our bodies when we breathe in and remove carbon dioxide when we breathe out.
+                    </p>
+                    <div class="navigation">
+                        <button class="nav-btn" id="prevBtn">← Previous</button>
+                        <span class="card-counter" id="cardCounter">1 of 11</span>
+                        <button class="nav-btn" id="nextBtn">Next →</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Matching Game Content -->
+            <div id="matching-mode" class="mode-section" style="display: none;">
+                <h2 style="text-align: center; margin-bottom: 20px; color: #27ae60;">🎯 Matching Game</h2>
+                <p style="text-align: center; margin-bottom: 30px; font-size: 1.1rem;">
+                    Match each organ with its correct function!
+                </p>
+                
+                <div class="matching-game" id="matchingGame">
+                    <!-- Matching items will be inserted here -->
+                </div>
+                
+                <button class="submit-btn" id="checkMatchingBtn">Check My Answers! ✓</button>
+            </div>
+            
+            <!-- Quiz Mode Content -->
+            <div id="quiz-mode" class="mode-section" style="display: none;">
+                <h2 style="text-align: center; margin-bottom: 20px; color: #2980b9;">📝 Quiz Time!</h2>
+                <p style="text-align: center; margin-bottom: 30px; font-size: 1.1rem;">
+                    Test your knowledge about your body's organs!
+                </p>
+                
+                <div class="quiz-game" id="quizGame">
+                    <!-- Quiz questions will be inserted here -->
+                </div>
+                
+                <button class="submit-btn" id="submitQuizBtn">Submit Quiz! ✓</button>
+            </div>
+        </div>
+        
+        <!-- Results Container (initially hidden) -->
+        <div class="results-container" id="resultsContainer" style="display: none;">
+            <!-- Results content will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        
+        (function() {})();
+
+        // Organ data
+        const organs = [
+            { 
+                name: 'Lungs', 
+                function: 'A pair of spongy, air-filled organs on either side of the chest. They bring oxygen into our bodies when we breathe in and remove carbon dioxide when we breathe out.', 
+                color: 'bg-pink-100',
+                svg: `
+                    <svg width="200" height="170" viewBox="0 0 200 170">
+                        <defs>
+                            <linearGradient id="lungGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#f5b8c8" />
+                                <stop offset="100%" style="stop-color:#e88fa8" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M50,60 Q30,65 25,80 Q22,95 25,115 Q28,135 40,148 Q55,158 65,155 Q75,152 78,140 L80,100 Q82,75 75,65 Q68,58 58,58 Q54,58 50,60 Z" 
+                              fill="url(#lungGrad)" stroke="#d67590" stroke-width="2.5"/>
+                        <path d="M150,60 Q170,65 175,80 Q178,95 175,115 Q172,135 160,148 Q145,158 135,155 Q125,152 122,140 L120,100 Q118,75 125,65 Q132,58 142,58 Q146,58 150,60 Z" 
+                              fill="url(#lungGrad)" stroke="#d67590" stroke-width="2.5"/>
+                    </svg>
+                `
+            },
+            { 
+                name: 'Bladder', 
+                function: 'A hollow organ, like a balloon, that stores urine from the kidneys. Urine contains waste and extra fluid left over after the body takes what it needs.', 
+                color: 'bg-blue-100',
+                svg: `
+                    <svg width="130" height="160" viewBox="0 0 130 160">
+                        <defs>
+                            <linearGradient id="bladderGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#f5dd99" />
+                                <stop offset="50%" style="stop-color:#efc970" />
+                                <stop offset="100%" style="stop-color:#e0b850" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M45,25 Q35,30 35,45 L35,95 Q35,115 45,125 Q55,133 65,135 Q75,133 85,125 Q95,115 95,95 L95,45 Q95,30 85,25 Q75,22 65,22 Q55,22 45,25 Z" 
+                              fill="url(#bladderGrad)" stroke="#d4a840" stroke-width="2.5"/>
+                    </svg>
+                `
+            },
+            { 
+                name: 'Liver', 
+                function: 'A large organ that removes toxins from the blood and maintains healthy blood sugar levels. It also produces bile, a fluid that helps digest fats and carry away waste.', 
+                color: 'bg-orange-100',
+                svg: `
+                    <svg width="200" height="130" viewBox="0 0 200 130">
+                        <defs>
+                            <linearGradient id="liverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#a0522d" />
+                                <stop offset="50%" style="stop-color:#8b4513" />
+                                <stop offset="100%" style="stop-color:#6d3410" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M30,45 Q25,35 35,28 Q50,20 75,18 Q105,17 135,22 Q160,27 175,38 Q185,48 183,62 Q180,78 170,90 Q155,102 130,105 Q100,108 70,105 Q45,102 32,88 Q22,75 25,60 Q27,52 30,45 Z" 
+                              fill="url(#liverGrad)" stroke="#5a2e10" stroke-width="2.5"/>
+                    </svg>
+                `
+            },
+            { 
+                name: 'Small Intestines', 
+                function: 'This organ absorbs the nutrients from food. It takes all the good stuff your body needs from what you eat!', 
+                color: 'bg-yellow-100',
+                svg: `
+                    <svg width="150" height="150" viewBox="0 0 150 150">
+                        <defs>
+                            <linearGradient id="smallIntestineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#f5c3a8" />
+                                <stop offset="100%" style="stop-color:#e8a888" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="50" cy="50" r="18" fill="none" stroke="url(#smallIntestineGrad)" stroke-width="12"/>
+                        <circle cx="85" cy="45" r="16" fill="none" stroke="url(#smallIntestineGrad)" stroke-width="11"/>
+                        <circle cx="55" cy="85" r="17" fill="none" stroke="url(#smallIntestineGrad)" stroke-width="12"/>
+                    </svg>
+                `
+            },
+            { 
+                name: 'Large Intestines', 
+                function: 'This organ clears waste from the body. It removes what your body doesn\'t need after digestion.', 
+                color: 'bg-green-100',
+                svg: `
+                    <svg width="180" height="150" viewBox="0 0 180 150">
+                        <defs>
+                            <linearGradient id="intestineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#f5a8a8" />
+                                <stop offset="100%" style="stop-color:#dc8080" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="45" y="35" width="110" height="35" rx="17" fill="url(#intestineGrad)" stroke="#c97070" stroke-width="3"/>
+                        <rect x="25" y="65" width="35" height="70" rx="17" fill="url(#intestineGrad)" stroke="#c97070" stroke-width="3"/>
+                        <rect x="120" y="65" width="35" height="70" rx="17" fill="url(#intestineGrad)" stroke="#c97070" stroke-width="3"/>
+                    </svg>
+                `
+            },
+            { 
+                name: 'Stomach', 
+                function: 'A J-shaped organ that digests food. It produces enzymes and acids that break down food so it can pass to your small intestine.', 
+                color: 'bg-rose-100',
+                svg: `
+                    <svg width="140" height="180" viewBox="0 0 140 180">
+                        <defs>
+                            <linearGradient id="stomachGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#e8a5a5" />
+                                <stop offset="50%" style="stop-color:#dc8f8f" />
+                                <stop offset="100%" style="stop-color:#d17979" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M60,30 Q50,28 45,35 L40,45 Q38,55 40,70 L42,100 Q43,120 48,135 Q52,145 62,148 Q72,150 78,145 Q84,138 87,125 L90,95 Q92,75 88,55 Q85,40 75,32 Q68,28 60,30 Z" 
+                              fill="url(#stomachGrad)" stroke="#b86868" stroke-width="2.5"/>
+                        <ellipse cx="60" cy="30" rx="8" ry="6" fill="#d89090" stroke="#b86868" stroke-width="2"/>
+                    </svg>
+                `
+            },
+            { 
+                name: 'Kidneys', 
+                function: 'Two bean-shaped organs, each about the size of a fist. They cleanse the blood of toxins and transform waste into urine. They filter about half a cup of blood every minute!', 
+                color: 'bg-red-100',
+                svg: `
+                    <svg width="200" height="130" viewBox="0 0 200 130">
+                        <defs>
+                            <linearGradient id="kidneyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#a94442" />
+                                <stop offset="100%" style="stop-color:#7b3030" />
+                            </linearGradient>
+                        </defs>
+                        <ellipse cx="60" cy="65" rx="38" ry="52" fill="url(#kidneyGrad)" stroke="#5a2020" stroke-width="2.5"/>
+                        <ellipse cx="140" cy="65" rx="38" ry="52" fill="url(#kidneyGrad)" stroke="#5a2020" stroke-width="2.5"/>
+                    </svg>
+                `
+            },
+            { 
+                name: 'Heart', 
+                function: 'About the size of a fist, this muscle sits in the middle of your chest. It pumps blood around your body with every heartbeat!', 
+                color: 'bg-red-200',
+                svg: `
+                    <svg width="160" height="160" viewBox="0 0 160 160">
+                        <defs>
+                            <linearGradient id="heartRed" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#e74c3c" />
+                                <stop offset="100%" style="stop-color:#c0392b" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M75,70 L110,70 Q120,75 118,90 Q116,110 105,125 Q95,135 85,132 Q78,130 75,120 Z" 
+                              fill="url(#heartRed)" stroke="#a93226" stroke-width="2"/>
+                        <path d="M40,70 L75,70 L75,120 Q73,135 60,140 Q45,143 35,130 Q25,115 28,95 Q30,78 40,70 Z" 
+                              fill="url(#heartRed)" stroke="#a93226" stroke-width="2"/>
+                    </svg>
+                `
+            },
+            { 
+                name: 'Brain', 
+                function: 'The most complex organ in the body! Like a central computer system, it receives, processes, and interprets information. It also stores memories and controls your movements.', 
+                color: 'bg-purple-100',
+                svg: `
+                    <svg width="180" height="140" viewBox="0 0 180 140">
+                        <defs>
+                            <linearGradient id="brainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#e8c5c5" />
+                                <stop offset="100%" style="stop-color:#d4b0b0" />
+                            </linearGradient>
+                        </defs>
+                        <ellipse cx="90" cy="70" rx="80" ry="60" fill="url(#brainGrad)" stroke="#c09999" stroke-width="2.5"/>
+                        <path d="M90,15 Q88,25 90,35 Q92,50 90,65 Q88,80 90,95 Q92,110 90,125" 
+                              fill="none" stroke="#a88888" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                `
+            },
+            { 
+                name: 'Spleen', 
+                function: 'Located in the upper left part of your abdomen. It filters blood to remove old red blood cells and helps fight germs like bacteria and viruses by making white blood cells.', 
+                color: 'bg-indigo-100',
+                svg: `
+                    <svg width="110" height="140" viewBox="0 0 110 140">
+                        <defs>
+                            <linearGradient id="spleenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#8e44ad" />
+                                <stop offset="100%" style="stop-color:#6c3483" />
+                            </linearGradient>
+                        </defs>
+                        <ellipse cx="55" cy="70" rx="42" ry="60" fill="url(#spleenGrad)" stroke="#5b2c6f" stroke-width="2.5"/>
+                    </svg>
+                `
+            },
+            { 
+                name: 'Skin', 
+                function: 'The largest human organ! It covers and protects all your other organs and keeps them safe from germs and injuries.', 
+                color: 'bg-amber-100',
+                svg: `
+                    <svg width="140" height="170" viewBox="0 0 140 170">
+                        <defs>
+                            <linearGradient id="skinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#f5d5c3" />
+                                <stop offset="50%" style="stop-color:#e8c4a8" />
+                                <stop offset="100%" style="stop-color:#d9b399" />
+                            </linearGradient>
+                        </defs>
+                        <ellipse cx="70" cy="85" rx="60" ry="75" fill="url(#skinGrad)" stroke="#c9a388" stroke-width="3"/>
+                    </svg>
+                `
+            }
+        ];
+
+        // Quiz questions
+        const quizQuestions = [
+            { 
+                question: 'Which organ is like the body\'s central computer system?', 
+                options: ['Heart', 'Brain', 'Stomach', 'Lungs'], 
+                correct: 'Brain'
+            },
+            { 
+                question: 'Which organ pumps blood around your body with every heartbeat?', 
+                options: ['Liver', 'Spleen', 'Heart', 'Kidneys'], 
+                correct: 'Heart'
+            },
+            { 
+                question: 'Which organs bring oxygen into our bodies when we breathe in?', 
+                options: ['Lungs', 'Bladder', 'Stomach', 'Brain'], 
+                correct: 'Lungs'
+            },
+            { 
+                question: 'Which J-shaped organ produces acids and enzymes to break down food?', 
+                options: ['Kidneys', 'Stomach', 'Spleen', 'Liver'], 
+                correct: 'Stomach'
+            },
+            { 
+                question: 'Which organ is like a balloon that stores urine?', 
+                options: ['Bladder', 'Large Intestines', 'Kidneys', 'Liver'], 
+                correct: 'Bladder'
+            }
+        ];
+
+        // Global state
+        let currentMode = 'study';
+        let currentCardIndex = 0;
+        let matchingAnswers = {};
+        let quizAnswers = {};
+        let showResults = false;
+        let emailSent = false;
+        let sendingEmail = false;
+        let emailPreview = '';
+
+        // DOM elements
+        const studyModeEl = document.getElementById('study-mode');
+        const matchingModeEl = document.getElementById('matching-mode');
+        const quizModeEl = document.getElementById('quiz-mode');
+        const resultsContainerEl = document.getElementById('resultsContainer');
+        const organImageEl = document.getElementById('organImage');
+        const organNameEl = document.getElementById('organName');
+        const organFunctionEl = document.getElementById('organFunction');
+        const cardCounterEl = document.getElementById('cardCounter');
+        const prevBtnEl = document.getElementById('prevBtn');
+        const nextBtnEl = document.getElementById('nextBtn');
+        const matchingGameEl = document.getElementById('matchingGame');
+        const checkMatchingBtnEl = document.getElementById('checkMatchingBtn');
+        const quizGameEl = document.getElementById('quizGame');
+        const submitQuizBtnEl = document.getElementById('submitQuizBtn');
+        const userEmailEl = document.getElementById('userEmail');
+        const resetEmailBtnEl = document.getElementById('resetEmail');
+        const modeBtns = document.querySelectorAll('.mode-btn');
+
+        // Initialize the app
+        function init() {
+            // Set up event listeners
+            modeBtns.forEach(btn => {
+                btn.addEventListener('click', () => switchMode(btn.dataset.mode));
+            });
+            
+            prevBtnEl.addEventListener('click', showPreviousCard);
+            nextBtnEl.addEventListener('click', showNextCard);
+            checkMatchingBtnEl.addEventListener('click', checkMatchingAnswers);
+            submitQuizBtnEl.addEventListener('click', submitQuiz);
+            resetEmailBtnEl.addEventListener('click', resetEmail);
+            
+            // Initialize modes
+            renderStudyMode();
+            renderMatchingGame();
+            renderQuiz();
+            
+            // Show study mode by default
+            switchMode('study');
+        }
+
+        // Switch between modes
+        function switchMode(mode) {
+            currentMode = mode;
+            showResults = false;
+            resultsContainerEl.style.display = 'none';
+            
+            // Update active button
+            modeBtns.forEach(btn => {
+                if (btn.dataset.mode === mode) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Show/hide mode sections
+            studyModeEl.style.display = mode === 'study' ? 'block' : 'none';
+            matchingModeEl.style.display = mode === 'matching' ? 'block' : 'none';
+            quizModeEl.style.display = mode === 'quiz' ? 'block' : 'none';
+        }
+
+        // Study mode functions
+        function renderStudyMode() {
+            updateStudyCard();
+        }
+
+        function updateStudyCard() {
+            const organ = organs[currentCardIndex];
+            organImageEl.innerHTML = organ.svg;
+            organNameEl.textContent = organ.name;
+            organFunctionEl.textContent = organ.function;
+            cardCounterEl.textContent = `${currentCardIndex + 1} of ${organs.length}`;
+            
+            // Update button states
+            prevBtnEl.disabled = currentCardIndex === 0;
+            nextBtnEl.disabled = currentCardIndex === organs.length - 1;
+        }
+
+        function showPreviousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateStudyCard();
+            }
+        }
+
+        function showNextCard() {
+            if (currentCardIndex < organs.length - 1) {
+                currentCardIndex++;
+                updateStudyCard();
+            }
+        }
+
+        // Matching game functions
+        function renderMatchingGame() {
+            matchingGameEl.innerHTML = '';
+            
+            organs.forEach(organ => {
+                const matchingItem = document.createElement('div');
+                matchingItem.className = 'matching-item';
+                matchingItem.style.backgroundColor = getColorForOrgan(organ.color);
+                
+                matchingItem.innerHTML = `
+                    <div class="organ-preview">
+                        ${organ.svg}
+                    </div>
+                    <div class="matching-details">
+                        <h3>${organ.name}</h3>
+                        <select class="function-select" data-organ="${organ.name}">
+                            <option value="">Choose the function...</option>
+                            ${organs.map(o => 
+                                `<option value="${o.function}">${o.function.substring(0, 60)}...</option>`
+                            ).join('')}
+                        </select>
+                    </div>
+                `;
+                
+                matchingGameEl.appendChild(matchingItem);
+            });
+            
+            // Add event listeners to selects
+            document.querySelectorAll('.function-select').forEach(select => {
+                select.addEventListener('change', (e) => {
+                    const organ = e.target.dataset.organ;
+                    matchingAnswers[organ] = e.target.value;
+                });
+            });
+        }
+
+        function getColorForOrgan(colorClass) {
+            const colorMap = {
+                'bg-pink-100': '#fce4ec',
+                'bg-blue-100': '#e3f2fd',
+                'bg-orange-100': '#fff3e0',
+                'bg-yellow-100': '#fff9c4',
+                'bg-green-100': '#e8f5e9',
+                'bg-rose-100': '#fff0f1',
+                'bg-red-100': '#ffebee',
+                'bg-red-200': '#ffcdd2',
+                'bg-purple-100': '#f3e5f5',
+                'bg-indigo-100': '#e8eaf6',
+                'bg-amber-100': '#fff8e1'
+            };
+            
+            return colorMap[colorClass] || '#f5f5f5';
+        }
+
+        function checkMatchingAnswers() {
+            const score = calculateMatchingScore();
+            const percentage = Math.round((score / organs.length) * 100);
+            
+            // Generate email preview
+            emailPreview = generateEmailContent(score, organs.length, percentage, 'Matching Game');
+            
+            // Show results
+            showResultsContainer(score, organs.length, percentage, 'Matching Game');
+            
+            // Send email
+            sendEmailResults(score, organs.length, percentage, 'Matching Game');
+        }
+
+        function calculateMatchingScore() {
+            let correct = 0;
+            organs.forEach(organ => {
+                if (matchingAnswers[organ.name] === organ.function) {
+                    correct++;
+                }
+            });
+            return correct;
+        }
+
+        // Quiz functions
+        function renderQuiz() {
+            quizGameEl.innerHTML = '';
+            
+            quizQuestions.forEach((question, index) => {
+                const questionEl = document.createElement('div');
+                questionEl.className = 'quiz-question';
+                
+                questionEl.innerHTML = `
+                    <h3>Question ${index + 1}: ${question.question}</h3>
+                    <div class="quiz-options">
+                        ${question.options.map(option => `
+                            <label class="quiz-option">
+                                <input type="radio" name="question-${index}" value="${option}">
+                                <span>${option}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                
+                quizGameEl.appendChild(questionEl);
+            });
+            
+            // Add event listeners to radio buttons
+            document.querySelectorAll('.quiz-option input').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const name = e.target.name;
+                    const questionIndex = parseInt(name.split('-')[1]);
+                    quizAnswers[questionIndex] = e.target.value;
+                });
+            });
+        }
+
+        function submitQuiz() {
+            const score = calculateQuizScore();
+            const percentage = Math.round((score / quizQuestions.length) * 100);
+            
+            // Generate email preview
+            emailPreview = generateEmailContent(score, quizQuestions.length, percentage, 'Quiz');
+            
+            // Show results
+            showResultsContainer(score, quizQuestions.length, percentage, 'Quiz');
+            
+            // Send email
+            sendEmailResults(score, quizQuestions.length, percentage, 'Quiz');
+        }
+
+        function calculateQuizScore() {
+            let correct = 0;
+            quizQuestions.forEach((q, index) => {
+                if (quizAnswers[index] === q.correct) {
+                    correct++;
+                }
+            });
+            return correct;
+        }
+
+        // Results functions
+        function showResultsContainer(score, total, percentage, quizType) {
+            showResults = true;
+            
+            const performanceMessage = getPerformanceMessage(score, total, percentage);
+            const performanceClass = getPerformanceClass(percentage);
+            
+            resultsContainerEl.innerHTML = `
+                <div class="results-header">
+                    <h2>${quizType} Results</h2>
+                </div>
+                
+                <div class="results-grid">
+                    <div class="score-card">
+                        <h4>📊 ${quizType} Results</h4>
+                        <div class="score-value">${score}/${total}</div>
+                        <div class="score-text">Score: ${percentage}%</div>
+                        <div class="performance-message ${performanceClass}">${performanceMessage}</div>
+                    </div>
+                    
+                    <div class="email-preview">
+                        <h4>📧 Email Preview</h4>
+                        <div class="preview-content">${emailPreview}</div>
+                        ${emailSent ? '<div class="email-sent-message">✅ Results sent to ' + userEmailEl.value + '!</div>' : ''}
+                    </div>
+                </div>
+                
+                ${quizType === 'Matching Game' ? generateMatchingDetails() : generateQuizDetails()}
+            `;
+            
+            resultsContainerEl.style.display = 'block';
+            
+            // Scroll to results
+            resultsContainerEl.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function getPerformanceMessage(score, total, percentage) {
+            if (score === total) return '🎉 Perfect Score! Amazing job!';
+            if (percentage >= 80) return '🌟 Excellent work!';
+            if (percentage >= 60) return '👍 Good job!';
+            return '💪 Keep practicing!';
+        }
+
+        function getPerformanceClass(percentage) {
+            if (percentage === 100) return 'perfect';
+            if (percentage >= 80) return 'excellent';
+            if (percentage >= 60) return 'good';
+            return 'needs-practice';
+        }
+
+        function generateMatchingDetails() {
+            let detailsHTML = '<div class="detailed-results"><h4>📝 Detailed Results:</h4>';
+            
+            organs.forEach(organ => {
+                const isCorrect = matchingAnswers[organ.name] === organ.function;
+                detailsHTML += `
+                    <div class="result-item ${isCorrect ? 'correct' : 'incorrect'}">
+                        <div><strong>${organ.name}</strong></div>
+                        <div>${isCorrect ? '✓ Correct' : '✗ Incorrect'}</div>
+                        ${!isCorrect && matchingAnswers[organ.name] ? 
+                            `<div class="feedback">Your answer: ${matchingAnswers[organ.name].substring(0, 80)}...</div>` : ''}
+                    </div>
+                `;
+            });
+            
+            detailsHTML += '</div>';
+            return detailsHTML;
+        }
+
+        function generateQuizDetails() {
+            let detailsHTML = '<div class="detailed-results"><h4>📝 Question Results:</h4>';
+            
+            quizQuestions.forEach((q, index) => {
+                const userAnswer = quizAnswers[index];
+                const isCorrect = userAnswer === q.correct;
+                
+                detailsHTML += `
+                    <div class="result-item ${isCorrect ? 'correct' : 'incorrect'}">
+                        <div><strong>Question ${index + 1}:</strong> ${q.question}</div>
+                        <div>Your answer: ${userAnswer || 'Not answered'} ${isCorrect ? '✓' : '✗'}</div>
+                        ${!isCorrect ? `<div class="feedback">Correct answer: ${q.correct}</div>` : ''}
+                    </div>
+                `;
+            });
+            
+            detailsHTML += '</div>';
+            return detailsHTML;
+        }
+
+        // Email functions
+        function generateEmailContent(score, total, percentage, quizType) {
+            const performanceMessage = getPerformanceMessage(score, total, percentage);
+            
+            return `
+Organ Study Guide ${quizType} Results
+
+Score: ${score} out of ${total}
+Percentage: ${percentage}%
+
+${performanceMessage}
+
+Completed on: ${new Date().toLocaleString()}
+            `.trim();
+        }
+
+         Results - ${percentage}% Score`
+                };
+
+                await 
+                
+                emailSent = true;
+                showNotification('✅ Email sent successfully!');
+                
+                // Update results container to show email sent message
+                if (showResults) {
+                    showResultsContainer(score, total, percentage, quizType);
+                }
+            } catch (error) {
+                console.error('Failed to send email:', error);
+                showNotification('❌ Failed to send email. Please try again.');
+            } finally {
+                sendingEmail = false;
+                checkMatchingBtnEl.disabled = false;
+                submitQuizBtnEl.disabled = false;
+                checkMatchingBtnEl.textContent = 'Check My Answers! ✓';
+                submitQuizBtnEl.textContent = 'Submit Quiz! ✓';
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function resetEmail() {
+            userEmailEl.value = 'my2jada@gmail.com';
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

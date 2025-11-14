@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Subject & Predicate Adventure</title>
+
+    <!-- ====== STYLES ====== -->
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Comic Sans MS', cursive, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+        h1 { text-align: center; color: #764ba2; font-size: 2.5em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+        .subtitle { text-align: center; color: #667eea; font-size: 1.2em; margin-bottom: 30px; }
+        .score-board { display: flex; justify-content: space-around; margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 15px; color: white; font-size: 1.3em; font-weight: bold; }
+        .nav-buttons { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .nav-btn { padding: 15px 30px; font-size: 1.1em; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; transition: all 0.3s; font-family: 'Comic Sans MS', cursive; }
+        .nav-btn:hover { transform: scale(1.1); }
+        .learn-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .game-btn { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .test-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .lesson-box { background: #f0f4ff; padding: 25px; border-radius: 15px; margin-bottom: 20px; border-left: 8px solid #667eea; }
+        .example-box { background: #fff5e6; padding: 20px; border-radius: 10px; margin: 15px 0; border: 3px dashed #ffa726; }
+        .subject-highlight { background: #bbdefb; padding: 5px 10px; border-radius: 5px; font-weight: bold; color: #1976d2; }
+        .predicate-highlight { background: #c8e6c9; padding: 5px 10px; border-radius: 5px; font-weight: bold; color: #388e3c; }
+        .game-area { background: #f5f5f5; padding: 30px; border-radius: 15px; margin: 20px 0; }
+        .word-card { display: inline-block; padding: 15px 25px; margin: 10px; background: white; border: 3px solid #ddd; border-radius: 10px; cursor: pointer; font-size: 1.2em; transition: all 0.3s; user-select: none; }
+        .word-card:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .word-card.selected-subject { background: #bbdefb; border-color: #1976d2; font-weight: bold; }
+        .word-card.selected-predicate { background: #c8e6c9; border-color: #388e3c; font-weight: bold; }
+        .word-card.correct { background: #81c784; border-color: #2e7d32; color: white; }
+        .word-card.incorrect { background: #e57373; border-color: #c62828; color: white; }
+        .drop-zone { min-height: 120px; border: 4px dashed #ccc; border-radius: 15px; padding: 20px; margin: 15px 0; text-align: center; transition: all 0.3s; }
+        .drop-zone.subject-zone { border-color: #1976d2; background: #e3f2fd; }
+        .drop-zone.predicate-zone { border-color: #388e3c; background: #e8f5e9; }
+        .drop-zone h3 { margin-bottom: 15px; }
+        .btn { padding: 12px 30px; font-size: 1.1em; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; margin: 10px 5px; transition: all 0.3s; font-family: 'Comic Sans MS', cursive; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-success { background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%); color: white; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .feedback { padding: 20px; border-radius: 15px; margin: 20px 0; font-size: 1.3em; text-align: center; font-weight: bold; display: none; }
+        .feedback.correct { background: #c8e6c9; color: #2e7d32; border: 3px solid #2e7d32; display: block; }
+        .feedback.incorrect { background: #ffcdd2; color: #c62828; border: 3px solid #c62828; display: block; }
+        .question-box { background: white; padding: 25px; border-radius: 15px; margin: 20px 0; border: 3px solid #ddd; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+        .answer-option { display: block; padding: 15px; margin: 10px 0; background: #f5f5f5; border: 3px solid #ddd; border-radius: 10px; cursor: pointer; transition: all 0.3s; font-size: 1.1em; }
+        .answer-option:hover { background: #e0e0e0; transform: translateX(5px); }
+        .answer-option.selected { background: #bbdefb; border-color: #1976d2; font-weight: bold; }
+        .celebration { text-align: center; font-size: 4em; margin: 20px 0; display: none; }
+        .progress-bar { width: 100%; height: 30px; background: #e0e0e0; border-radius: 15px; overflow: hidden; margin: 20px 0; }
+        .progress-fill { height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: width 0.5s; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+        .sentence-builder { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 20px 0; min-height: 60px; padding: 20px; background: white; border-radius: 10px; border: 3px dashed #ccc; }
+        .draggable { padding: 10px 20px; background: #ffd54f; border-radius: 8px; cursor: move; font-size: 1.1em; border: 2px solid #ffa000; user-select: none; }
+        .draggable:hover { background: #ffecb3; }
+        .star { font-size: 2em; display: inline-block; }
+        .tiny { font-size: .85em; color: #666; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .input { width: 100%; padding: 10px 14px; border-radius: 10px; border: 2px solid #ddd; font-family: inherit; }
+        .muted { color: #667eea; font-size: .95em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 Subject & Predicate Adventure! 🌟</h1>
+        `;
+
+                q.options.forEach(optTxt => {
+                    const opt = document.createElement('div');
+                    opt.className = 'answer-option';
+                    opt.textContent = optTxt;
+                    opt.onclick = () => selectAnswer(i, optTxt, opt);
+                    box.appendChild(opt);
+                });
+
+                container.appendChild(box);
+            });
+
+            document.getElementById('test-results').style.display = 'none';
+            document.getElementById('submit-btn').style.display = 'block';
+            updateTestProgress();
+        }
+
+        function selectAnswer(i, ans, el) {
+            el.parentElement.querySelectorAll('.answer-option').forEach(s => s.classList.remove('selected'));
+            el.classList.add('selected');
+            testAnswers[i] = ans;
+            updateTestProgress();
+        }
+
+        function updateTestProgress() {
+            const answered = Object.keys(testAnswers).length;
+            const bar = document.getElementById('test-progress');
+            bar.style.width = (answered / 10 * 100) + '%';
+            bar.textContent = `${answered}/10`;
+        }
+
+        function submitTest() {
+            if(Object.keys(testAnswers).length < 10) {
+                alert('Please answer all questions!');
+                return;
+            }
+
+            let correct = 0;
+            testQuestions.forEach((q, i) => {
+                if(testAnswers[i] === q.answer) correct++;
+            });
+
+            document.getElementById('final-score').textContent = correct;
+            const celebration = document.getElementById('final-celebration');
+            const message = document.getElementById('final-message');
+
+            if(correct >= 9) {
+                celebration.innerHTML = '🏆⭐🎉';
+                message.textContent = "WOW! You're a Subject & Predicate SUPERSTAR!";
+                addPoints(100);
+            } else if(correct >= 7) {
+                celebration.innerHTML = '⭐✨🎊';
+                message.textContent = 'Great job! You really understand this!';
+                addPoints(70);
+            } else if(correct >= 5) {
+                celebration.innerHTML = '👍😊';
+                message.textContent = 'Good work! Keep practicing!';
+                addPoints(50);
+            } else {
+                celebration.innerHTML = '💪📚';
+                message.textContent = 'Let\'s review and try again!';
+            }
+
+            celebration.style.display = 'block';
+            document.getElementById('test-results').style.display = 'block';
+            document.getElementById('submit-btn').style.display = 'none';
+
+            const payload = buildEmailPayload(correct);
+            sendResultsEmail(payload);
+        }
+
+        function retakeTest() {
+            initTest();
+        }
+
+        function addPoints(points) {
+            score += points;
+            stars += 1;
+            document.getElementById('score').textContent = score;
+            document.getElementById('stars').textContent = stars;
+
+            if(score >= 200) {
+                document.getElementById('level').textContent = 'Expert! 🏆';
+            } else if(score >= 100) {
+                document.getElementById('level').textContent = 'Advanced! ⭐';
+            } else if(score >= 50) {
+                document.getElementById('level').textContent = 'Intermediate';
+            }
+        }
+
+        // Email functions
+        function buildEmailPayload(correct) {
+            const student = document.getElementById('student-name').value?.trim() || 'Student';
+            const parentEmail = document.getElementById('parent-email').value?.trim();
+            const teacherEmail = document.getElementById('teacher-email').value?.trim();
+            const notes = document.getElementById('class-notes').value?.trim();
+            const total = testQuestions.length;
+            const percent = Math.round((correct / total) * 100);
+            const summaryLines = testQuestions.map((q, i) => `Q${i+1}: ${q.q}\n • Your answer: ${testAnswers[i]}\n • Correct answer: ${q.answer}`).join('\n\n');
+            const now = new Date();
+
+            return {
+                student_name: student,
+                parent_email: parentEmail,
+                teacher_email: teacherEmail,
+                class_notes: notes,
+                score: `${correct}/${total}`,
+                percent: `${percent}%`,
+                stars: String(stars),
+                level: document.getElementById('level').textContent,
+                date_time: now.toLocaleString(),
+                summary: summaryLines
+            };
+        }
+
+        async function sendResultsEmail(payload) {
+            const status = document.getElementById('email-status');
+            status.textContent = 'Preparing email…';
+
+            const recipients = [payload.parent_email, payload.teacher_email].filter(Boolean);
+            if(recipients.length === 0) {
+                status.textContent = 'No email entered. Results not sent.';
+                return;
+            }
+
+            if(emailEnabled && window.emailjs) {
+                try {
+                    const params = {
+                        to_email: recipients.join(','),
+                        student_name: payload.student_name,
+                        class_notes: payload.class_notes || '-',
+                        score: payload.score,
+                        percent: payload.percent,
+                        stars: payload.stars,
+                        level: payload.level,
+                        date_time: payload.date_time,
+                        summary: payload.summary
+                    };
+                    await 
+                    status.textContent = '✅ Results emailed successfully to: ' + recipients.join(', ');
+                } catch(err) {
+                    console.error(err);
+                    status.textContent = '⚠️ EmailJS failed. Using fallback…';
+                    mailtoFallback(recipients, payload);
+                }
+            } else {
+                mailtoFallback(recipients, payload);
+                status.textContent = '✉️ Opened your email app with the results. Send to complete.';
+            }
+        }
+
+        function mailtoFallback(recipients, payload) {
+            const subject = encodeURIComponent(`Subject & Predicate Test – ${payload.student_name} – ${payload.score} (${payload.percent})`);
+            const body = encodeURIComponent(
+                `Student: ${payload.student_name}\nClass/Notes: ${payload.class_notes || '-'}\nDate: ${payload.date_time}\n\nScore: ${payload.score} (${payload.percent})\nStars: ${payload.stars}\nLevel: ${payload.level}\n\nAnswers Summary:\n${payload.summary}\n\n– Sent automatically from Subject & Predicate Adventure`
+            );
+            window.location.href = `mailto:${recipients.join(',')}?subject=${subject}&body=${body}`;
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            initTest();
+        });
+    </script>
+</body>
+</html>

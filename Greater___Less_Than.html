@@ -1,0 +1,357 @@
+import React, { useState } from 'react';
+import { CheckCircle, XCircle, Trophy, Calculator } from 'lucide-react';
+
+const Grade2Assessment = () => {
+  const [answers, setAnswers] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const [score, setScore] = useState(0);
+
+  const questions = [
+    {
+      id: 1,
+      question: "Which symbol goes between: 25 ___ 18?",
+      options: [">", "<", "="],
+      correct: ">",
+      explanation: "25 is GREATER THAN 18"
+    },
+    {
+      id: 2,
+      question: "Which symbol goes between: 12 ___ 45?",
+      options: [">", "<", "="],
+      correct: "<",
+      explanation: "12 is LESS THAN 45"
+    },
+    {
+      id: 3,
+      question: "Which symbol goes between: 33 ___ 33?",
+      options: [">", "<", "="],
+      correct: "=",
+      explanation: "33 is EQUAL TO 33"
+    },
+    {
+      id: 4,
+      question: "Which number is GREATER: 56 or 49?",
+      options: ["56", "49", "They are equal"],
+      correct: "56",
+      explanation: "56 > 49"
+    },
+    {
+      id: 5,
+      question: "Which symbol goes between: 78 ___ 87?",
+      options: [">", "<", "="],
+      correct: "<",
+      explanation: "78 is LESS THAN 87"
+    },
+    {
+      id: 6,
+      question: "Which number is LESS: 34 or 61?",
+      options: ["34", "61", "They are equal"],
+      correct: "34",
+      explanation: "34 < 61"
+    },
+    {
+      id: 7,
+      question: "Which symbol goes between: 90 ___ 90?",
+      options: [">", "<", "="],
+      correct: "=",
+      explanation: "90 is EQUAL TO 90"
+    },
+    {
+      id: 8,
+      question: "Which symbol goes between: 15 ___ 9?",
+      options: [">", "<", "="],
+      correct: ">",
+      explanation: "15 is GREATER THAN 9"
+    },
+    {
+      id: 9,
+      question: "Is 42 > 38 true or false?",
+      options: ["True", "False"],
+      correct: "True",
+      explanation: "42 is greater than 38, so TRUE!"
+    },
+    {
+      id: 10,
+      question: "Which symbol goes between: 50 ___ 75?",
+      options: [">", "<", "="],
+      correct: "<",
+      explanation: "50 is LESS THAN 75"
+    },
+    {
+      id: 11,
+      question: "Which number is GREATER: 88 or 82?",
+      options: ["88", "82", "They are equal"],
+      correct: "88",
+      explanation: "88 > 82"
+    },
+    {
+      id: 12,
+      question: "Is 67 = 67 true or false?",
+      options: ["True", "False"],
+      correct: "True",
+      explanation: "67 equals 67, so TRUE!"
+    },
+    {
+      id: 13,
+      question: "Which symbol goes between: 29 ___ 92?",
+      options: [">", "<", "="],
+      correct: "<",
+      explanation: "29 is LESS THAN 92"
+    },
+    {
+      id: 14,
+      question: "Which number is LESS: 70 or 54?",
+      options: ["70", "54", "They are equal"],
+      correct: "54",
+      explanation: "54 < 70"
+    },
+    {
+      id: 15,
+      question: "Is 36 < 24 true or false?",
+      options: ["True", "False"],
+      correct: "False",
+      explanation: "36 is NOT less than 24, so FALSE!"
+    },
+    {
+      id: 16,
+      question: "Which symbol goes between: 100 ___ 99?",
+      options: [">", "<", "="],
+      correct: ">",
+      explanation: "100 is GREATER THAN 99"
+    },
+    {
+      id: 17,
+      question: "Which number is GREATER: 47 or 47?",
+      options: ["47", "They are equal", "Cannot tell"],
+      correct: "They are equal",
+      explanation: "47 = 47"
+    },
+    {
+      id: 18,
+      question: "Which symbol goes between: 8 ___ 18?",
+      options: [">", "<", "="],
+      correct: "<",
+      explanation: "8 is LESS THAN 18"
+    },
+    {
+      id: 19,
+      question: "Is 95 > 100 true or false?",
+      options: ["True", "False"],
+      correct: "False",
+      explanation: "95 is NOT greater than 100, so FALSE!"
+    },
+    {
+      id: 20,
+      question: "Which symbol goes between: 63 ___ 36?",
+      options: [">", "<", "="],
+      correct: ">",
+      explanation: "63 is GREATER THAN 36"
+    }
+  ];
+
+  const handleAnswerChange = (questionId, answer) => {
+    setAnswers({
+      ...answers,
+      [questionId]: answer
+    });
+  };
+
+  const handleSubmit = () => {
+    let correctCount = 0;
+    questions.forEach(q => {
+      if (answers[q.id] === q.correct) {
+        correctCount++;
+      }
+    });
+    setScore(correctCount);
+    setSubmitted(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleReset = () => {
+    setAnswers({});
+    setSubmitted(false);
+    setScore(0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const isAnswered = (questionId) => answers[questionId] !== undefined;
+  const isCorrect = (questionId) => answers[questionId] === questions.find(q => q.id === questionId).correct;
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 p-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-3xl shadow-2xl p-8 mb-6">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <Calculator className="w-12 h-12 text-blue-600" />
+            <h1 className="text-4xl font-bold text-blue-600">Grade 2 Math Assessment</h1>
+          </div>
+          
+          <div className="text-center mb-6 p-6 bg-gradient-to-r from-blue-400 to-purple-400 rounded-2xl text-white">
+            <h2 className="text-3xl font-bold mb-3">Greater Than, Less Than, Equal To</h2>
+            <div className="flex justify-center gap-8 text-2xl font-bold">
+              <div className="bg-white bg-opacity-20 px-6 py-3 rounded-xl">
+                <span className="text-4xl">&gt;</span>
+                <p className="text-sm mt-1">Greater Than</p>
+              </div>
+              <div className="bg-white bg-opacity-20 px-6 py-3 rounded-xl">
+                <span className="text-4xl">&lt;</span>
+                <p className="text-sm mt-1">Less Than</p>
+              </div>
+              <div className="bg-white bg-opacity-20 px-6 py-3 rounded-xl">
+                <span className="text-4xl">=</span>
+                <p className="text-sm mt-1">Equal To</p>
+              </div>
+            </div>
+          </div>
+          
+          {submitted && (
+            <div className="mb-8 p-6 bg-gradient-to-r from-green-400 to-emerald-400 rounded-2xl text-white text-center">
+              <Trophy className="w-16 h-16 mx-auto mb-3" />
+              <h2 className="text-3xl font-bold mb-2">Assessment Complete!</h2>
+              <p className="text-2xl">You scored {score} out of {questions.length}</p>
+              <p className="text-xl mt-2">
+                That's {Math.round((score / questions.length) * 100)}%!
+              </p>
+              <p className="text-lg mt-2">
+                {score === questions.length ? "Perfect score! You're a math superstar! ⭐⭐⭐" :
+                 score >= questions.length * 0.8 ? "Excellent work! You really understand these concepts! 🎉" :
+                 score >= questions.length * 0.6 ? "Good job! Keep practicing and you'll master it! 👍" :
+                 "Keep trying! Practice makes perfect! 💪"}
+              </p>
+            </div>
+          )}
+
+          {!submitted && (
+            <div className="text-center mb-6">
+              <p className="text-lg text-gray-600">
+                Answer all {questions.length} questions and click Submit to see your results!
+              </p>
+              <p className="text-md text-gray-500 mt-2">
+                Questions answered: {Object.keys(answers).length} / {questions.length}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {questions.map((q, index) => (
+          <div key={q.id} className="bg-white rounded-2xl shadow-lg p-6 mb-4 transform transition hover:scale-101">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                  {index + 1}
+                </div>
+              </div>
+              
+              <div className="flex-grow">
+                <div className="flex items-center gap-2 mb-3">
+                  {submitted && isAnswered(q.id) && (
+                    <span>
+                      {isCorrect(q.id) ? (
+                        <div className="flex items-center gap-2 bg-green-100 px-4 py-2 rounded-full">
+                          <CheckCircle className="w-6 h-6 text-green-600" />
+                          <span className="text-green-800 font-bold">Correct!</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2 bg-red-100 px-4 py-2 rounded-full">
+                          <XCircle className="w-6 h-6 text-red-600" />
+                          <span className="text-red-800 font-bold">Incorrect</span>
+                        </div>
+                      )}
+                    </span>
+                  )}
+                </div>
+                
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">{q.question}</h3>
+                
+                <div className="grid grid-cols-1 gap-3">
+                  {q.options.map((option, i) => {
+                    const isSelected = answers[q.id] === option;
+                    const isCorrectAnswer = option === q.correct;
+                    
+                    let buttonClass = "w-full text-left p-5 rounded-xl border-3 transition-all text-xl font-semibold ";
+                    
+                    if (!submitted) {
+                      buttonClass += isSelected
+                        ? "border-blue-500 bg-blue-50 shadow-lg transform scale-105"
+                        : "border-gray-300 hover:border-blue-400 hover:bg-blue-50 hover:shadow";
+                    } else {
+                      if (isCorrectAnswer) {
+                        buttonClass += "border-green-500 bg-green-100 shadow-lg";
+                      } else if (isSelected && !isCorrectAnswer) {
+                        buttonClass += "border-red-500 bg-red-100 shadow-lg";
+                      } else {
+                        buttonClass += "border-gray-200 bg-gray-50";
+                      }
+                    }
+                    
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => !submitted && handleAnswerChange(q.id, option)}
+                        disabled={submitted}
+                        className={buttonClass}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-2xl">{option}</span>
+                          {submitted && isCorrectAnswer && (
+                            <CheckCircle className="w-7 h-7 text-green-600" />
+                          )}
+                          {submitted && isSelected && !isCorrectAnswer && (
+                            <XCircle className="w-7 h-7 text-red-600" />
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+                
+                {submitted && !isAnswered(q.id) && (
+                  <div className="mt-4 p-4 bg-orange-100 border-2 border-orange-400 rounded-lg">
+                    <p className="text-orange-800 font-bold text-lg">⚠️ You didn't answer this question.</p>
+                  </div>
+                )}
+                
+                {submitted && (
+                  <div className="mt-4 p-4 bg-blue-100 border-2 border-blue-400 rounded-lg">
+                    <p className="text-blue-900 font-bold text-lg mb-1">
+                      ✓ Correct Answer: <span className="text-2xl">{q.correct}</span>
+                    </p>
+                    <p className="text-blue-800 text-md">
+                      {q.explanation}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+
+        <div className="bg-white rounded-2xl shadow-lg p-6 text-center sticky bottom-4">
+          {!submitted ? (
+            <button
+              onClick={handleSubmit}
+              disabled={Object.keys(answers).length === 0}
+              className={`px-12 py-5 rounded-full text-2xl font-bold transition-all transform hover:scale-105 shadow-lg ${
+                Object.keys(answers).length === 0
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600'
+              }`}
+            >
+              {Object.keys(answers).length === 0 ? 'Answer Questions First' : 'Submit Assessment ✓'}
+            </button>
+          ) : (
+            <button
+              onClick={handleReset}
+              className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-12 py-5 rounded-full text-2xl font-bold hover:from-blue-600 hover:to-purple-600 transition-all transform hover:scale-105 shadow-lg"
+            >
+              Try Again 🔄
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Grade2Assessment;

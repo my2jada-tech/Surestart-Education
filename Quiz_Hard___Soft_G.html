@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 2 Quiz: Hard and Soft C and G</title>
+    
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .quiz-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #764ba2;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .student-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f0f4ff;
+            border-radius: 10px;
+        }
+        
+        .student-info label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .student-info input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        
+        .section {
+            margin: 25px 0;
+            padding: 20px;
+            background: #fff9e6;
+            border-radius: 12px;
+            border-left: 5px solid #ffa500;
+        }
+        
+        .section-title {
+            color: #ff6b6b;
+            font-size: 22px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .question {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .question-text {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .options {
+            margin-left: 20px;
+        }
+        
+        .options label {
+            display: block;
+            margin: 8px 0;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+        
+        .options label:hover {
+            background: #f0f4ff;
+        }
+        
+        input[type="radio"] {
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        
+        input[type="text"] {
+            padding: 8px 12px;
+            border: 2px solid #667eea;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: 'Comic Sans MS', cursive;
+            width: 120px;
+        }
+        
+        .text-input-full {
+            width: 100% !important;
+            max-width: 300px;
+        }
+        
+        .submit-btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 30px auto;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        
+        .submit-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .submit-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            display: none;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #28a745;
+        }
+        
+        .result.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #dc3545;
+        }
+        
+        .emoji {
+            font-size: 40px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>🎓 Grade 2 Quiz: Hard and Soft C and G 🎓</h1>
+        
+        <div class="student-info">
+            <div>
+                <label>Student Name:</label>
+                <input type="text" id="studentName" placeholder="Enter your name" required>
+            </div>
+            <div>
+                <label>Date:</label>
+                <input type="date" id="quizDate" required>
+            </div>
+        </div>
+
+        <form id="quizForm">
+            <!-- Part A -->
+            <div class="section">
+                <div class="section-title">Part A – Circle the Right Answer</div>
+                
+                <div class="question">
+                    <div class="question-text">1. The letter C in "cat" makes a ______ sound.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q1" value="a"> a) hard</label>
+                        <label><input type="radio" name="q1" value="b"> b) soft</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">2. The letter C in "city" makes a ______ sound.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q2" value="a"> a) hard</label>
+                        <label><input type="radio" name="q2" value="b"> b) soft</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">3. The letter G in "goat" makes a ______ sound.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q3" value="a"> a) hard</label>
+                        <label><input type="radio" name="q3" value="b"> b) soft</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">4. The letter G in "giraffe" makes a ______ sound.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q4" value="a"> a) hard</label>
+                        <label><input type="radio" name="q4" value="b"> b) soft</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">5. When C is followed by A, O, or U, it usually has a ______ sound.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q5" value="a"> a) hard</label>
+                        <label><input type="radio" name="q5" value="b"> b) soft</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part B -->
+            <div class="section">
+                <div class="section-title">Part B – Write H or S</div>
+                <p style="margin-bottom: 15px;"><strong>Write H if the word has a hard sound. Write S if the word has a soft sound.</strong></p>
+                
+                <div class="question">
+                    <div class="question-text">6. <input type="text" id="q6" maxlength="1" style="width: 50px;"> goat</div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">7. <input type="text" id="q7" maxlength="1" style="width: 50px;"> cell</div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">8. <input type="text" id="q8" maxlength="1" style="width: 50px;"> cake</div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">9. <input type="text" id="q9" maxlength="1" style="width: 50px;"> gem</div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">10. <input type="text" id="q10" maxlength="1" style="width: 50px;"> city</div>
+                </div>
+            </div>
+
+            <!-- Part C -->
+            <div class="section">
+                <div class="section-title">Part C – Choose the Word That Sounds Soft</div>
+                <p style="margin-bottom: 15px;"><strong>Circle the word that has the soft sound.</strong></p>
+                
+                <div class="question">
+                    <div class="question-text">11. Circle the word with a soft sound:</div>
+                    <div class="options">
+                        <label><input type="radio" name="q11" value="cent"> cent</label>
+                        <label><input type="radio" name="q11" value="cat"> cat</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">12. Circle the word with a soft sound:</div>
+                    <div class="options">
+                        <label><input type="radio" name="q12" value="giraffe"> giraffe</label>
+                        <label><input type="radio" name="q12" value="gate"> gate</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">13. Circle the word with a soft sound:</div>
+                    <div class="options">
+                        <label><input type="radio" name="q13" value="circle"> circle</label>
+                        <label><input type="radio" name="q13" value="cup"> cup</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part D -->
+            <div class="section">
+                <div class="section-title">Part D – Write Your Own Words</div>
+                
+                <div class="question">
+                    <div class="question-text">14. Write one word with a hard C sound:</div>
+                    <input type="text" id="q14" class="text-input-full" placeholder="Your answer">
+                </div>
+
+                <div class="question">
+                    <div class="question-text">15. Write one word with a soft G sound:</div>
+                    <input type="text" id="q15" class="text-input-full" placeholder="Your answer">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">🎉 Submit Quiz 🎉</button>
+        </form>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+
+        // Set today's date
+        document.getElementById('quizDate').valueAsDate = new Date();
+
+        // Answer key
+        const answers = {
+            q1: 'a',  // cat - hard
+            q2: 'b',  // city - soft
+            q3: 'a',  // goat - hard
+            q4: 'b',  // giraffe - soft
+            q5: 'a',  // C + A,O,U - hard
+            q6: 'H',  // goat - hard
+            q7: 'S',  // cell - soft
+            q8: 'H',  // cake - hard
+            q9: 'S',  // gem - soft
+            q10: 'S', // city - soft
+            q11: 'cent',   // soft
+            q12: 'giraffe', // soft
+            q13: 'circle'   // soft
+        };
+
+        // Words with hard C sound for Q14
+        const hardCWords = ['cat', 'car', 'cow', 'cake', 'can', 'cup', 'coat', 'corn', 'cut', 'cot', 'cab'];
+        
+        // Words with soft G sound for Q15
+        const softGWords = ['gem', 'giraffe', 'giant', 'gym', 'gentle', 'germ', 'gel', 'ginger'];
+
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const studentName = document.getElementById('studentName').value.trim();
+            const quizDate = document.getElementById('quizDate').value;
+            
+            if (!studentName || !quizDate) {
+                showResult('Please fill in your name and date!', 'error');
+                return;
+            }
+
+            let score = 0;
+            let totalQuestions = 15;
+            let details = '';
+
+            // Check Part A (Q1-Q5)
+            for (let i = 1; i <= 5; i++) {
+                const answer = document.querySelector(`input[name="q${i}"]:checked`);
+                if (answer && answer.value === answers[`q${i}`]) {
+                    score++;
+                } else {
+                    details += `Q${i}: Incorrect\n`;
+                }
+            }
+
+            // Check Part B (Q6-Q10)
+            for (let i = 6; i <= 10; i++) {
+                const answer = document.getElementById(`q${i}`).value.toUpperCase().trim();
+                if (answer === answers[`q${i}`]) {
+                    score++;
+                } else {
+                    details += `Q${i}: Incorrect (Should be ${answers[`q${i}`]})\n`;
+                }
+            }
+
+            // Check Part C (Q11-Q13)
+            for (let i = 11; i <= 13; i++) {
+                const answer = document.querySelector(`input[name="q${i}"]:checked`);
+                if (answer && answer.value === answers[`q${i}`]) {
+                    score++;
+                } else {
+                    details += `Q${i}: Incorrect\n`;
+                }
+            }
+
+            // Check Part D (Q14-Q15) - More flexible checking
+            const q14Answer = document.getElementById('q14').value.toLowerCase().trim();
+            const q15Answer = document.getElementById('q15').value.toLowerCase().trim();
+
+            if (hardCWords.includes(q14Answer) || (q14Answer.length > 0 && q14Answer.startsWith('c') && !['ce', 'ci', 'cy'].some(prefix => q14Answer.startsWith(prefix)))) {
+                score++;
+            } else {
+                details += `Q14: "${q14Answer}" - needs a hard C sound word (like cat, car, cup)\n`;
+            }
+
+            if (softGWords.includes(q15Answer) || (q15Answer.length > 0 && q15Answer.startsWith('g') && ['ge', 'gi', 'gy'].some(prefix => q15Answer.startsWith(prefix)))) {
+                score++;
+            } else {
+                details += `Q15: "${q15Answer}" - needs a soft G sound word (like gem, giraffe, giant)\n`;
+            }
+
+            const percentage = Math.round((score / totalQuestions) * 100);
+            
+            // Prepare email message
+            const emailMessage = `
+Quiz Results for ${studentName}
+Date: ${quizDate}
+
+Score: ${score} out of ${totalQuestions} (${percentage}%)
+
+${details ? 'Areas to review:\n' + details : 'Perfect score! All answers correct! 🌟'}
+
+Great job working on Hard and Soft C and G sounds!
+            `;
+
+                showResult(`${emoji} ${studentName} scored ${score}/${totalQuestions} (${percentage}%)!\n\nResults have been emailed to the teacher! ${emoji}`, 'success');
+            })
+            .catch(function(error) {
+                showResult(`Score: ${score}/${totalQuestions} (${percentage}%)\n\nNote: There was an issue sending the email. Please tell your teacher!`, 'error');
+                console.error('Email error:', error);
+            });
+        });
+
+        function showResult(message, type) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = message;
+            resultDiv.className = `result show ${type}`;
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
